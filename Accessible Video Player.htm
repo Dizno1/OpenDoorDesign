@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://dev.thefoxweb.com/videos//a11y-video-player.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Video Player</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+   .ecb-player {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+   .ecb-video-wrap {
+  position: relative;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 9 / 16;
+}
+
+
+    button[data-ecb-pause-toggle][aria-checked="true"],
+    button[data-ecb-cc-toggle][aria-checked="true"],
+    button[data-ecb-ad-toggle][aria-checked="true"],
+    button[data-ecb-transcript-toggle][aria-checked="true"] {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.35);
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    button[data-ecb-pause-toggle][aria-checked="true"]::after,
+    button[data-ecb-cc-toggle][aria-checked="true"]::after,
+    button[data-ecb-ad-toggle][aria-checked="true"]::after,
+    button[data-ecb-transcript-toggle][aria-checked="true"]::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35);
+    }
+
+   .ecb-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ecb-controls {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ecb-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  line-height: 1;
+}
+
+    .ecb-btn:hover,
+    .ecb-btn:focus-visible {
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      outline: none;
+    }
+
+    .ecb-btn svg {
+      width: 14px;
+      height: 14px;
+      
+    }
+
+    .ecb-icon-pause,
+    .ecb-icon-play {
+      pointer-events: none;
+    }
+
+    
+.ecb-btn-text {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+   .ecb-btn-text {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+    .ecb-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 500;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .ecb-btn:hover .ecb-tooltip,
+    .ecb-btn:focus-visible .ecb-tooltip {
+      opacity: 1;
+    }
+
+    .ecb-live {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .ecb-transcript-drawer {
+      margin-top: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .ecb-transcript-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #111;
+      color: #fff;
+    }
+
+    .ecb-transcript-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .ecb-transcript-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .ecb-transcript-close:hover,
+    .ecb-transcript-close:focus-visible {
+      background: rgba(255, 255, 255, 0.12);
+      outline: none;
+    }
+
+    .ecb-transcript-scroll {
+      max-height: 260px;
+      overflow: auto;
+      padding: 16px;
+    }
+
+    .ecb-transcript-content p {
+      margin: 0;
+      line-height: 1.7;
+      color: #222;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ecb-player" data-ecb-player="">
+    <div class="ecb-video-wrap">
+      <!-- Default video -->
+   <video class="ecb-video ecb-video--default" data-ecb-video-default="" playsinline="" loop="" preload="metadata" aria-label="Promotional video" crossorigin="anonymous" style="display: block;">
+        <source src="https://cdn.shopify.com/videos/c/o/v/325541f66a5b4583ac0c1d94e078aa54.mp4" type="video/mp4">
+        <track kind="captions" srclang="en" label="English captions" src="https://cdn.shopify.com/s/files/1/0700/5437/9631/files/captions.vtt?v=1776082539" data-ecb-caption-track="" default="">
+      </video>
+
+      <!-- Audio description video -->
+      <video class="ecb-video ecb-video--ad" data-ecb-video-ad="" playsinline="" loop="" preload="metadata" aria-label="Promotional video with audio description" style="display: none;" crossorigin="anonymous">
+        <source src="https://cdn.shopify.com/videos/c/o/v/5d2664810fe146828a51d8f98a596db5.mp4" type="video/mp4">
+        <track kind="captions" srclang="en" label="English captions" src="https://cdn.shopify.com/s/files/1/0700/5437/9631/files/ADcaptions.vtt?v=1776087639" default="">
+      </video>
+
+      <!-- Controls -->
+      <ul class="ecb-controls" aria-label="Video accessibility controls" role="list">
+        <li>
+          <button type="button" class="ecb-btn ecb-btn--label" aria-checked="false" aria-label="Captions" data-ecb-cc-toggle="">
+            <span class="ecb-btn-text" aria-hidden="true">CC</span>
+            <span class="ecb-tooltip" role="tooltip">Captions (C)</span>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="ecb-btn ecb-btn--label" aria-checked="false" aria-label="Audio description" data-ecb-ad-toggle="">
+            <span class="ecb-btn-text" aria-hidden="true">AD</span>
+            <span class="ecb-tooltip" role="tooltip">Audio description (D)</span>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="ecb-btn" aria-checked="false" aria-label="Play video" data-ecb-pause-toggle="">
+            <svg class="ecb-icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" style="display: none;">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <svg class="ecb-icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" style="display: block;">
+              <polygon points="5,3 19,12 5,21"></polygon>
+            </svg>
+            <span class="ecb-tooltip" role="tooltip">Play (Space)</span>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="ecb-btn" aria-expanded="false" aria-controls="ecb-transcript-1" aria-label="Transcript" data-ecb-transcript-toggle="">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14,2 14,8 20,8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span class="ecb-tooltip" role="tooltip">Transcript (T)</span>
+          </button>
+        </li>
+      </ul>
+
+      <!-- Live region -->
+      <div class="ecb-live" aria-live="polite" aria-atomic="true">Captions off, Audio description off</div>
+    </div>
+
+    <!-- Transcript -->
+    <div id="ecb-transcript-1" class="ecb-transcript-drawer" style="display: none;">
+      <div class="ecb-transcript-bar">
+        <span class="ecb-transcript-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14,2 14,8 20,8"></polyline>
+          </svg>
+          Transcript
+        </span>
+
+        <button type="button" class="ecb-transcript-close" aria-label="Close transcript" data-ecb-transcript-close="">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <div class="ecb-transcript-scroll">
+        <div class="ecb-transcript-content rte">
+          <p>
+A woman smiles and holds up a circular green patch with a hole in the center. She removes a white backing from the patch, lifts her arm, and presses the patch onto the back of her upper arm. She then smooths the patch to ensure it adheres and removes the remaining white backing. Finally, she smiles at the camera with the patch now applied to her arm.
+          </p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+ <script>
+(function () {
+  const player = document.querySelector("[data-ecb-player]");
+  if (!player) return;
+
+  const defaultVideo = player.querySelector("[data-ecb-video-default]");
+  const adVideo = player.querySelector("[data-ecb-video-ad]");
+  const pauseBtn = player.querySelector("[data-ecb-pause-toggle]");
+  const liveRegion = player.querySelector(".ecb-live");
+  const ccBtn = player.querySelector("[data-ecb-cc-toggle]");
+  const adBtn = player.querySelector("[data-ecb-ad-toggle]");
+  const transcriptBtn = player.querySelector("[data-ecb-transcript-toggle]");
+  const transcriptDrawer = player.querySelector(".ecb-transcript-drawer");
+  const transcriptCloseBtn = player.querySelector("[data-ecb-transcript-close]");
+
+  if (!defaultVideo || !pauseBtn || !liveRegion) return;
+
+  const pauseIcon = pauseBtn.querySelector(".ecb-icon-pause");
+  const playIcon = pauseBtn.querySelector(".ecb-icon-play");
+  const tooltip = pauseBtn.querySelector(".ecb-tooltip");
+
+  function getCurrentEcbVideo() {
+    return adVideo && adVideo.style.display !== "none" ? adVideo : defaultVideo;
+  }
+
+  function getEcbCaptionTrack(video) {
+    if (!video) return null;
+    const htmlTrack = video.querySelector('track[kind="captions"], track[kind="subtitles"]');
+    return htmlTrack ? htmlTrack.track || null : null;
+  }
+
+  function announceEcbMessage(message) {
+    liveRegion.textContent = "";
+    setTimeout(() => {
+      liveRegion.textContent = message;
+    }, 50);
+  }
+
+  function updateEcbPauseButton() {
+    const activeVideo = getCurrentEcbVideo();
+    const isPaused = activeVideo.paused;
+
+    pauseBtn.setAttribute("aria-checked", isPaused ? "false" : "true");
+    pauseBtn.setAttribute("aria-label", isPaused ? "Play video" : "Pause video");
+
+    if (tooltip) {
+      tooltip.textContent = isPaused ? "Play (Space)" : "Pause (Space)";
+    }
+
+    pauseIcon.style.display = isPaused ? "none" : "block";
+    playIcon.style.display = isPaused ? "block" : "none";
+  }
+
+  function setEcbCaptionsState(isOn) {
+    [defaultVideo, adVideo].forEach((video) => {
+      if (!video) return;
+      const track = getEcbCaptionTrack(video);
+      if (track) {
+        track.mode = "disabled";
+        track.mode = isOn ? "showing" : "hidden";
+      }
+    });
+
+    if (ccBtn) {
+      ccBtn.setAttribute("aria-checked", isOn ? "true" : "false");
+    }
+  }
+
+  function toggleEcbCaptions() {
+    const activeTrack = getEcbCaptionTrack(getCurrentEcbVideo());
+
+    if (!activeTrack) {
+      announceEcbMessage("No captions available");
+      return;
+    }
+
+    const nextState = activeTrack.mode !== "showing";
+    setEcbCaptionsState(nextState);
+
+    // ✅ FIXED
+    announceEcbMessage(nextState ? "Captions on" : "Captions off");
+  }
+
+  function setEcbAdState(isOn) {
+    if (!adVideo) return;
+
+    const fromVideo = isOn ? defaultVideo : adVideo;
+    const toVideo = isOn ? adVideo : defaultVideo;
+
+    const wasPaused = fromVideo.paused;
+
+    if (adBtn) {
+      adBtn.setAttribute("aria-checked", isOn ? "true" : "false");
+    }
+
+    const captionsWereOn = getEcbCaptionTrack(fromVideo)?.mode === "showing";
+
+    fromVideo.pause();
+    fromVideo.style.display = "none";
+
+    toVideo.style.display = "block";
+
+    const start = () => {
+      if (isOn) toVideo.currentTime = 0;
+
+      const track = getEcbCaptionTrack(toVideo);
+      if (track) {
+        track.mode = captionsWereOn ? "showing" : "hidden";
+      }
+
+      if (!wasPaused) {
+        toVideo.play().catch(() => {});
+      }
+
+      updateEcbPauseButton();
+    };
+
+    if (toVideo.readyState >= 1) {
+      start();
+    } else {
+      toVideo.load();
+      toVideo.addEventListener("loadedmetadata", start, { once: true });
+    }
+  }
+
+  function toggleEcbAudioDescription() {
+    if (!adVideo) {
+      announceEcbMessage("Audio description not available");
+      return;
+    }
+
+    const isAdOn = getCurrentEcbVideo() === adVideo;
+    const nextState = !isAdOn;
+
+    setEcbAdState(nextState);
+
+    // ✅ FIXED
+    announceEcbMessage(nextState ? "Audio description on" : "Audio description off");
+  }
+
+  function toggleEcbPlayPause() {
+    const video = getCurrentEcbVideo();
+
+    if (video.paused) {
+      video.play().catch(() => {});
+      announceEcbMessage("Video playing");
+    } else {
+      video.pause();
+      announceEcbMessage("Video paused");
+    }
+
+    updateEcbPauseButton();
+  }
+
+  function setEcbTranscriptState(isOpen) {
+    transcriptDrawer.style.display = isOpen ? "block" : "none";
+    transcriptBtn.setAttribute("aria-expanded", isOpen);
+  }
+
+  function toggleEcbTranscript() {
+    const isOpen = transcriptBtn.getAttribute("aria-expanded") === "true";
+    setEcbTranscriptState(!isOpen);
+  }
+
+  function closeEcbTranscript() {
+    setEcbTranscriptState(false);
+    transcriptBtn.focus();
+  }
+
+
+  // Events
+  pauseBtn.addEventListener("click", toggleEcbPlayPause);
+  ccBtn?.addEventListener("click", toggleEcbCaptions);
+  adBtn?.addEventListener("click", toggleEcbAudioDescription);
+  transcriptBtn?.addEventListener("click", toggleEcbTranscript);
+  transcriptCloseBtn?.addEventListener("click", closeEcbTranscript);
+
+  defaultVideo.addEventListener("play", updateEcbPauseButton);
+  defaultVideo.addEventListener("pause", updateEcbPauseButton);
+
+  adVideo?.addEventListener("play", updateEcbPauseButton);
+  adVideo?.addEventListener("pause", updateEcbPauseButton);
+
+  // ✅ INIT
+  updateEcbPauseButton();
+  setEcbCaptionsState(false);
+  setEcbAdState(false);
+  setEcbTranscriptState(false);
+
+  // ✅ INITIAL ANNOUNCEMENT FIX
+  setTimeout(() => {
+    announceEcbMessage("Captions off, Audio description off");
+  }, 100);
+
+})();
+</script>
+
+</body></html>
