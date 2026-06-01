@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Accessible Carousel Tutorial - Open Door Design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; line-height: 1.6; color: #111; background: #fff; margin: 0; padding: 1rem; }
+    a { color: inherit; }
+    a:focus, button:focus { outline: 3px solid #000; outline-offset: 3px; }
+    .skip-link { position: absolute; left: -9999px; padding: .5rem .75rem; background: #fff; border: 2px solid #000; }
+    .skip-link:focus { position: static; left: auto; display: inline-block; }
+    main { max-width: 72rem; margin: 0 auto; }
+    .carousel { max-width: 680px; border: 1px solid #ccc; padding: 1em; border-radius: .5rem; }
+    .slide { display: none; }
+    .slide.active { display: block; }
+    button { margin: .5em .5em .5em 0; padding: .5rem .75rem; font: inherit; }
+    #status { position: absolute; left: -9999px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <main id="main" tabindex="-1">
+    <p><a href="./Home-OpenDoorDesign.html">Return to Open Door Design home</a></p>
+    <h1>Accessible Carousel Tutorial</h1>
+    <p>This example demonstrates a keyboard-accessible carousel pattern with screen reader instructions, visible controls, and concise live announcements.</p>
+
+    <div id="carouselInstructions" class="sr-only">
+      This is a six-step carousel tutorial. Use the Previous and Next buttons or the left and right arrow keys to move between slides.
+    </div>
+
+    <section class="carousel" role="region" aria-roledescription="carousel" aria-label="How to build an accessible carousel" aria-describedby="carouselInstructions" tabindex="0">
+      <div id="status" role="status" aria-live="polite" aria-atomic="true"></div>
+
+      <div id="slide1" class="slide active" role="group" aria-roledescription="slide" aria-label="Step 1 of 6: Define the purpose" tabindex="-1">
+        <h2>Step 1: Define the Purpose</h2>
+        <p>Start by deciding what the carousel is for. Keep the content focused and avoid using a carousel when a simple list would work better.</p>
+      </div>
+
+      <div id="slide2" class="slide" role="group" aria-roledescription="slide" aria-label="Step 2 of 6: Keyboard navigation" tabindex="-1">
+        <h2>Step 2: Keyboard Navigation</h2>
+        <p>Users should be able to reach and operate all controls with the keyboard.</p>
+      </div>
+
+      <div id="slide3" class="slide" role="group" aria-roledescription="slide" aria-label="Step 3 of 6: ARIA support" tabindex="-1">
+        <h2>Step 3: ARIA Support</h2>
+        <p>Use clear names, roles, and descriptions so screen reader users understand the carousel and each slide.</p>
+      </div>
+
+      <div id="slide4" class="slide" role="group" aria-roledescription="slide" aria-label="Step 4 of 6: Motion control" tabindex="-1">
+        <h2>Step 4: Motion Control</h2>
+        <p>Avoid auto-rotation. If movement is used, users need a reliable way to pause it.</p>
+      </div>
+
+      <div id="slide5" class="slide" role="group" aria-roledescription="slide" aria-label="Step 5 of 6: Accessible content" tabindex="-1">
+        <h2>Step 5: Accessible Content</h2>
+        <p>Use real text, meaningful images, descriptive links, and logical headings.</p>
+      </div>
+
+      <div id="slide6" class="slide" role="group" aria-roledescription="slide" aria-label="Step 6 of 6: Test with assistive technology" tabindex="-1">
+        <h2>Step 6: Test with Assistive Technology</h2>
+        <p>Test with screen readers, keyboard navigation, zoom, and real user workflows.</p>
+      </div>
+
+      <div aria-label="Carousel controls">
+        <button id="prevBtn" type="button">Previous slide</button>
+        <button id="nextBtn" type="button">Next slide</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const status = document.getElementById('status');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      let current = 0;
+
+      function showSlide(index, focusSlide) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === current);
+        });
+        status.textContent = 'Slide ' + (current + 1) + ' of ' + slides.length + '. ' + slides[current].querySelector('h2').textContent + '.';
+        if (focusSlide) {
+          slides[current].focus();
+        }
+      }
+
+      prevBtn.addEventListener('click', () => showSlide(current - 1, true));
+      nextBtn.addEventListener('click', () => showSlide(current + 1, true));
+      document.querySelector('.carousel').addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          showSlide(current - 1, true);
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          showSlide(current + 1, true);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

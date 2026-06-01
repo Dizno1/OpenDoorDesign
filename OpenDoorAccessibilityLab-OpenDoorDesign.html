@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Open Door Accessibility Lab - Open Door Design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+    :root {
+      --edge-pad: 1rem;
+      --logo-max-h: 120px;
+      --home-max-h: 36px;
+      --divider: #d0d0d0;
+      --focus-ring: #000;
+      --section-max: 72rem;
+      --card-border: #b8b8b8;
+      --soft-bg: #f7f7f7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      line-height: 1.6;
+      color: #111;
+      background: #fff;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus,
+    button:focus {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+
+    p,
+    li {
+      max-width: 72ch;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-links {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .skip-links a {
+      position: absolute;
+      left: -9999px;
+      padding: .5rem .75rem;
+      background: #fff;
+      border: 2px solid #000;
+    }
+
+    .skip-links a:focus {
+      left: 0;
+    }
+
+    header.banner {
+      border-bottom: 1px solid var(--divider);
+      padding: .4rem var(--edge-pad);
+    }
+
+    .topbar a {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .topbar img {
+      max-height: var(--home-max-h);
+      height: auto;
+      width: auto;
+    }
+
+    .brand-center {
+      display: flex;
+      justify-content: center;
+      padding: .75rem 0 .25rem 0;
+    }
+
+    .brand-center .logo-wrap {
+      display: inline-block;
+      padding: .25rem .5rem;
+      outline: 1px solid rgba(0,0,0,.08);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-contrast: more) {
+      .brand-center .logo-wrap {
+        outline-color: #000;
+      }
+    }
+
+    .brand-center img {
+      max-height: var(--logo-max-h);
+      height: auto;
+      width: auto;
+      max-width: 95vw;
+    }
+
+    nav.primary {
+      border-bottom: 1px solid var(--divider);
+      padding: 0 0 .75rem 0;
+    }
+
+    nav.primary .nav-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem 1rem;
+      justify-content: center;
+      list-style: none;
+      margin: .25rem 0 0;
+      padding: 0 var(--edge-pad);
+    }
+
+    nav.primary .nav-list a {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: var(--edge-pad);
+    }
+
+    .section {
+      max-width: var(--section-max);
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--divider);
+    }
+
+    .lede {
+      font-size: 1.15rem;
+      max-width: 74ch;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 850px) {
+      .grid.cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid.cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      border: 1px solid var(--card-border);
+      border-radius: .5rem;
+      padding: 1rem;
+      background: #fff;
+    }
+
+    .callout {
+      border: 1px solid var(--card-border);
+      border-radius: .5rem;
+      padding: 1rem;
+      background: var(--soft-bg);
+    }
+
+    .kvl {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .kvl li {
+      margin: .35rem 0;
+    }
+
+    .project-meta {
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 1rem;
+      border-top: 1px solid var(--divider);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="skip-links">
+    <a href="#main">Skip to main content</a>
+    <a href="./Accessibility-OpenDoorDesign.html">Skip to Accessibility Statement</a>
+  </div>
+
+  <header class="banner" aria-labelledby="banner-name">
+    <span id="banner-name" class="visually-hidden">Banner</span>
+    <div class="topbar" role="none">
+      <a href="./Home-OpenDoorDesign.html" aria-label="Return to Home">
+        <img src="ReturnToHomeLinkImage-ODD.png" alt="Return to Home">
+      </a>
+    </div>
+  </header>
+
+  <div class="brand-center">
+    <span class="logo-wrap">
+      <img src="ODD-FullLogo-StandingDino-DoorwayV2.png" alt="Open Door Design logo with a dinosaur mascot standing in a doorway that represents accessible entry into digital and physical spaces.">
+    </span>
+  </div>
+
+  <nav class="primary" aria-labelledby="primary-nav-name">
+    <span id="primary-nav-name" class="visually-hidden">Primary navigation</span>
+    <ul role="list" class="nav-list">
+      <li role="listitem"><a href="./Home-OpenDoorDesign.html">Home</a></li>
+      <li role="listitem"><a href="./AboutDean-OpenDoorDesign.html">About Dean</a></li>
+      <li role="listitem"><a href="./OpenDoorAccessibilityLab-OpenDoorDesign.html" aria-current="page">Accessibility Lab</a></li>
+      <li role="listitem"><a href="./FeaturedProjects-OpenDoorDesign.html">Featured Projects</a></li>
+      <li role="listitem"><a href="./Accessibility-OpenDoorDesign.html">Accessibility Statement</a></li>
+      <li role="listitem"><a href="./Inquiries-OpenDoorDesign.html">Inquiries</a></li>
+    </ul>
+  </nav>
+
+  <main id="main" tabindex="-1">
+    <section class="section" aria-labelledby="lab-title">
+      <h1 id="lab-title">Open Door Accessibility Lab</h1>
+      <h2>Accessibility Learning, Practice, and Innovation</h2>
+      <p class="lede">The Open Door Accessibility Lab is the educational and experimentation center of Open Door Design. It brings together accessibility learning systems, screen reader practice environments, WCAG learning tools, quiz systems, challenge workflows, and usability-focused accessibility experiments.</p>
+    </section>
+
+    <section class="section" aria-labelledby="purpose-heading">
+      <h2 id="purpose-heading">Purpose of the Lab</h2>
+      <p>The lab is designed to help people learn accessibility by practicing real interaction patterns, not only reading guidelines. It focuses on how accessibility decisions affect users who rely on screen readers, keyboard navigation, clear structure, and meaningful feedback.</p>
+      <p>The lab also supports the long-term Open Door Design goal of building tools that make accessibility easier to understand, test, teach, and improve.</p>
+    </section>
+
+    <section class="section" aria-labelledby="systems-heading">
+      <h2 id="systems-heading">Accessibility Learning Systems</h2>
+      <div class="grid cols-2">
+        <article class="card">
+          <h3>Flash Trainer Concepts</h3>
+          <p>Interactive study systems for accessibility topics such as WCAG criteria, assistive technology behavior, keyboard patterns, and usability barriers.</p>
+        </article>
+        <article class="card">
+          <h3>Challenge and Quiz Systems</h3>
+          <p>Practice environments that let learners answer questions, review missed items, export challenge results, and improve through repetition.</p>
+        </article>
+        <article class="card">
+          <h3>Screen Reader Practice Environments</h3>
+          <p>Prototype workflows that help users practice navigation, forms, headings, buttons, dynamic feedback, and interaction patterns with a screen reader.</p>
+        </article>
+        <article class="card">
+          <h3>WCAG Learning Concepts</h3>
+          <p>Plain-language learning tools that connect success criteria to real examples, user impact, and practical remediation decisions.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="engineering-heading">
+      <h2 id="engineering-heading">Accessibility Engineering Experiments</h2>
+      <p>The lab also supports accessibility engineering experiments involving accessible media, extended audio description, document accessibility, learning systems, and screen reader-first interaction models.</p>
+      <ul class="kvl">
+        <li>Accessible carousel interaction and focus management experiments.</li>
+        <li>Screen reader-friendly status messaging and dynamic content behavior.</li>
+        <li>Audio description and accessible video workflow concepts.</li>
+        <li>PDF accessibility review and remediation workflows.</li>
+        <li>Quiz and challenge systems designed for assistive technology users.</li>
+        <li>Usability testing methods for screen reader and keyboard workflows.</li>
+      </ul>
+
+      <h3>Interactive Accessibility Examples</h3>
+      <p>The lab includes practical accessibility examples intended to demonstrate how accessibility decisions affect real interaction patterns for users who rely on screen readers and keyboard navigation.</p>
+      <p>These examples include accessible carousel concepts, interactive learning systems, challenge workflows, and accessibility-focused multimedia interaction experiments.</p>
+      <p><a href="./Example Carousel-How to create an Accessible Carousel.html">Open the accessible carousel example</a></p>
+
+      <h3>Accessibility Design Evaluation</h3>
+      <p>The lab also includes accessibility evaluation and usability analysis of accessible design patterns created by other organizations and developers.</p>
+      <p>This includes reviewing accessible media player workflows, keyboard interaction models, screen reader behavior, and inclusive multimedia design approaches to better understand how accessibility concepts perform in real-world environments.</p>
+      <p>The eComBack media player is included as a design reference example, not as an Open Door Design product. It is used to study strong accessible media design patterns and apply those lessons to future accessibility work.</p>
+    </section>
+
+    <section class="section" aria-labelledby="competency-heading">
+      <h2 id="competency-heading">Connection to Inclusive Design</h2>
+      <p>The Open Door Accessibility Lab demonstrates inclusive design thinking because it is built around real user needs, assistive technology behavior, clear structure, accessible feedback, and practical task completion.</p>
+      <p>The lab also demonstrates that accessibility is not limited to checking boxes. Accessibility requires testing, listening, iteration, and a willingness to design for people who interact with technology in different ways.</p>
+    </section>
+  </main>
+
+  <footer role="contentinfo" aria-labelledby="footer-name">
+    <span id="footer-name" class="visually-hidden">Footer</span>
+    <p><a href="./Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Statement</a></p>
+    <p>Open Door Design is preparing for launch at OpenDoorDesign.org.</p>
+  </footer>
+
+</body>
+</html>

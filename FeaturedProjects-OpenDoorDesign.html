@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Featured Projects - Open Door Design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+    :root {
+      --edge-pad: 1rem;
+      --logo-max-h: 120px;
+      --home-max-h: 36px;
+      --divider: #d0d0d0;
+      --focus-ring: #000;
+      --section-max: 72rem;
+      --card-border: #b8b8b8;
+      --soft-bg: #f7f7f7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      line-height: 1.6;
+      color: #111;
+      background: #fff;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus,
+    button:focus {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+
+    p,
+    li {
+      max-width: 72ch;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-links {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .skip-links a {
+      position: absolute;
+      left: -9999px;
+      padding: .5rem .75rem;
+      background: #fff;
+      border: 2px solid #000;
+    }
+
+    .skip-links a:focus {
+      left: 0;
+    }
+
+    header.banner {
+      border-bottom: 1px solid var(--divider);
+      padding: .4rem var(--edge-pad);
+    }
+
+    .topbar a {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .topbar img {
+      max-height: var(--home-max-h);
+      height: auto;
+      width: auto;
+    }
+
+    .brand-center {
+      display: flex;
+      justify-content: center;
+      padding: .75rem 0 .25rem 0;
+    }
+
+    .brand-center .logo-wrap {
+      display: inline-block;
+      padding: .25rem .5rem;
+      outline: 1px solid rgba(0,0,0,.08);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-contrast: more) {
+      .brand-center .logo-wrap {
+        outline-color: #000;
+      }
+    }
+
+    .brand-center img {
+      max-height: var(--logo-max-h);
+      height: auto;
+      width: auto;
+      max-width: 95vw;
+    }
+
+    nav.primary {
+      border-bottom: 1px solid var(--divider);
+      padding: 0 0 .75rem 0;
+    }
+
+    nav.primary .nav-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem 1rem;
+      justify-content: center;
+      list-style: none;
+      margin: .25rem 0 0;
+      padding: 0 var(--edge-pad);
+    }
+
+    nav.primary .nav-list a {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: var(--edge-pad);
+    }
+
+    .section {
+      max-width: var(--section-max);
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--divider);
+    }
+
+    .lede {
+      font-size: 1.15rem;
+      max-width: 74ch;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 850px) {
+      .grid.cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid.cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      border: 1px solid var(--card-border);
+      border-radius: .5rem;
+      padding: 1rem;
+      background: #fff;
+    }
+
+    .callout {
+      border: 1px solid var(--card-border);
+      border-radius: .5rem;
+      padding: 1rem;
+      background: var(--soft-bg);
+    }
+
+    .kvl {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .kvl li {
+      margin: .35rem 0;
+    }
+
+    .project-meta {
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 1rem;
+      border-top: 1px solid var(--divider);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="skip-links">
+    <a href="#main">Skip to main content</a>
+    <a href="./Accessibility-OpenDoorDesign.html">Skip to Accessibility Statement</a>
+  </div>
+
+  <header class="banner" aria-labelledby="banner-name">
+    <span id="banner-name" class="visually-hidden">Banner</span>
+    <div class="topbar" role="none">
+      <a href="./Home-OpenDoorDesign.html" aria-label="Return to Home">
+        <img src="ReturnToHomeLinkImage-ODD.png" alt="Return to Home">
+      </a>
+    </div>
+  </header>
+
+  <div class="brand-center">
+    <span class="logo-wrap">
+      <img src="ODD-FullLogo-StandingDino-DoorwayV2.png" alt="Open Door Design logo with a dinosaur mascot standing in a doorway that represents accessible entry into digital and physical spaces.">
+    </span>
+  </div>
+
+  <nav class="primary" aria-labelledby="primary-nav-name">
+    <span id="primary-nav-name" class="visually-hidden">Primary navigation</span>
+    <ul role="list" class="nav-list">
+      <li role="listitem"><a href="./Home-OpenDoorDesign.html">Home</a></li>
+      <li role="listitem"><a href="./AboutDean-OpenDoorDesign.html">About Dean</a></li>
+      <li role="listitem"><a href="./OpenDoorAccessibilityLab-OpenDoorDesign.html">Accessibility Lab</a></li>
+      <li role="listitem"><a href="./FeaturedProjects-OpenDoorDesign.html" aria-current="page">Featured Projects</a></li>
+      <li role="listitem"><a href="./Accessibility-OpenDoorDesign.html">Accessibility Statement</a></li>
+      <li role="listitem"><a href="./Inquiries-OpenDoorDesign.html">Inquiries</a></li>
+    </ul>
+  </nav>
+
+  <main id="main" tabindex="-1">
+    <section class="section" aria-labelledby="projects-title">
+      <h1 id="projects-title">Featured Accessibility Projects</h1>
+      <h2>Design Solutions Portfolio</h2>
+      <p class="lede">These projects demonstrate accessibility engineering, assistive technology awareness, inclusive design thinking, screen reader-first usability, accessible media concepts, and practical accessibility education.</p>
+    </section>
+
+    <section class="section" id="open-door-accessibility-lab" aria-labelledby="lab-project-heading">
+      <h2 id="lab-project-heading">Open Door Accessibility Lab</h2>
+      <p class="project-meta">Focus: accessibility education, screen reader practice, WCAG learning, challenge systems, and usability experimentation.</p>
+      <p>The Open Door Accessibility Lab is the educational and innovation centerpiece of the portfolio. It includes accessibility learning systems, Flash Trainer concepts, WCAG practice tools, challenge and quiz systems, and screen reader practice environments.</p>
+      <p>This project demonstrates inclusive design by focusing on how people learn, practice, and apply accessibility concepts through usable, assistive technology-aware experiences.</p>
+      <p><a href="./OpenDoorAccessibilityLab-OpenDoorDesign.html">Open the Open Door Accessibility Lab page</a></p>
+    </section>
+
+    <section class="section" id="odd-sr-pdf-tagger" aria-labelledby="pdf-heading">
+      <h2 id="pdf-heading">ODD-SR PDF Tagger</h2>
+      <p class="project-meta">Focus: PDF accessibility, tagged document workflows, forms, graphics, and screen reader review.</p>
+      <p>ODD-SR PDF Tagger is a screen reader-focused PDF accessibility review and remediation concept. It is designed to support workflows involving tagged documents, graphics, forms, accessibility roles, and review decisions.</p>
+      <p>The project demonstrates accessibility engineering by addressing a common barrier: PDF remediation workflows are often visual, complex, and difficult to use efficiently with assistive technology.</p>
+      <p>Key accessibility concepts include keyboard usability, clear section order, role selection, form detection, graphics review, alternate text support, and screen reader-friendly status feedback.</p>
+    </section>
+
+    <section class="section" id="odd-ad-author" aria-labelledby="ad-heading">
+      <h2 id="ad-heading">ODD-AD-Author</h2>
+      <p class="project-meta">Focus: extended audio description, accessible media workflows, AI-assisted drafting, and non-visual review.</p>
+      <p>ODD-AD-Author explores accessibility workflows for creating extended audio description and accessible narration support for video content.</p>
+      <p>The project demonstrates inclusive design by addressing media access for people who cannot rely on visual information alone. It also explores how AI-assisted drafting, timing review, and human judgment can work together in an accessibility-focused workflow.</p>
+      <p>Key accessibility concepts include keyboard operation, screen reader-friendly controls, clear workflow stages, non-visual review, and accessible status messages.</p>
+    </section>
+
+    <section class="section" id="accessible-video-suite" aria-labelledby="video-heading">
+      <h2 id="video-heading">Accessible Video Suite</h2>
+      <p class="project-meta">Focus: screen reader-first media editing, keyboard control, and non-visual workflow design.</p>
+      <p>Accessible Video Suite explores how media editing workflows can be redesigned for users who rely on keyboard navigation and screen reader output.</p>
+      <p>The project focuses on practical controls for marking, reviewing, removing, previewing, and exporting media segments without requiring visual timeline manipulation.</p>
+      <p>This work demonstrates that accessible design may require rethinking the interaction model instead of simply adding labels to a visual interface.</p>
+    </section>
+
+    <section class="section" id="flash-trainer" aria-labelledby="flash-heading">
+      <h2 id="flash-heading">Flash Trainer and Accessibility Practice Tools</h2>
+      <p class="project-meta">Focus: accessible learning systems, challenge workflows, interactive accessibility practice, and assistive technology-compatible study environments.</p>
+      <p>Flash Trainer concepts explore accessibility education through structured learning systems, challenge modes, review workflows, and interactive accessibility practice.</p>
+      <p>The goal is to create learning environments that support screen reader users, keyboard navigation, clear feedback, and usability-focused interaction patterns while helping learners build practical accessibility understanding.</p>
+      <p>The project also explores how accessibility education can become more interactive through challenge systems, review modes, exported learning records, and screen reader-compatible quiz workflows.</p>
+    </section>
+
+    <section class="section" id="accessible-components" aria-labelledby="components-heading">
+      <h2 id="components-heading">Accessible Interaction and Media Examples</h2>
+      <p class="project-meta">Focus: accessibility evaluation, component usability analysis, keyboard interaction models, screen reader behavior, and accessible multimedia workflows.</p>
+
+      <h3>Accessible Carousel Engineering Example</h3>
+      <p>Open Door Design includes accessibility-focused carousel examples designed to demonstrate keyboard accessibility, screen reader interaction, focus management, accessible navigation, and instructional usability concepts.</p>
+      <p>The carousel work explores how commonly inaccessible interface patterns can be redesigned to support users who rely on screen readers and keyboard interaction.</p>
+      <p>The examples also demonstrate the importance of reducing repetitive announcements, maintaining logical reading order, and improving clarity for assistive technology users.</p>
+      <p><a href="./Example Carousel-How to create an Accessible Carousel.html">Open the accessible carousel example</a></p>
+
+      <h3>Accessible Media Player Design Reference</h3>
+      <p>Open Door Design also evaluates accessible multimedia interaction patterns using reference examples created by other organizations, including an accessible media player developed by eComBack.</p>
+      <p>The media player example demonstrates strong accessibility concepts involving keyboard operation, media controls, screen reader interaction, and simplified multimedia workflows.</p>
+      <p>The example is included as part of ongoing accessibility evaluation and usability analysis work involving accessible media experiences and assistive technology support.</p>
+    </section>
+
+    <section class="section" aria-labelledby="impact-heading">
+      <h2 id="impact-heading">Portfolio Impact</h2>
+      <p>Together, these projects show a consistent design approach: start with real user needs, support assistive technology from the beginning, simplify workflows, test with screen readers, and document accessibility decisions clearly.</p>
+    </section>
+  </main>
+
+  <footer role="contentinfo" aria-labelledby="footer-name">
+    <span id="footer-name" class="visually-hidden">Footer</span>
+    <p><a href="./Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Statement</a></p>
+    <p>Open Door Design is preparing for launch at OpenDoorDesign.org.</p>
+  </footer>
+
+</body>
+</html>
