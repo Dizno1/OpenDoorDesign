@@ -26,11 +26,11 @@
     <h1>Accessible Carousel Tutorial</h1>
     <p>This example demonstrates a keyboard-accessible carousel pattern with screen reader instructions, visible controls, and concise live announcements.</p>
 
-    <div id="carouselInstructions" class="sr-only">
-      This is a six-step carousel tutorial. Use the Previous and Next buttons or the left and right arrow keys to move between slides.
-    </div>
+    <p id="carouselInstructions">
+      This is a six-step carousel tutorial. Use the Previous and Next buttons to move between slides. Keyboard users can also use the left and right arrow keys when focus is on the carousel or its controls.
+    </p>
 
-    <section class="carousel" role="region" aria-roledescription="carousel" aria-label="How to build an accessible carousel" aria-describedby="carouselInstructions" tabindex="0">
+    <section class="carousel" role="region" aria-roledescription="carousel" aria-label="Carousel tutorial" tabindex="0">
       <div id="status" role="status" aria-live="polite" aria-atomic="true"></div>
 
       <div id="slide1" class="slide active" role="group" aria-roledescription="slide" aria-label="Step 1 of 6: Define the purpose" tabindex="-1">
@@ -89,8 +89,8 @@
         }
       }
 
-      prevBtn.addEventListener('click', () => showSlide(current - 1, true));
-      nextBtn.addEventListener('click', () => showSlide(current + 1, true));
+      prevBtn.addEventListener('click', () => showSlide(current - 1, false));
+      nextBtn.addEventListener('click', () => showSlide(current + 1, false));
       document.querySelector('.carousel').addEventListener('keydown', event => {
         if (event.key === 'ArrowLeft') {
           event.preventDefault();
