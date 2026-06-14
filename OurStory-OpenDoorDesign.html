@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Our Story - Open Door Design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+    :root {
+      --edge-pad: 1rem;
+      --logo-max-h: 120px;
+      --home-max-h: 36px;
+      --divider: #d0d0d0;
+      --focus-ring: #000;
+      --section-max: 72rem;
+      --card-border: #b8b8b8;
+      --soft-bg: #f7f7f7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, Arial, sans-serif;
+      line-height: 1.6;
+      color: #111;
+      background: #fff;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus,
+    button:focus {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+
+    p,
+    li {
+      max-width: 72ch;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-links {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .skip-links a {
+      position: absolute;
+      left: -9999px;
+      padding: .5rem .75rem;
+      background: #fff;
+      border: 2px solid #000;
+    }
+
+    .skip-links a:focus {
+      left: 0;
+    }
+
+    header.banner {
+      border-bottom: 1px solid var(--divider);
+      padding: .4rem var(--edge-pad);
+    }
+
+    .topbar a {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .topbar img {
+      max-height: var(--home-max-h);
+      height: auto;
+      width: auto;
+    }
+
+    .brand-center {
+      display: flex;
+      justify-content: center;
+      padding: .75rem 0 .25rem 0;
+    }
+
+    .brand-center .logo-wrap {
+      display: inline-block;
+      padding: .25rem .5rem;
+      outline: 1px solid rgba(0,0,0,.08);
+      outline-offset: 4px;
+    }
+
+    @media (prefers-contrast: more) {
+      .brand-center .logo-wrap {
+        outline-color: #000;
+      }
+    }
+
+    .brand-center img {
+      max-height: var(--logo-max-h);
+      height: auto;
+      width: auto;
+      max-width: 95vw;
+    }
+
+    nav.primary {
+      border-bottom: 1px solid var(--divider);
+      padding: 0 0 .75rem 0;
+    }
+
+    nav.primary .nav-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem 1rem;
+      justify-content: center;
+      list-style: none;
+      margin: .25rem 0 0;
+      padding: 0 var(--edge-pad);
+    }
+
+    nav.primary .nav-list a {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: var(--edge-pad);
+    }
+
+    .section {
+      max-width: var(--section-max);
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--divider);
+    }
+
+    .lede {
+      font-size: 1.15rem;
+      max-width: 74ch;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 850px) {
+      .grid.cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid.cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      border: 1px solid var(--card-border);
+      border-radius: .5rem;
+      padding: 1rem;
+      background: #fff;
+    }
+
+    .callout {
+      border: 1px solid var(--card-border);
+      border-radius: .5rem;
+      padding: 1rem;
+      background: var(--soft-bg);
+    }
+
+    .kvl {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    .kvl li {
+      margin: .35rem 0;
+    }
+
+    .project-meta {
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 1rem;
+      border-top: 1px solid var(--divider);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="skip-links">
+    <a href="#main">Skip to main content</a>
+    <a href="#primary-navigation">Skip to primary navigation</a>
+    <a href="#footer">Skip to footer</a>
+  </div>
+
+  <header class="banner" aria-labelledby="banner-name">
+    <span id="banner-name" class="visually-hidden">Banner</span>
+    <div class="topbar" role="none">
+      <a href="./index.html" aria-label="Return to Home">
+        <img src="ReturnToHomeLinkImage-ODD.png" alt="Return to Home">
+      </a>
+    </div>
+  </header>
+
+  <div class="brand-center">
+    <span class="logo-wrap">
+      <img src="ODD-FullLogo-StandingDino-DoorwayV2.png" alt="Open Door Design logo with a dinosaur mascot standing in a doorway that represents accessible entry into digital and physical spaces.">
+    </span>
+  </div>
+
+  <nav id="primary-navigation" class="primary" aria-labelledby="primary-nav-name">
+    <span id="primary-nav-name" class="visually-hidden">Primary navigation</span>
+    <ul role="list" class="nav-list">
+      <li role="listitem"><a href="./index.html">Home</a></li>
+      <li role="listitem"><a href="./OurStory-OpenDoorDesign.html" aria-current="page">Our Story</a></li>
+      <li role="listitem"><a href="./AccessibilityAcademy-OpenDoorDesign.html">Accessibility Academy</a></li>
+      <li role="listitem"><a href="./InnovationLab-OpenDoorDesign.html">Innovation Lab</a></li>
+      <li role="listitem"><a href="./CurrentInitiatives-OpenDoorDesign.html">Current Initiatives</a></li>
+      <li role="listitem"><a href="./JoinTheJourney-OpenDoorDesign.html">Join the Journey</a></li>
+      <li role="listitem"><a href="./Accessibility-OpenDoorDesign.html">Accessibility Commitment</a></li>
+      <li role="listitem"><a href="./Contact-OpenDoorDesign.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main id="main" tabindex="-1">
+    <section class="section">
+      <h1>Our Story</h1>
+      <h2>Every Journey Begins With a Door</h2>
+      <p class="lede">Long before Open Door Design existed, there was Doors Plus.</p>
+      <p>Working with doors was never simply about construction. Every installation represented an entrance to a home, a business, or a new opportunity.</p>
+      <p>Looking back, it seems fitting that a lifetime spent opening physical doors would eventually lead to opening digital ones.</p>
+      <p>The work changed. The purpose never did.</p>
+    </section>
+
+    <section class="section">
+      <h2>An Unexpected Companion</h2>
+      <p>While working in Greenfield, a customer painted a dinosaur on one of my neckties.</p>
+      <p>The original artwork was simple. A smiling dinosaur wearing a hat and shirt, with his arms ending at the forearms.</p>
+      <p>He was never intended to become a company logo or mascot. He was simply a gift that reflected humor, creativity, and the relationships that made small business rewarding.</p>
+      <p>For years, that little dinosaur quietly traveled with me. I had no idea he would one day become part of the story of Open Door Design.</p>
+    </section>
+
+    <section class="section">
+      <h2>Growing Along the Journey</h2>
+      <p>As the years passed, so did the character.</p>
+      <p>The simple tie illustration eventually evolved into the full-body Dino that welcomes visitors to Open Door Design today.</p>
+      <p>Like the organization itself, he grew over time. Not through careful marketing or branding, but naturally, through experience and the people encountered along the way.</p>
+      <p>He reminds me that growth rarely happens all at once. It happens one step at a time.</p>
+    </section>
+
+    <section class="section">
+      <h2>Life Opens Unexpected Doors</h2>
+      <p>Life has a way of changing direction. Some doors close without warning. Others appear when we least expect them.</p>
+      <p>For more than thirty years I worked as a Randolph-Sheppard vendor, operating food service facilities and building a career based on independence, hard work, and serving others.</p>
+      <p>Then came COVID. Like many businesses across the country, everything changed.</p>
+      <p>What initially felt like the end of one career quietly became the beginning of another.</p>
+    </section>
+
+    <section class="section">
+      <h2>Discovering Accessibility</h2>
+      <p>Searching for a new direction led me to the Carroll Center for the Blind and the Screen Reader User Tester Training program.</p>
+      <p>For the first time, I saw accessibility not simply as technology, but as independence.</p>
+      <p>Accessibility was about creating opportunities. Helping someone complete a task independently. Helping someone apply for a job. Helping someone read a document. Helping someone participate fully.</p>
+      <p>That realization changed the way I viewed technology forever.</p>
+    </section>
+
+    <section class="section">
+      <h2>Another Door Opens</h2>
+      <p>The journey continued through the Blind Institute of Technology.</p>
+      <p>The education, mentorship, encouragement, and Digital Accessibility Apprenticeship transformed curiosity into purpose.</p>
+      <p>I was introduced to accessibility testing, usability evaluation, document remediation, accessible media, accessibility engineering, project management, and countless opportunities to continue learning.</p>
+      <p>One lesson has remained constant. I do not know what I do not know.</p>
+      <p>Every mentor, instructor, colleague, accessibility review, and project has taught me something new.</p>
+      <p>Open Door Design was built on that idea. We learn together. We build together. We create better solutions together.</p>
+    </section>
+
+    <section class="section">
+      <h2>From Physical Doors to Digital Doors</h2>
+      <p>Open Door Design exists because accessibility should begin at the beginning.</p>
+      <p>Too often, accessibility is treated as something added after a product is finished. Screen reader users, keyboard users, and people with disabilities are left adapting to decisions made without their participation.</p>
+      <p>Open Door Design follows a different philosophy. Design first for accessibility. Design first for screen reader users. Design first for independence.</p>
+      <p>The result is a better experience for everyone.</p>
+    </section>
+
+    <section class="section">
+      <h2>The Academy and the Innovation Lab</h2>
+      <p>Open Door Design is built on two simple ideas.</p>
+      <p>Learning. Building.</p>
+      <p>The Open Door Accessibility Academy exists to help people develop accessibility knowledge through practical experience.</p>
+      <p>The Open Door Innovation Lab exists to transform ideas into prototypes that solve real-world accessibility challenges.</p>
+      <p>Education strengthens innovation. Innovation strengthens education. Together they create opportunities that neither could create alone.</p>
+    </section>
+
+    <section class="section">
+      <h2>Still in Its Founding Season</h2>
+      <p>Open Door Design is still growing.</p>
+      <p>The Academy is taking shape. The Innovation Lab is expanding. New projects continue to emerge. New collaborations continue to begin.</p>
+      <p>The story is still being written.</p>
+      <p>That is exactly as it should be.</p>
+    </section>
+
+    <section class="section">
+      <h2>What Open Door Design Means</h2>
+      <p>Open Door Design was never really about doors.</p>
+      <p>It is about what happens when they are opened.</p>
+      <ul class="kvl">
+        <li>A new opportunity.</li>
+        <li>A new skill.</li>
+        <li>A new career.</li>
+        <li>A new friendship.</li>
+        <li>A new level of independence.</li>
+      </ul>
+      <p>Sometimes all it takes to change a life is for someone to hold a door open long enough for another person to walk through it.</p>
+      <p>If Open Door Design can do that for even one person, then every lesson, every project, every prototype, and every hour invested will have been worth building.</p>
+      <p><strong>Every open door creates another opportunity.</strong></p>
+      <p>And that is the story of Open Door Design.</p>
+    </section>
+  </main>
+
+  <footer id="footer" role="contentinfo" aria-labelledby="footer-name">
+    <span id="footer-name" class="visually-hidden">Footer</span>
+    <p><a href="./Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Commitment</a></p>
+    <p><a href="mailto:Accessibility@OpenDoorDesign.org">Accessibility@OpenDoorDesign.org</a> | <a href="mailto:Info@OpenDoorDesign.org">Info@OpenDoorDesign.org</a> | <a href="mailto:Inquiries@OpenDoorDesign.org">Inquiries@OpenDoorDesign.org</a></p>
+    <p>Open Door Design is in its founding season. Every page represents ideas in motion, work in progress, and opportunities for collaboration.</p>
+  </footer>
+
+</body>
+</html>
