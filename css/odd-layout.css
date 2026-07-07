@@ -1,0 +1,102 @@
+/* Open Door Design shared layout and reflow rules. */
+.skip-links, .skip-link {
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-start: 0.5rem;
+  z-index: 1000;
+}
+.skip-links a, .skip-link {
+  position: absolute;
+  transform: translateY(-200%);
+  background: var(--odd-color-secondary);
+  color: #FFFFFF;
+  padding: 0.75rem 1rem;
+  border-radius: var(--odd-radius-md);
+}
+.skip-links a:focus, .skip-link:focus { transform: translateY(0); }
+
+.topbar {
+  border-block-end: 1px solid var(--odd-color-border-soft);
+  background: var(--odd-color-surface);
+}
+.brand-center, .logo-wrap {
+  max-width: var(--odd-section-max);
+  margin-inline: auto;
+  padding: 1rem var(--edge-pad);
+  text-align: center;
+}
+.logo-wrap img, .brand-center img { max-height: var(--logo-max-h); }
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 1rem;
+}
+.nav-list a {
+  display: inline-block;
+  min-height: var(--odd-touch-target);
+  padding: 0.7rem 0.9rem;
+  border: 2px solid transparent;
+  border-radius: var(--odd-radius-md);
+  color: var(--odd-color-link);
+}
+.nav-list a[aria-current="page"], .nav-list a.active {
+  border-color: var(--odd-color-primary);
+  background: var(--odd-color-surface-alt);
+  color: var(--odd-color-secondary-dark);
+  font-weight: 700;
+}
+
+.banner {
+  background: linear-gradient(135deg, var(--odd-color-secondary), var(--odd-color-primary-dark));
+  color: #FFFFFF;
+  padding: clamp(2rem, 6vw, 4rem) var(--edge-pad);
+}
+.banner > * {
+  max-width: var(--odd-section-max);
+  margin-inline: auto;
+}
+.banner h1, .banner h2, .banner p { color: #FFFFFF; }
+.banner .lede, .lede { font-size: clamp(1.1rem, 2vw, 1.3rem); max-width: var(--odd-readable-max); }
+
+main, .primary {
+  width: min(var(--odd-section-max), calc(100% - (2 * var(--edge-pad))));
+  margin-inline: auto;
+}
+main { padding-block: 1.5rem 3rem; }
+.section {
+  padding: clamp(1rem, 3vw, 2rem) 0;
+}
+
+.grid, .cols-2, .cols-3 {
+  display: grid;
+  gap: var(--odd-space-5);
+}
+.grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.cols-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.cols-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+
+footer, #footer {
+  background: var(--odd-color-secondary-dark);
+  color: #FFFFFF;
+  padding: 2rem var(--edge-pad);
+  text-align: center;
+}
+footer a, #footer a { color: #FFFFFF; }
+footer h2, footer h3, #footer h2, #footer h3 { color: #FFFFFF; }
+
+@media (max-width: 40rem) {
+  .nav-list { display: block; }
+  .nav-list li + li { margin-block-start: 0.35rem; }
+  .nav-list a { width: 100%; }
+}
+
+@media (max-width: 20rem) {
+  :root { --edge-pad: 0.75rem; }
+  body { font-size: 1rem; }
+  button, .button, .primary, .secondary { width: 100%; }
+}
