@@ -2,7 +2,6 @@
 button,
 .button,
 a.button,
-.primary,
 .secondary,
 .srf-button-link,
 .ecb-btn {
@@ -23,7 +22,7 @@ a.button,
   text-align: center;
   text-decoration: none;
 }
-button:hover, .button:hover, .primary:hover, .srf-button-link:hover {
+button:hover, .button:hover, .srf-button-link:hover {
   background: var(--odd-color-primary-dark);
   border-color: var(--odd-color-primary-dark);
 }

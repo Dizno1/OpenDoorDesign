@@ -20,7 +20,7 @@
 @media (forced-colors: active) {
   * { forced-color-adjust: auto; }
   :focus-visible { outline: 3px solid CanvasText; box-shadow: none; }
-  button, .button, .primary, .secondary, .card { border: 2px solid CanvasText; }
+  button, .button, .secondary, .card { border: 2px solid CanvasText; }
 }
 
 @media print {
