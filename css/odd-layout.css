@@ -42,17 +42,23 @@
   padding: 0.7rem 0.9rem;
   border: 2px solid transparent;
   border-radius: var(--odd-radius-md);
-  color: var(--odd-color-link);
+  color: var(--odd-color-text);
+}
+.nav-list a:hover,
+.nav-list a:focus-visible {
+  border-color: var(--odd-color-focus);
+  background: var(--odd-color-surface-alt);
+  color: var(--odd-color-text);
 }
 .nav-list a[aria-current="page"], .nav-list a.active {
-  border-color: var(--odd-color-primary);
+  border-color: var(--odd-color-focus);
   background: var(--odd-color-surface-alt);
-  color: var(--odd-color-secondary-dark);
+  color: var(--odd-color-text);
   font-weight: 700;
 }
 
 .banner {
-  background: linear-gradient(135deg, var(--odd-color-secondary), var(--odd-color-primary-dark));
+  background: linear-gradient(135deg, var(--odd-color-secondary), var(--odd-color-secondary-dark));
   color: #FFFFFF;
   padding: clamp(2rem, 6vw, 4rem) var(--edge-pad);
 }

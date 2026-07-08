@@ -31,6 +31,16 @@ The core palette was selected to exceed minimum contrast targets:
 - White text on primary green `#0B5D3B`: approximately 8:1.
 - White text on deep navy `#17324D`: approximately 13:1.
 
+## Color pairing guardrail
+
+Open Door Design does not use blue and green together as the primary visual distinction between neighboring interface elements, navigation states, buttons, cards, banners, or important content areas.
+
+Passing a contrast checker is required, but it is not enough. Color choices must also be practical for users with common color vision differences and for sighted users who experience visual strain from competing color families.
+
+When color communicates state, category, emphasis, or navigation, the design must also provide a non-color cue such as text, underline, border, icon shape, spacing, font weight, or label text.
+
+The primary navigation uses text color, font weight, background, border, and underline behavior instead of blue links placed near green branding. Site banners use one color family rather than a blue-to-green gradient.
+
 ## Implementation status
 
 All HTML and HTM pages in this website now reference the shared CSS files. Inline page style blocks were removed so the site uses one shared visual foundation.
