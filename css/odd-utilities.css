@@ -28,37 +28,3 @@
   body { background: #FFFFFF; color: #000000; }
   a::after { content: " (" attr(href) ")"; }
 }
-
-/* AAA navigation contrast override.
-   This rule intentionally uses explicit color values instead of shared link tokens
-   so the primary navigation cannot inherit hyperlink blue, visited purple,
-   or button-style backgrounds from other components. */
-.primary-nav {
-  background: #FFFFFF !important;
-  color: #111111 !important;
-}
-
-.primary-nav .nav-list a,
-.primary-nav .nav-list a:link,
-.primary-nav .nav-list a:visited {
-  color: #111111 !important;
-  background: #FFFFFF !important;
-  border-color: transparent !important;
-}
-
-.primary-nav .nav-list a:hover,
-.primary-nav .nav-list a:focus-visible {
-  color: #111111 !important;
-  background: #EAF3ED !important;
-  border-color: #8A5A00 !important;
-}
-
-.primary-nav .nav-list a[aria-current="page"],
-.primary-nav .nav-list a.active,
-.primary-nav .nav-list a[aria-current="page"]:visited,
-.primary-nav .nav-list a.active:visited {
-  color: #FFFFFF !important;
-  background: #0B5D3B !important;
-  border-color: #0B5D3B !important;
-  font-weight: 700;
-}
