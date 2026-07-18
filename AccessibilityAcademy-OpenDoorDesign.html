@@ -1,170 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Accessibility Academy - Open Door Design</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/odd-theme.css?v=20260708-home-dino">
-  <link rel="stylesheet" href="css/odd-layout.css?v=20260717-skip-links">
-  <link rel="stylesheet" href="css/odd-components.css?v=20260708-home-dino">
-  <link rel="stylesheet" href="css/odd-utilities.css?v=20260708-home-dino">
+<meta charset="utf-8"/>
+<title>Accessibility Academy - Open Door Design</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="css/odd-theme.css?v=20260708-home-dino" rel="stylesheet"/>
+<link href="css/odd-layout.css?v=20260717-skip-links" rel="stylesheet"/>
+<link href="css/odd-components.css?v=20260708-home-dino" rel="stylesheet"/>
+<link href="css/odd-utilities.css?v=20260708-home-dino" rel="stylesheet"/>
 </head>
 <body>
-  <div class="skip-links">
-    <a href="#main">Skip to main content</a>
-    <a href="#primary-navigation">Skip to primary navigation</a>
-    <a href="#footer">Skip to footer</a>
-  </div>
-
-  <header class="banner" aria-labelledby="banner-name">
-    <span id="banner-name" class="visually-hidden">Banner</span>
-    <div class="topbar" role="none">
-      <a class="home-link" href="./index.html">
-        <img src="dino_home_wave.png" alt="Dino waves you home.">
-      </a>
-    </div>
-  </header>
-
-  <div class="brand-center">
-    <span class="logo-wrap">
-      <img src="ODD-FullLogo-StandingDino-DoorwayV2.png" alt="Open Door Design logo with a dinosaur mascot standing in a doorway that represents accessible entry into digital and physical spaces.">
-    </span>
-  </div>
-
-  <nav id="primary-navigation" class="primary-nav" aria-labelledby="primary-nav-name">
-    <span id="primary-nav-name" class="visually-hidden">Primary navigation</span>
-    <ul role="list" class="nav-list">
-      <li role="listitem"><a href="./index.html">Home</a></li>
-      <li role="listitem"><a href="./OurStory-OpenDoorDesign.html">Our Story</a></li>
-      <li role="listitem"><a href="./AccessibilityAcademy-OpenDoorDesign.html" aria-current="page">Accessibility Academy</a></li>
-      <li role="listitem"><a href="./InnovationLab-OpenDoorDesign.html">Innovation Lab</a></li>
-      <li role="listitem"><a href="./CurrentInitiatives-OpenDoorDesign.html">Current Initiatives</a></li>
-      <li role="listitem"><a href="./JoinTheJourney-OpenDoorDesign.html">Join the Journey</a>
-            <a href="./FollowTheJourney-OpenDoorDesign.html">Follow the Journey</a></li>
-      <li role="listitem"><a href="./Accessibility-OpenDoorDesign.html">Accessibility Commitment</a></li>
-      <li role="listitem"><a href="./Contact-OpenDoorDesign.html">Contact</a></li>
-    </ul>
-  </nav>
-
-  <main id="main" tabindex="-1">
-    <section class="section">
-      <h1>Open Door Accessibility Academy</h1>
-      <h2>Learning Accessibility by Building Accessibility</h2>
-      <p class="lede">The Open Door Accessibility Academy is the learning center of Open Door Design. Its first major applications now provide detailed instruction, screen reader-first study workflows, practical testing, challenge systems, and hands-on accessibility practice.</p>
-      <p>The Academy has moved beyond its earliest concept stage. The CPACC Accessibility Academy, CPACC Accessibility Lab, and WCAG Accessibility Lab are nearing completion and are being refined through direct testing, expanded content, and user feedback.</p>
-      <p><strong>Learn. Practice. Build. Share.</strong></p>
-      <p>The Academy is more than a collection of courses. It is a living learning environment where education, experimentation, and collaboration come together to prepare the next generation of accessibility professionals.</p>
-      <p>Many of the learning experiences within the Academy are supported by tools and prototypes developed in the Innovation Lab, creating a continuous cycle of education, experimentation, and improvement.</p>
-    </section>
-
-    <section class="section">
-      <h2>Purpose of the Academy</h2>
-      <p>The Academy exists to make accessibility education more understandable, more practical, and more connected to real user experience.</p>
-      <p>Accessibility is not only a set of standards. It is the difference between someone being able to complete a task independently or needing unnecessary help.</p>
-      <p>The Academy will focus on teaching accessibility in a way that connects guidelines, assistive technology behavior, usability, and human impact.</p>
-    </section>
-
-    <section class="section">
-      <h2>Screen Reader First Learning</h2>
-      <p>The Academy follows the same Screen Reader First philosophy as the Open Door Design website.</p>
-      <p>Learning materials should not require sight to understand the lesson. Navigation should be clear. Headings should be meaningful. Examples should work with a keyboard. Practice activities should provide useful feedback.</p>
-      <p>If a lesson can be understood and completed efficiently by a screen reader user, it will usually be clearer for everyone else too.</p>
-    </section>
-
-    <section class="section">
-      <h2>Learning Programs</h2>
-      <div class="grid cols-2">
-        <article class="card">
-          <h3>CPACC Accessibility Academy</h3>
-          <p>A nearly complete interactive course combining detailed textbook-style lessons, lesson notes, progress tracking, reinforcement, practice, challenge activities, and screen reader-first workflows designed to prepare learners for both the CPACC examination and professional accessibility work.</p>
-          <p class="project-meta">Status: Final content refinement and testing</p>
-          <p><a href="https://dizno1.github.io/CPACCAccessibilityAcademy/">Open the CPACC Accessibility Academy</a></p>
-        </article>
-        <article class="card">
-          <h3>WCAG Accessibility Lab</h3>
-          <p>A nearly complete practical learning environment for choosing WCAG principles and domains, recognizing issues, evaluating user impact, practicing defect writing, and strengthening accessibility decision-making through accessible challenge workflows.</p>
-          <p class="project-meta">Status: Final testing and refinement</p>
-          <p><a href="https://dizno1.github.io/WCAGAccessibilityLab/">Open the WCAG Accessibility Lab</a></p>
-        </article>
-        <article class="card">
-          <h3>CPACC Accessibility Lab</h3>
-          <p>A nearly complete practice application with Reinforce, Practice, Challenge, and Sprint modes, varied question pools, multi-domain selection, keyboard shortcuts, explanations, and progress support.</p>
-          <p class="project-meta">Status: Final testing and question-bank expansion</p>
-          <p><a href="https://dizno1.github.io/CPACCAccessibilityLab/">Open the CPACC Accessibility Lab</a></p>
-        </article>
-        <article class="card">
-          <h3>Screen Reader User Testing Program</h3>
-          <p>A hands-on learning path focused on headings, landmarks, forms, focus management, links, dynamic content, keyboard interaction, and communicating usability findings from the perspective of assistive technology users.</p>
-          <p class="project-meta">Status: Curriculum planning</p>
-        </article>
-        <article class="card">
-          <h3>Document Accessibility Program</h3>
-          <p>A practical program covering document structure, tagged PDFs, alternate text, forms, tables, reading order, remediation techniques, and quality assurance using assistive technology.</p>
-          <p class="project-meta">Status: Curriculum planning</p>
-        </article>
-        <article class="card">
-          <h3>Accessible Media Program</h3>
-          <p>An exploration of captions, transcripts, audio description, accessible video production, narration workflows, and multimedia accessibility from a Screen Reader First perspective.</p>
-          <p class="project-meta">Status: Research and development</p>
-        </article>
-        <article class="card">
-          <h3>Accessibility Engineering Program</h3>
-          <p>A future learning program for developers and technical professionals who want to build accessibility into products from the beginning through inclusive architecture, semantic structure, keyboard interaction, and assistive technology compatibility.</p>
-          <p class="project-meta">Status: Future initiative</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Practice, Not Just Reading</h2>
-      <p>The Academy will include practice systems, quizzes, challenge workflows, examples, and review activities that help learners apply accessibility concepts instead of only memorizing them.</p>
-      <p>That includes recognizing barriers, explaining impact, choosing appropriate WCAG success criteria, testing with assistive technology, and documenting issues clearly.</p>
-      <p>Learning accessibility should feel connected to real work and real people.</p>
-    </section>
-
-    <section class="section">
-      <h2>Connected to the Innovation Lab</h2>
-      <p>The Academy and the Innovation Lab are separate parts of Open Door Design, but they are designed to support each other.</p>
-      <p>The Academy teaches the concepts. The Innovation Lab builds tools and prototypes that demonstrate those concepts in action.</p>
-      <p>Every tool can become a lesson. Every lesson can inspire a better tool.</p>
-      <p><a href="./InnovationLab-OpenDoorDesign.html">Explore the Open Door Innovation Lab</a></p>
-    </section>
-
-    <section class="section">
-      <h2>Who the Academy Is For</h2>
-      <ul class="kvl">
-        <li>People new to accessibility.</li>
-        <li>CPACC candidates.</li>
-        <li>Screen reader users interested in accessibility testing.</li>
-        <li>Developers and designers learning inclusive design.</li>
-        <li>Students and apprentices building accessibility skills.</li>
-        <li>Organizations seeking clearer accessibility education.</li>
-        <li>Anyone who believes accessibility should create independence and opportunity.</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>Founding Season</h2>
-      <p>The Academy is now transitioning from foundational development into final refinement of its first major learning applications.</p>
-      <p>The CPACC and WCAG applications are usable today, while lesson depth, question variety, focus behavior, mobile usability, and professional learning content continue to be tested and improved.</p>
-      <p>That is part of the process.</p>
-      <p>Open Door Design is not presenting a finished school. It is inviting people to help build one that reflects real accessibility experience.</p>
-    </section>
-
-    <section class="section">
-      <h2>Help Shape the Academy</h2>
-      <p>If you are studying accessibility, teaching accessibility, preparing for certification, using assistive technology, or working to make digital experiences more inclusive, your perspective can help shape the Academy.</p>
-      <p><a href="./JoinTheJourney-OpenDoorDesign.html">Learn how to join the journey</a></p>
-    </section>
-  <p><a href="./FollowTheJourney-OpenDoorDesign.html">Follow the development journey and current progress</a></p>
+<div class="skip-links">
+<a href="#main">Skip to main content</a>
+<a href="#primary-navigation">Skip to primary navigation</a>
+<a href="#footer">Skip to footer</a>
+</div>
+<header aria-labelledby="banner-name" class="banner">
+<span class="visually-hidden" id="banner-name">Banner</span>
+<div class="topbar" role="none">
+<a class="home-link" href="./index.html">
+<img alt="Dino waves you home." src="dino_home_wave.png"/>
+</a>
+</div>
+</header>
+<div class="brand-center">
+<span class="logo-wrap">
+<img alt="Open Door Design logo with a dinosaur mascot standing in a doorway that represents accessible entry into digital and physical spaces." src="ODD-FullLogo-StandingDino-DoorwayV2.png"/>
+</span>
+</div>
+<nav aria-labelledby="primary-nav-name" class="primary-nav" id="primary-navigation">
+<span class="visually-hidden" id="primary-nav-name">Primary navigation</span>
+<ul class="nav-list" role="list">
+<li role="listitem"><a href="./index.html">Home</a></li>
+<li role="listitem"><a href="./OurStory-OpenDoorDesign.html">Our Story</a></li>
+<li role="listitem"><a aria-current="page" href="./AccessibilityAcademy-OpenDoorDesign.html">Accessibility Academy</a></li>
+<li role="listitem"><a href="./InnovationLab-OpenDoorDesign.html">Innovation Lab</a></li>
+<li role="listitem"><a href="./CurrentInitiatives-OpenDoorDesign.html">Current Initiatives</a></li>
+<li role="listitem"><a href="./JoinTheJourney-OpenDoorDesign.html">Join the Journey</a>
+<a href="./FollowTheJourney-OpenDoorDesign.html">Follow the Journey</a></li>
+<li role="listitem"><a href="./Accessibility-OpenDoorDesign.html">Accessibility Commitment</a></li>
+<li role="listitem"><a href="./Contact-OpenDoorDesign.html">Contact</a></li>
+</ul>
+</nav>
+<main id="main" tabindex="-1">
+<section class="section">
+<h1>Open Door Accessibility Academy</h1>
+<h2>Learning Accessibility by Building Accessibility</h2>
+<p class="lede">The Open Door Accessibility Academy is the learning center of Open Door Design. Its CPACC and WCAG Academies provide detailed instruction, while the companion Labs provide accessible practice, challenge systems, and hands-on application.</p>
+<p>The CPACC Accessible Academy, CPACC Accessible Lab, WCAG Accessible Academy, and WCAG Accessible Lab are available now. They continue to grow through direct testing, expanded content, accessibility review, and user feedback.</p>
+<p><strong>Learn. Practice. Build. Share.</strong></p>
+<p>The Academy is more than a collection of courses. It is a living learning environment where education, experimentation, and collaboration come together to prepare the next generation of accessibility professionals.</p>
+<p>Many of the learning experiences within the Academy are supported by tools and prototypes developed in the Innovation Lab, creating a continuous cycle of education, experimentation, and improvement.</p>
+</section><section aria-labelledby="public-development-note" class="section"><h2 id="public-development-note">Available During Development</h2><p>This site and its projects remain under active development. All current content is available for people to access, test, use, and critique while the work continues.</p></section>
+<section class="section">
+<h2>Purpose of the Academy</h2>
+<p>The Academy exists to make accessibility education more understandable, more practical, and more connected to real user experience.</p>
+<p>Accessibility is not only a set of standards. It is the difference between someone being able to complete a task independently or needing unnecessary help.</p>
+<p>The Academy will focus on teaching accessibility in a way that connects guidelines, assistive technology behavior, usability, and human impact.</p>
+</section>
+<section class="section">
+<h2>Screen Reader First Learning</h2>
+<p>The Academy follows the same Screen Reader First philosophy as the Open Door Design website.</p>
+<p>Learning materials should not require sight to understand the lesson. Navigation should be clear. Headings should be meaningful. Examples should work with a keyboard. Practice activities should provide useful feedback.</p>
+<p>If a lesson can be understood and completed efficiently by a screen reader user, it will usually be clearer for everyone else too.</p>
+</section>
+<section class="section">
+<h2>Learning Programs</h2>
+<div class="grid cols-2"><article class="card"><h3>CPACC Accessible Academy</h3><p>A comprehensive, screen reader-first course covering the five CPACC domains through detailed lessons, professional context, real-world examples, review, and exam-focused learning.</p><p class="project-meta">Status: Complete and continuing refinement</p><p><a href="https://dizno1.github.io/CPACCAccessibleAcademy/">Open the CPACC Accessible Academy</a></p></article><article class="card"><h3>CPACC Accessible Lab</h3><p>An accessible practice environment with Reinforce, Practice, Challenge, and Sprint modes, broad question pools, explanations, keyboard shortcuts, and progress support.</p><p class="project-meta">Status: Functional and continuing expansion</p><p><a href="https://dizno1.github.io/CPACCAccessibleLab/">Open the CPACC Accessible Lab</a></p></article><article class="card"><h3>WCAG Accessible Academy</h3><p>A structured WCAG 2.2 learning platform that teaches success criteria through practical instruction, real-world examples, testing techniques, remediation strategies, and professional application.</p><p class="project-meta">Status: Active development and available for review</p><p><a href="https://dizno1.github.io/WCAGAccessibleAcademy/">Open the WCAG Accessible Academy</a></p></article><article class="card"><h3>WCAG Accessible Lab</h3><p>A practical environment for recognizing accessibility barriers, connecting findings to WCAG, evaluating user impact, and strengthening testing and defect-writing skills.</p><p class="project-meta">Status: Functional and continuing expansion</p><p><a href="https://dizno1.github.io/WCAGAccessibleLab/">Open the WCAG Accessible Lab</a></p></article>
+<article class="card">
+<h3>Screen Reader User Testing Program</h3>
+<p>A hands-on learning path focused on headings, landmarks, forms, focus management, links, dynamic content, keyboard interaction, and communicating usability findings from the perspective of assistive technology users.</p>
+<p class="project-meta">Status: Curriculum planning</p>
+</article>
+<article class="card">
+<h3>Document Accessibility Program</h3>
+<p>A practical program covering document structure, tagged PDFs, alternate text, forms, tables, reading order, remediation techniques, and quality assurance using assistive technology.</p>
+<p class="project-meta">Status: Curriculum planning</p>
+</article>
+<article class="card">
+<h3>Accessible Media Program</h3>
+<p>An exploration of captions, transcripts, audio description, accessible video production, narration workflows, and multimedia accessibility from a Screen Reader First perspective.</p>
+<p class="project-meta">Status: Research and development</p>
+</article>
+<article class="card">
+<h3>Accessibility Engineering Program</h3>
+<p>A future learning program for developers and technical professionals who want to build accessibility into products from the beginning through inclusive architecture, semantic structure, keyboard interaction, and assistive technology compatibility.</p>
+<p class="project-meta">Status: Future initiative</p>
+</article>
+</div>
+</section>
+<section class="section">
+<h2>Practice, Not Just Reading</h2>
+<p>The Academy will include practice systems, quizzes, challenge workflows, examples, and review activities that help learners apply accessibility concepts instead of only memorizing them.</p>
+<p>That includes recognizing barriers, explaining impact, choosing appropriate WCAG success criteria, testing with assistive technology, and documenting issues clearly.</p>
+<p>Learning accessibility should feel connected to real work and real people.</p>
+</section>
+<section class="section">
+<h2>Connected to the Innovation Lab</h2>
+<p>The Academy and the Innovation Lab are separate parts of Open Door Design, but they are designed to support each other.</p>
+<p>The Academy teaches the concepts. The Innovation Lab builds tools and prototypes that demonstrate those concepts in action.</p>
+<p>Every tool can become a lesson. Every lesson can inspire a better tool.</p>
+<p><a href="./InnovationLab-OpenDoorDesign.html">Explore the Open Door Innovation Lab</a></p>
+</section>
+<section class="section">
+<h2>Who the Academy Is For</h2>
+<ul class="kvl">
+<li>People new to accessibility.</li>
+<li>CPACC candidates.</li>
+<li>Screen reader users interested in accessibility testing.</li>
+<li>Developers and designers learning inclusive design.</li>
+<li>Students and apprentices building accessibility skills.</li>
+<li>Organizations seeking clearer accessibility education.</li>
+<li>Anyone who believes accessibility should create independence and opportunity.</li>
+</ul>
+</section>
+<section class="section">
+<h2>Founding Season</h2>
+<p>The Academy is now transitioning from foundational development into final refinement of its first major learning applications.</p>
+<p>The CPACC and WCAG applications are usable today, while lesson depth, question variety, focus behavior, mobile usability, and professional learning content continue to be tested and improved.</p>
+<p>That is part of the process.</p>
+<p>Open Door Design is not presenting a finished school. It is inviting people to help build one that reflects real accessibility experience.</p>
+</section>
+<section class="section">
+<h2>Help Shape the Academy</h2>
+<p>If you are studying accessibility, teaching accessibility, preparing for certification, using assistive technology, or working to make digital experiences more inclusive, your perspective can help shape the Academy.</p>
+<p><a href="./JoinTheJourney-OpenDoorDesign.html">Learn how to join the journey</a></p>
+</section>
+<p><a href="./FollowTheJourney-OpenDoorDesign.html">Follow the development journey and current progress</a></p>
 </main>
-
-  <footer id="footer" role="contentinfo" aria-labelledby="footer-name">
-    <span id="footer-name" class="visually-hidden">Footer</span>
-    <p><a href="./Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Commitment</a></p>
-    <p><a href="mailto:Accessibility@OpenDoorDesign.org">Accessibility@OpenDoorDesign.org</a> | <a href="mailto:Info@OpenDoorDesign.org">Info@OpenDoorDesign.org</a> | <a href="mailto:Inquiries@OpenDoorDesign.org">Inquiries@OpenDoorDesign.org</a></p>
-    <p>Open Door Design is in its founding season. Every page represents ideas in motion, work in progress, and opportunities for collaboration.</p>
-  </footer>
-
+<footer aria-labelledby="footer-name" id="footer" role="contentinfo">
+<span class="visually-hidden" id="footer-name">Footer</span>
+<p><a href="./Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Commitment</a></p>
+<p><a href="mailto:Accessibility@OpenDoorDesign.org">Accessibility@OpenDoorDesign.org</a> | <a href="mailto:Info@OpenDoorDesign.org">Info@OpenDoorDesign.org</a> | <a href="mailto:Inquiries@OpenDoorDesign.org">Inquiries@OpenDoorDesign.org</a></p>
+<p>Open Door Design is in its founding season. Every page represents ideas in motion, work in progress, and opportunities for collaboration.</p>
+</footer>
 </body>
 </html>
