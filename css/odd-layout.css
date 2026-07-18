@@ -25,21 +25,52 @@
   outline-offset: 4px;
 }
 
-.skip-links, .skip-link {
-  position: absolute;
+/* Keep bypass links off screen until focused, then let their text size the control.
+   The previous absolute-positioned links could collapse to a very narrow width and
+   wrap one or two characters per line. */
+.skip-links {
+  position: fixed;
+  inset-block-start: 0.5rem;
+  inset-inline-start: 0.5rem;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: calc(100vw - 1rem);
+}
+
+.skip-link {
+  position: fixed;
   inset-block-start: 0.5rem;
   inset-inline-start: 0.5rem;
   z-index: 1000;
 }
-.skip-links a, .skip-link {
-  position: absolute;
-  transform: translateY(-200%);
+
+.skip-links a,
+.skip-link {
+  transform: translateY(calc(-100% - 1rem));
+  width: max-content;
+  max-width: calc(100vw - 1rem);
+  white-space: nowrap;
+  overflow-wrap: normal;
   background: var(--odd-color-secondary);
   color: #FFFFFF;
   padding: 0.75rem 1rem;
   border-radius: var(--odd-radius-md);
+  box-shadow: var(--odd-shadow-soft);
 }
-.skip-links a:focus, .skip-link:focus { transform: translateY(0); }
+
+.skip-links a:focus,
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (max-width: 22rem) {
+  .skip-links a,
+  .skip-link {
+    white-space: normal;
+  }
+}
 
 .brand-center, .logo-wrap {
   max-width: var(--odd-section-max);
