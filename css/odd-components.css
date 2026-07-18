@@ -129,3 +129,10 @@ label { font-weight: 700; display: block; margin-block: 0.75rem 0.25rem; }
   .srf-carousel-controls, .srf-button-row, .ecb-controls, .ecb-transcript-bar { display: grid; }
   .srf-carousel-controls > *, .srf-button-row > *, .ecb-controls > *, .ecb-transcript-bar > * { width: 100%; }
 }
+
+/* Carousel controls are links so JAWS Browse Mode can activate them without Forms Mode. */
+.srf-carousel-control {
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
