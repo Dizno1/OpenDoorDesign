@@ -1,0 +1,16 @@
+{
+  "name": "open-door-design-community-server",
+  "version": "0.2.0",
+  "description": "Reference backend for Open Door Design Community registration (Feature 001) and production-readiness work (Feature 003). Validates and stores registrations in SQLite behind a storage interface that a future Salesforce integration can implement without changing the public form.",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/config.test.js test/email.test.js test/rateLimiter.test.js test/renderRegisterPage.test.js test/server.test.js test/storage.test.js test/validate.test.js",
+    "test:offline": "node --test test/config.test.js test/email.test.js test/rateLimiter.test.js test/renderRegisterPage.test.js test/validate.test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules/
+db/community.db
+db/community.db-shm
+db/community.db-wal
+db/backups/
+.env
+coverage/

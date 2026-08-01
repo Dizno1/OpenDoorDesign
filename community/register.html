@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Join the Community - Open Door Design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Register to participate in the Open Door Design Community.">
+  <link rel="stylesheet" href="../css/odd-theme.css?v=20260708-home-dino">
+  <link rel="stylesheet" href="../css/odd-layout.css?v=20260717-skip-links">
+  <link rel="stylesheet" href="../css/odd-components.css?v=20260708-home-dino">
+  <link rel="stylesheet" href="../css/odd-utilities.css?v=20260708-home-dino">
+  <link rel="stylesheet" href="assets/community.css?v=20260730-feature-001">
+  <script src="assets/community.js?v=20260730-feature-001" defer></script>
+</head>
+<body>
+  <div class="skip-links">
+    <a href="#main">Skip to main content</a>
+    <a href="#primary-navigation">Skip to primary navigation</a>
+    <a href="#footer">Skip to footer</a>
+  </div>
+
+  <header class="banner" aria-labelledby="banner-name">
+    <span id="banner-name" class="visually-hidden">Banner</span>
+    <div class="topbar" role="none">
+      <a class="home-link" href="../index.html">
+        <img src="../dino_home_wave.png" alt="Dino waves you home.">
+      </a>
+    </div>
+  </header>
+
+  <div class="brand-center">
+    <span class="logo-wrap">
+      <img src="../ODD-FullLogo-StandingDino-DoorwayV2.png" alt="Open Door Design logo with a dinosaur mascot standing in a doorway that represents accessible entry into digital and physical spaces.">
+    </span>
+  </div>
+
+  <nav id="primary-navigation" class="primary-nav" aria-labelledby="primary-nav-name">
+    <span id="primary-nav-name" class="visually-hidden">Primary navigation</span>
+    <ul role="list" class="nav-list">
+      <li role="listitem"><a href="../index.html">Home</a></li>
+      <li role="listitem"><a href="../OurStory-OpenDoorDesign.html">Our Story</a></li>
+      <li role="listitem"><a href="../AccessibilityAcademy-OpenDoorDesign.html">Accessibility Academy</a></li>
+      <li role="listitem"><a href="../InnovationLab-OpenDoorDesign.html">Innovation Lab</a></li>
+      <li role="listitem"><a href="../CurrentInitiatives-OpenDoorDesign.html">Current Initiatives</a></li>
+      <li role="listitem"><a href="../JoinTheJourney-OpenDoorDesign.html">Join the Journey</a>
+      <a href="../FollowTheJourney-OpenDoorDesign.html">Follow the Journey</a></li>
+      <li role="listitem"><a href="index.html">Community</a></li>
+      <li role="listitem"><a href="../Accessibility-OpenDoorDesign.html">Accessibility Commitment</a></li>
+      <li role="listitem"><a href="../Contact-OpenDoorDesign.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main id="main" tabindex="-1">
+    <section class="section">
+      <h1>Join the Open Door Design Community</h1>
+      <p class="lede">Whether you are here to learn, contribute, test, collaborate, or follow our work, you are welcome.</p>
+      <p>Fields marked "required" must be completed. All other questions are optional.</p>
+    </section>
+
+    <form id="community-registration" action="api/register" method="post" novalidate>
+      <h2>Contact information</h2>
+
+      <div class="field">
+        <label for="first-name">First name <span class="required-text">required</span></label>
+        <p id="first-name-error" class="field-error" hidden></p>
+        <input id="first-name" name="first_name" type="text" autocomplete="given-name" maxlength="100" required aria-describedby="first-name-error">
+      </div>
+
+      <div class="field">
+        <label for="last-name">Last name <span class="required-text">required</span></label>
+        <p id="last-name-error" class="field-error" hidden></p>
+        <input id="last-name" name="last_name" type="text" autocomplete="family-name" maxlength="100" required aria-describedby="last-name-error">
+      </div>
+
+      <div class="field">
+        <label for="email">Email address <span class="required-text">required</span></label>
+        <p id="email-hint">Use an address where you would like to receive community messages.</p>
+        <p id="email-error" class="field-error" hidden></p>
+        <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="email-hint email-error">
+      </div>
+
+      <fieldset>
+        <legend>What interests you most?</legend>
+        <p>Select all that apply. This question is optional.</p>
+        <label><input type="checkbox" name="interests" value="Accessibility education"> Accessibility education</label>
+        <label><input type="checkbox" name="interests" value="Accessibility engineering"> Accessibility engineering</label>
+        <label><input type="checkbox" name="interests" value="Screen reader testing"> Screen reader testing</label>
+        <label><input type="checkbox" name="interests" value="Document accessibility"> Document accessibility</label>
+        <label><input type="checkbox" name="interests" value="Web and mobile accessibility"> Web and mobile accessibility</label>
+        <label><input type="checkbox" name="interests" value="Media accessibility"> Media accessibility</label>
+        <label><input type="checkbox" name="interests" value="Artificial intelligence"> Artificial intelligence</label>
+        <label><input type="checkbox" name="interests" value="Research and collaboration"> Research and collaboration</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Accessibility perspectives</legend>
+        <p>Select any perspectives you would like to share. This question is optional and is never used to diagnose, rank, or exclude community members.</p>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Screen reader user"> Screen reader user</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Keyboard-first user"> Keyboard-first user</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Low vision or magnification user"> Low vision or magnification user</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Voice input user"> Voice input user</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Deaf or hard of hearing"> Deaf or hard of hearing</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Cognitive accessibility"> Cognitive accessibility</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Accessibility professional"> Accessibility professional</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Developer or designer learning accessibility"> Developer or designer learning accessibility</label>
+        <label><input type="checkbox" name="accessibility_perspectives" value="Prefer not to say"> Prefer not to say</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>How would you like to participate?</legend>
+        <p>Select all that apply. This question is optional.</p>
+        <label><input type="checkbox" name="participation_preferences" value="Learn through the Academy"> Learn through the Academy</label>
+        <label><input type="checkbox" name="participation_preferences" value="Test Innovation Lab projects"> Test Innovation Lab projects</label>
+        <label><input type="checkbox" name="participation_preferences" value="Share accessibility feedback"> Share accessibility feedback</label>
+        <label><input type="checkbox" name="participation_preferences" value="Join research studies"> Join research studies</label>
+        <label><input type="checkbox" name="participation_preferences" value="Volunteer"> Volunteer</label>
+        <label><input type="checkbox" name="participation_preferences" value="Explore partnerships"> Explore partnerships</label>
+        <label><input type="checkbox" name="participation_preferences" value="Receive project updates"> Receive project updates</label>
+      </fieldset>
+
+      <div class="field">
+        <label for="about-you">Tell us a little about yourself</label>
+        <p id="about-you-hint">Optional. Do not include medical, financial, password, government identification, or other sensitive information. Maximum 2,000 characters.</p>
+        <textarea id="about-you" name="about_you" rows="6" maxlength="2000" aria-describedby="about-you-hint"></textarea>
+      </div>
+
+      <fieldset>
+        <legend>Privacy confirmation</legend>
+        <p>Read the <a href="privacy.html">Community Privacy Notice</a> before submitting.</p>
+        <p id="privacy-error" class="field-error" hidden></p>
+        <label><input id="privacy-agreement" name="privacy_consent" type="checkbox" value="agreed" required aria-describedby="privacy-error"> I have read the Community Privacy Notice and agree to the use of my information as described. <span class="required-text">required</span></label>
+        <input type="hidden" name="privacy_notice_version" value="2026-07-30">
+      </fieldset>
+
+      <p class="hp-field" aria-hidden="true">
+        <label for="middle-name">Leave this field blank</label>
+        <input id="middle-name" name="middle_name" type="text" tabindex="-1" autocomplete="off">
+      </p>
+      <input type="hidden" name="form_rendered_at" id="form-rendered-at" value="">
+
+      <button type="submit">Join the Community</button>
+    </form>
+  </main>
+
+  <footer id="footer" role="contentinfo" aria-labelledby="footer-name">
+    <span id="footer-name" class="visually-hidden">Footer</span>
+    <p><a href="../Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Commitment</a></p>
+    <p><a href="mailto:Accessibility@OpenDoorDesign.org">Accessibility@OpenDoorDesign.org</a> | <a href="mailto:Info@OpenDoorDesign.org">Info@OpenDoorDesign.org</a> | <a href="mailto:Inquiries@OpenDoorDesign.org">Inquiries@OpenDoorDesign.org</a></p>
+    <p>Open Door Design is in its founding season. Every page represents ideas in motion, work in progress, and opportunities for collaboration.</p>
+  </footer>
+</body>
+</html>

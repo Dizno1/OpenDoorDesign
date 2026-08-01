@@ -1,0 +1,71 @@
+/* Open Door Design Community — supplemental styles.
+   This file adds only what the shared odd-theme / odd-layout / odd-components /
+   odd-utilities stylesheets do not already provide: registration form structure,
+   field-level errors, required-field marking, and the honeypot field.
+   It must not redefine colors, fonts, spacing, or focus styles already set by the
+   shared stylesheets, and it relies on the shared --odd-* custom properties so the
+   Community section always matches the rest of the site. */
+
+.field {
+  margin-block: var(--odd-space-4, 1rem);
+}
+
+fieldset {
+  border: 2px solid var(--odd-color-border-soft);
+  border-radius: var(--odd-radius-md);
+  padding: var(--odd-space-4, 1rem);
+  margin-block: var(--odd-space-5, 1.5rem);
+  margin-inline: 0;
+}
+
+legend {
+  font-weight: 700;
+  color: var(--odd-color-heading);
+  padding-inline: 0.35rem;
+}
+
+fieldset label {
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 0.5rem;
+}
+
+fieldset input[type="checkbox"] {
+  width: 1.35rem;
+  height: 1.35rem;
+  min-height: 0;
+  flex: 0 0 auto;
+}
+
+.required-text {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--odd-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.field-error {
+  color: var(--odd-color-error);
+  font-weight: 700;
+  margin-block: 0.25rem;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--odd-color-error);
+}
+
+/* Honeypot field: present in markup for bots, removed from the accessibility
+   tree and the visible page, and skipped in keyboard tab order. Real visitors
+   using a screen reader, keyboard, or mouse never encounter this field. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
