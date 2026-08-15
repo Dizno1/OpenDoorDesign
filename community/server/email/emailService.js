@@ -1,6 +1,7 @@
 "use strict";
 
 const { ConsoleEmailProvider } = require("./consoleEmailProvider");
+const { ResendEmailProvider } = require("./resendEmailProvider");
 const { renderConfirmationEmail } = require("./templates/confirmationEmail");
 
 /**
@@ -15,10 +16,13 @@ const { renderConfirmationEmail } = require("./templates/confirmationEmail");
  */
 function getEmailProvider(config) {
   switch (config.email.provider) {
-    case "console":
-    default:
-      return new ConsoleEmailProvider();
-  }
+case "console":
+return new ConsoleEmailProvider();
+case "resend":
+return new ResendEmailProvider();
+default:
+throw new Error(`Unsupported email provider: ${config.email.provider}`);
+}
 }
 
 /**
