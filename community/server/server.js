@@ -107,7 +107,7 @@ function buildApp(config, store = getRegistrationStore(config)) {
           : "duplicate_pending_member",
         correlationId
       });
-      response.redirect(303, "/community/welcome.html");
+      response.redirect(303, "https://opendoordesign.org/community/welcome.html");
       return;
     }
 
@@ -167,7 +167,7 @@ function buildApp(config, store = getRegistrationStore(config)) {
       console.error(`[community-registration] confirmation email failed (${correlationId}):`, emailError);
     }
 
-    response.redirect(303, "/community/welcome.html");
+    response.redirect(303, "https://opendoordesign.org/community/welcome.html");
   });
 
   return app;
