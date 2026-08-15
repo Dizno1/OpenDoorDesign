@@ -93,16 +93,18 @@ function buildApp(config, store = getRegistrationStore(config)) {
     }
 
     const existing = store.findByNormalizedEmail(value.emailNormalized);
-    if (existing && existing.status === "active") {
-      // Per Community Database.md "Duplicate Handling": do not silently
-      // overwrite an active member. Route them to a preference-management
-      // path instead. Feature 001 does not yet define that path, so for
-      // now this sends the same welcome experience without creating a
-      // duplicate record.
+    if (existing && (existing.status === "active" || existing.status === "pending")) {
+      // Never attempt a second insert for an email that is already active or
+      // pending. Active members must not be silently overwritten. Pending
+      // members will eventually receive a verification resend here once a
+      // real email provider exists; until then, return the same neutral
+      // welcome experience without creating a duplicate row.
       store.recordEvent({
         communityMemberId: existing.id,
         eventType: "registration_submitted",
-        result: "duplicate_active_member",
+        result: existing.status === "active"
+          ? "duplicate_active_member"
+          : "duplicate_pending_member",
         correlationId
       });
       response.redirect(303, "/community/welcome.html");

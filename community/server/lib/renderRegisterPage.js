@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const REGISTER_PAGE_PATH = path.join(__dirname, "..", "..", "register.html");
+const REGISTER_PAGE_PATH = path.join(__dirname, "..", "templates", "register.html");
 
 function escapeHtml(value) {
   return String(value)

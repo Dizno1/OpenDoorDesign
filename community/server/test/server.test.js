@@ -129,6 +129,46 @@ test("submitting the honeypot field rejects without storing a registration", asy
   server.close();
 });
 
+
+test("a second submission with the same pending email does not create a duplicate", async () => {
+  const { app, store } = makeTestServer();
+  const server = await startListening(app);
+  const { port } = server.address();
+
+  const body = new URLSearchParams({
+    first_name: "Dean",
+    last_name: "Testworthy",
+    email: "pending-dupe@example.com",
+    privacy_consent: "agreed",
+    privacy_notice_version: "2026-07-30",
+    form_rendered_at: String(Date.now() - 5000)
+  });
+
+  const firstResponse = await fetch(`http://127.0.0.1:${port}/community/api/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+    redirect: "manual"
+  });
+  assert.equal(firstResponse.status, 303);
+
+  const secondResponse = await fetch(`http://127.0.0.1:${port}/community/api/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+    redirect: "manual"
+  });
+  assert.equal(secondResponse.status, 303);
+  assert.equal(secondResponse.headers.get("location"), "/community/welcome.html");
+
+  const count = store.db
+    .prepare("SELECT COUNT(*) AS count FROM community_members WHERE email_normalized = ?")
+    .get("pending-dupe@example.com");
+  assert.equal(count.count, 1, "a second submission for a pending member must not create a duplicate row");
+
+  server.close();
+});
+
 test("a second submission with the same active email does not create a duplicate", async () => {
   const { app, store } = makeTestServer();
   const server = await startListening(app);
