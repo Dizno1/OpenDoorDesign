@@ -95,10 +95,9 @@ function buildApp(config, store = getRegistrationStore(config)) {
     const existing = store.findByNormalizedEmail(value.emailNormalized);
     if (existing && (existing.status === "active" || existing.status === "pending")) {
       // Never attempt a second insert for an email that is already active or
-      // pending. Active members must not be silently overwritten. Pending
-      // members will eventually receive a verification resend here once a
-      // real email provider exists; until then, return the same neutral
-      // welcome experience without creating a duplicate row.
+      // pending. Active members must not be silently overwritten. Duplicate
+      // submissions return the same neutral welcome experience without creating
+      // another row or sending another confirmation email.
       store.recordEvent({
         communityMemberId: existing.id,
         eventType: "registration_submitted",
@@ -133,7 +132,7 @@ function buildApp(config, store = getRegistrationStore(config)) {
         renderRegisterPageWithErrors(
           [{
             field: "first-name",
-            message: "Registration was not completed because of a technical problem. Please try again, or contact Accessibility@OpenDoorDesign.org."
+            message: "Registration was not completed because of a technical problem. Please try again, or contact Info@OpenDoorDesign.org."
           }],
           value
         )
