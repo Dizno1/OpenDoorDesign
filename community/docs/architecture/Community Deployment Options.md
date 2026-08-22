@@ -1,5 +1,7 @@
 # Community Deployment Options
 
+> Current production status, August 2026: Railway was selected and the Community backend is now deployed and live. This document is retained as the pre-deployment comparison that informed that decision.
+
 ## Purpose
 
 Compares appropriate production hosting approaches for `community/server/` (the Community registration backend) now that OpenDoorDesign.org is confirmed to be a static site (`CNAME` points to `opendoordesign.org`, consistent with GitHub Pages hosting, which cannot execute Node.js).

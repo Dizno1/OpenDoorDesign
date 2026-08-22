@@ -2,9 +2,7 @@
 
 ## Current state
 
-Only one provider is implemented: `consoleEmailProvider.js`, which logs the
-email it would send and always returns `{ sent: false }`. No commercial
-email provider is configured, hard-coded, or contacted by this codebase.
+Two providers are implemented. `consoleEmailProvider.js` is the non-delivering development provider. `resendEmailProvider.js` is the production provider and is selected with `EMAIL_PROVIDER=resend`; its API credential is supplied through `EMAIL_PROVIDER_API_KEY` in the deployment environment and is never committed to the repository. Production Community confirmation messages are sent from `Collaborate@community.opendoordesign.org`.
 
 ## How this is wired together
 
@@ -13,15 +11,14 @@ email provider is configured, hard-coded, or contacted by this codebase.
 - `emailProvider.js` documents the interface every provider must implement:
   a single `async send(message)` method returning `{ sent, provider, detail }`.
 - `emailService.js` reads `config.email.provider` (from the `EMAIL_PROVIDER`
-  environment variable, via `../config.js`) and selects a provider. Today
-  that is always `ConsoleEmailProvider`.
+  environment variable, via `../config.js`) and selects a provider. Development can use `ConsoleEmailProvider`; production uses `ResendEmailProvider`.
 - `../server.js` calls `sendConfirmationEmail` after a registration is
   successfully stored, and records the outcome as a `registration_events`
   row. A failure here is logged and recorded but never undoes the
   registration or changes the response the visitor sees, since storage
   already succeeded.
 
-## Adding a real provider later
+## Adding another provider later
 
 1. Create a new file in this folder (for example `postmarkEmailProvider.js`)
    implementing the same `async send(message)` interface described in

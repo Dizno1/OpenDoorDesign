@@ -2,32 +2,32 @@
 
 ## Current Phase
 
-Phase 1 is complete. Phase 2 is substantially complete; see below. Feature 002 (Community Dashboard Foundation), drawn forward from Phase 6, is complete for its pass and was not extended further in this pass. Feature 003 (Community Registration Production Readiness) is complete for this pass; hosting selection still requires Dean's approval.
+Phase 1 is complete. Phase 2 is operational in production. The Open Door Design Community registration flow is live through a Railway-hosted Node.js backend with SQLite persistence, consent recording, spam controls, accessible server-side validation, and provider-backed confirmation email delivery through Resend. Successful registrants receive a message from `Collaborate@community.opendoordesign.org` and can continue to the Community Dashboard.
+
+Feature 002 (Community Dashboard Foundation), drawn forward from Phase 6, remains the information-architecture foundation for the member experience. Its pages are available, but authentication and connected member data are not yet implemented.
 
 Completed:
 
-- Community home, registration, welcome, and privacy pages integrated into the complete OpenDoorDesign website and its shared header, navigation, footer, and CSS.
-- Client-side accessible validation, now layered as a progressive enhancement over a real server submission.
-- Initial architecture, data model, and Feature 001 specification.
-- Secure POST endpoint, server-side validation, SQLite storage, and consent recording (reference implementation; see `community/server/`).
-- Duplicate-email handling, honeypot and timing-based spam signals, and accessible server-side error re-rendering with preserved values.
-- A JAWS-driven accessibility remediation of the registration error experience and Community page landmark structure (Decision Log, Decision 011).
-- Community Dashboard shell, Profile foundation, Community navigation pattern, and placeholder Downloads and Research Opportunities pages, with simulated access (Decision Log, Decision 012).
-- Corrected `welcome.html`'s inaccurate confirmation-email promise (Decision Log, Decision 014).
-- A deployment architecture comparison document, environment-variable-driven configuration, a health endpoint, a rate limiter, and an email-provider abstraction with a non-delivering development provider (Feature 003).
-- Documented manual data operations: retention, correction, deletion, duplicates, backup, and restoration (`Community Data Operations.md`).
-- Removed the orphaned `Inquiries-OpenDoorDesign.html` page (Decision Log, Decision 013); zero broken internal links across the site.
+- Community home, registration, welcome, and privacy pages integrated into the complete OpenDoorDesign website and shared design system.
+- Accessible client-side and server-side validation with direct focus to the first invalid field.
+- Railway production deployment for `community/server`.
+- SQLite registration and consent storage.
+- Duplicate-email handling, honeypot and timing-based spam signals, and single-instance rate limiting.
+- Provider-backed confirmation email delivery through Resend.
+- Production Community sender `Collaborate@community.opendoordesign.org`.
+- Health endpoint and environment-variable-driven production configuration.
+- Manual data correction, deletion, duplicate handling, backup, and restoration procedures.
+- Community Dashboard shell, Profile foundation, Community navigation pattern, and Downloads and Research Opportunities pages.
 
 Not yet completed:
 
-- Selecting (Dean's approval required) and deploying a hosting environment that can run the registration server in production (OpenDoorDesign.org is currently a static site; see Decision Log, Decisions 010 and 014, and `Community Deployment Options.md`).
-- Real confirmation email delivery through an actual provider (only the non-delivering development provider exists).
-- Rate limiting beyond the single-instance in-memory implementation (needs a shared store if the eventual hosting approach uses more than one instance).
+- Real member authentication and connected profile data.
+- Community activity and discussions.
+- Protected/personalized downloads and member-specific Dashboard functionality.
+- A rate limiter backed by a shared store if production is scaled beyond one instance.
 - A defined, approved automatic retention period.
-- Production privacy and security review.
-- Cross-assistive-technology test record (JAWS, NVDA, VoiceOver, keyboard-only, zoom, mobile).
-- Real Dashboard authentication and live profile data (Feature 002 built the structure only; see above).
-- Running the full backend test suite (including database- and server-dependent tests) in an environment with network access — only the dependency-free subset was executed in this development sandbox (24 of 24 passing); see `Feature 003 Community Registration Production Readiness.md`, "Testing."
+- Continued production privacy and security review.
+- Complete cross-assistive-technology production test record.
 
 ## Phase 1 - Integrate the Community Experience
 
@@ -41,16 +41,16 @@ Deliverable: A complete static Community experience integrated into the OpenDoor
 
 ## Phase 2 - Production Registration
 
-- [ ] Select hosting and data-storage architecture. SQLite selected for storage (Decision 010); hosting for the server itself has a documented recommendation (`Community Deployment Options.md`) not yet approved by Dean.
-- [x] Create secure POST endpoint. (`community/server/server.js`, not yet deployed publicly.)
+- [x] Select hosting and data-storage architecture. Railway hosts the Node.js backend; SQLite is the current registration store.
+- [x] Create and deploy secure POST endpoint.
 - [x] Add server-side validation.
 - [x] Store registrations and consent records.
-- [ ] Add confirmation email. Abstraction and template complete; only a non-delivering development provider exists (Feature 003, Phase 4).
+- [x] Add provider-backed confirmation email through Resend.
 - [x] Add accessible system failure handling.
-- [x] Add spam controls (honeypot and timing checks, plus a rate limiter added in Feature 003; the rate limiter is single-instance only, see "Not yet completed" above).
-- [ ] Complete privacy, retention, correction, and deletion procedures. Correction, deletion, backup, and restoration are now documented as manual procedures (`Community Data Operations.md`); the automatic retention period itself is still undefined.
+- [x] Add spam controls (honeypot, timing checks, and single-instance rate limiting).
+- [ ] Complete privacy, retention, correction, and deletion procedures. Manual correction, deletion, backup, and restoration are documented; the automatic retention period remains undefined.
 
-Deliverable: A production registration process that securely records community members. In progress — backend deployment-ready, not yet publicly deployed.
+Deliverable: A production registration process that securely records Community members. **Operational in production.**
 
 ## Phase 3 - Community Operations
 

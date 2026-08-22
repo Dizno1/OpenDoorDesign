@@ -133,3 +133,14 @@ Status: Approved. Recorded by Chip after Dean reviewed the delivered Feature 003
 Also found while investigating this: the ZIP Dean reviewed still contained `Inquiries-OpenDoorDesign.html`, despite Decision 013 recording its removal and this repository's own working state (verified before this fix) not containing the file. The cause was not conclusively identified from available evidence. The file is confirmed absent from the current working state and from the corrected ZIP's contents (verified by listing the ZIP's contents directly after packaging, not only the source directory, specifically to catch a repeat of this class of discrepancy). If a stale or duplicated file appears in a future delivered ZIP despite the source directory being correct, treat it as a packaging-step defect to investigate rather than assuming the source of truth is wrong.
 
 `npm install` was attempted twice more in this session and failed both times with the same 403 error as in Decision 014's session — this sandbox has no network access to the npm registry. The full test suite (including the database- and server-dependent tests) remains unexecuted here; see `Feature 003 Community Registration Production Readiness.md` for the exact count of what was and was not run.
+
+
+## Decision 016 - Community Registration Is Live in Production
+
+Status: Implemented and verified in production.
+
+The pre-deployment state recorded in Decisions 010, 014, and related Feature 001/003 documentation has been superseded. OpenDoorDesign.org now uses a Railway-hosted Node.js Community backend for live registration while the public site remains separately hosted. Production registrations are stored in SQLite, consent is recorded, and successful registrations trigger provider-backed confirmation email delivery through Resend from `Collaborate@community.opendoordesign.org`.
+
+A successful live registration has been confirmed end to end: the registration was received, the confirmation message was delivered, and the message directs the new member to `https://opendoordesign.org/community/dashboard.html`. The Dashboard is therefore part of the live post-registration path, although real sign-in, connected profiles, Community activity, discussions, and protected/personalized member functionality remain future work.
+
+Historical decisions are intentionally retained rather than rewritten so the Decision Log continues to show how the architecture progressed from static-site limitations, through deployment planning, to the current production system. Current-state documents such as `Community Roadmap.md`, `community/README.md`, and `community/server/README.md` must describe the live production state.

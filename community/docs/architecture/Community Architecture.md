@@ -18,9 +18,9 @@ The Community pages are integrated into the main OpenDoorDesign site template an
 - `assets/community.css` for form and field-level error styling built on the shared `../css/odd-*.css` design tokens.
 - `assets/community.js` for client-side validation as a progressive enhancement over the real server submission.
 
-A reference registration backend exists at `community/server/`: an Express endpoint, server-side validation matching the client rules, SQLite storage behind a swappable storage interface, and consent recording. See `community/server/README.md`. It is not yet deployed in production because OpenDoorDesign.org is currently hosted as a static site (Decision Log, Decision 010).
+The production registration backend lives at `community/server/`: an Express endpoint, server-side validation matching the client rules, SQLite storage behind a swappable storage interface, and consent recording. Railway hosts this backend in production while OpenDoorDesign.org continues to serve the public site. See `community/server/README.md` and Decision Log, Decision 016.
 
-Feature 003 added deployment-readiness pieces to that backend without deploying it anywhere: environment-variable-driven configuration (`config.js`, `.env.example`), a health endpoint, a dependency-free rate limiter, and an email-provider abstraction (`email/`) with only a non-delivering development provider implemented so far. `docs/architecture/Community Deployment Options.md` compares hosting approaches and recommends one, pending Dean's approval. `docs/operations/Community Data Operations.md` documents the manual procedures (retention, correction, deletion, backup, restoration) that apply until an administrative interface exists.
+Feature 003 added the deployment-readiness pieces now used by the production service: environment-variable-driven configuration (`config.js`, `.env.example`), a health endpoint, a dependency-free rate limiter, and the email-provider abstraction (`email/`). Production email uses the implemented Resend provider; development can still use the non-delivering console provider. `docs/architecture/Community Deployment Options.md` is retained as the record of the pre-deployment hosting evaluation. `docs/operations/Community Data Operations.md` documents the manual procedures (retention, correction, deletion, backup, restoration) that apply until an administrative interface exists.
 
 ## Target Architecture
 
@@ -95,7 +95,7 @@ The confirmation email must:
 - Provide a contact method for corrections or deletion.
 - Use a meaningful subject line and plain, accessible content.
 
-Status: the template and provider abstraction exist (`community/server/email/`), meeting the requirements above. Only a development provider is implemented, which logs the message and does not deliver it — see `community/server/email/README.md` for how a real provider is added later.
+Status: the template and provider abstraction exist (`community/server/email/`). Development can use the console provider; production uses the implemented Resend provider and sends confirmation messages from `Collaborate@community.opendoordesign.org`. See `community/server/email/README.md`.
 
 ### Future Salesforce Integration
 

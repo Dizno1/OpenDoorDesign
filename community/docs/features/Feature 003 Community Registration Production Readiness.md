@@ -1,5 +1,7 @@
 # Feature 003 Community Registration Production Readiness
 
+> Current production status, August 2026: Registration is now live on OpenDoorDesign.org through the Railway-hosted backend. SQLite persistence and provider-backed confirmation email delivery through Resend are operational. Pre-deployment statements below are retained as historical documentation of the feature state when this document was written.
+
 ## Status
 
 In progress. This phase moved the registration backend from a local reference implementation toward a deployable service, without deploying it anywhere. No hosting decision has been made; that requires Dean's approval. Registration is not live on OpenDoorDesign.org.

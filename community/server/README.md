@@ -40,11 +40,11 @@ No secret value is ever committed to this repository. `.env` is excluded by `.gi
 
 ## Email
 
-`email/` contains the confirmation-email abstraction. Only a development provider is implemented (`email/consoleEmailProvider.js`): it logs the message it would send and always reports `{ sent: false }` — no email is ever actually delivered by this codebase today. See `email/README.md` for the interface and how a real provider is added later without changing `server.js` or any HTML page.
+`email/` contains the confirmation-email abstraction. Development can use `consoleEmailProvider.js`; production uses `resendEmailProvider.js` with `EMAIL_PROVIDER=resend` and the provider credential supplied only through the deployment environment. Successful production registrations send the Community confirmation message from `Collaborate@community.opendoordesign.org`. See `email/README.md` for the provider interface and implementation details.
 
-## Important hosting note
+## Production hosting
 
-OpenDoorDesign.org is deployed as a static site (see the repository's `CNAME` file, consistent with GitHub Pages hosting). A static host cannot execute this server. `Community Deployment Options.md` compares hosting approaches and recommends one; nothing has been deployed, and no external hosting service has been selected or purchased. Until that happens, the publicly hosted `register.html` submits its `POST` request to a path with no live handler.
+OpenDoorDesign.org continues to serve the public static site while Railway hosts the Node.js Community backend. The production registration path is live and has successfully stored registrations and delivered confirmation email. `GET /community/api/health` remains the service health check. Deployment secrets and provider credentials belong only in Railway environment variables and are never committed to this repository.
 
 ## Storage abstraction
 
@@ -68,9 +68,9 @@ node scripts/backup-database.js
 
 Copies the live database (and its WAL/SHM files, if present) to a timestamped file under `db/backups/` (excluded from version control). See `../docs/operations/Community Data Operations.md` for the full backup and restoration procedure.
 
-## Not yet implemented (see Community Roadmap, Phase 2 remaining work)
+## Remaining production and growth work
 
-- Real, provider-backed confirmation email delivery.
-- A rate limiter that coordinates across more than one server instance.
+- A rate limiter that coordinates across more than one server instance if the service is scaled beyond the current single-instance design.
 - An automatic, approved data-retention period (manual correction and deletion procedures exist; see `../docs/operations/Community Data Operations.md`).
-- Actual deployment: this backend has not been deployed to any hosting service.
+- Continued production privacy/security review and cross-assistive-technology test recording.
+- Real member authentication and connected Dashboard/profile functionality.

@@ -16,7 +16,7 @@ This folder contains the integrated Open Door Design Community experience and it
 - `server/scripts/backup-database.js` backs up the live SQLite file; see `docs/operations/Community Data Operations.md`.
 - `docs/architecture/Community Architecture.md` defines the current and target system architecture.
 - `docs/architecture/Community Database.md` defines the data model, implemented in SQLite.
-- `docs/architecture/Community Deployment Options.md` compares production hosting approaches and recommends one, pending Dean's approval — nothing has been deployed.
+- `docs/architecture/Community Deployment Options.md` records the hosting options considered before Railway was selected and deployed; it is retained as architectural history.
 - `docs/operations/Community Data Operations.md` documents manual retention, correction, deletion, duplicate-handling, backup, and restoration procedures.
 - `docs/features/Feature 001 Community Registration.md`, `Feature 002 Community Dashboard Foundation.md`, and `Feature 003 Community Registration Production Readiness.md` are the implementation specifications for each feature.
 - `docs/Community Roadmap.md` defines the ordered development phases and current status.
@@ -24,33 +24,29 @@ This folder contains the integrated Open Door Design Community experience and it
 
 ## Current completed phase
 
-Phase 1 (site integration) is complete. Most of Phase 2 (production registration) is complete: the backend validates and stores submissions in SQLite, records consent, applies honeypot, timing, and rate-limit spam controls, and re-renders the registration page with field-level errors, preserved values, and focus on the first invalid field on failure.
+Phase 1 (site integration) is complete. Phase 2 (production registration) is now operational in production. The registration form submits to the deployed Railway backend, server-side validation and SQLite storage are active, consent is recorded, spam controls are applied, and successful registrations trigger provider-backed confirmation email delivery through Resend.
 
-A JAWS-driven accessibility remediation (Decision Log, Decision 011) removed unnecessary named regions and replaced the registration form's linked error summary with direct focus to the first invalid field.
+The JAWS-driven accessibility remediation (Decision 011) remains the registration error-handling baseline: unnecessary named regions were removed and failed submissions move directly to the first invalid field rather than an error-summary detour.
 
-Feature 002 Community Dashboard Foundation is accepted as an information architecture prototype: a Dashboard shell, a Profile placeholder layout, a reusable "Community navigation" pattern, and placeholder Downloads and Research Opportunities pages, with simulated (not real) access. It was not extended in Feature 003.
+Feature 002 Community Dashboard Foundation remains an information-architecture foundation. The Dashboard, Downloads, and Research Opportunities pages are available, but real sign-in, connected profile data, protected downloads, and personalized member functionality are still future work.
 
-Feature 003 Community Registration Production Readiness is complete for this pass: the false confirmation-email promise on `welcome.html` was corrected, a hosting comparison document was produced (recommendation only, nothing deployed), the backend gained environment-variable configuration, a health endpoint, a rate limiter, and an email-provider abstraction, manual data operations procedures were documented, the orphaned `Inquiries-OpenDoorDesign.html` page was removed, and a test suite was added.
+Feature 003 established the deployment, configuration, health-check, rate-limiting, email abstraction, and data-operations foundation that is now running in production. The later production deployment and Resend integration supersede Feature 003's original pre-deployment status statements. Historical feature and decision documents are retained as records of the state when those decisions were made.
 
 ## Current status
 
-Registration is **not live** on OpenDoorDesign.org. The backend is deployment-ready but has not been deployed anywhere; `register.html`'s form posts to a path with no publicly reachable handler until hosting is selected (pending Dean's approval; see `Community Deployment Options.md`) and the backend is actually deployed and tested against the real site.
+Registration is **live** on OpenDoorDesign.org. Railway hosts the Community backend, SQLite stores registration and consent records, and successful registrations receive a confirmation email from `Collaborate@community.opendoordesign.org` through the Resend provider. The production welcome flow directs new members to `community/dashboard.html`.
 
-Confirmation email delivery does not exist yet — only a development provider that logs the intended email and never sends it. `welcome.html` says this plainly rather than promising delivery.
+The Community Dashboard is available as the current starting point for members. Real authentication, personal profile connection and management, Community activity, discussions, protected downloads, and additional member-to-member features are not yet implemented.
 
-The Dashboard, Downloads, and Research Opportunities pages are reachable directly and describe planned functionality only.
-
-The backend test suite has been written completely but only partially executed: this development sandbox has no network access, so the tests that need `express` or `better-sqlite3` could not run here (24 of 24 dependency-free tests passed; run `npm test` in an environment with network access for the rest).
+The current rate limiter is still single-instance and in-memory. Manual data correction, deletion, backup, and restoration procedures are documented; an approved automatic retention period remains to be defined.
 
 ## Next planned phase
 
-1. Dean reviews and approves a hosting approach from `Community Deployment Options.md`.
-2. Deploy `community/server` accordingly, point `register.html` at the real endpoint, and run the complete test suite against that deployment.
-3. Select and configure a real confirmation email provider (the abstraction is ready for this).
-4. Define an approved automatic retention period and complete the remaining `Community Data Operations.md` gaps.
-5. Complete a JAWS, NVDA, VoiceOver, keyboard-only, zoom, and mobile test record.
-
-For the Dashboard, the next step remains choosing one placeholder area (most likely Profile) to build out with real functionality — not started, and intentionally out of scope for Feature 003.
+1. Complete and record cross-assistive-technology production testing, including JAWS, NVDA, VoiceOver, keyboard-only, zoom, and mobile.
+2. Continue Community operations work: accessible administrative review, controlled exports, communication preferences, correction/deletion workflow, and reporting.
+3. Connect one Dashboard area to real member functionality, with Profile the strongest candidate once authentication is designed.
+4. Define the approved automatic retention period and continue privacy/security review.
+5. Expand meaningful participation through testing invitations, Academy pathways, research, collaboration, downloads, and project-specific opportunities.
 
 ## Repository rule
 
