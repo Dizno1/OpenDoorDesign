@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../css/odd-components.css?v=20260708-home-dino">
   <link rel="stylesheet" href="../css/odd-utilities.css?v=20260708-home-dino">
   <link rel="stylesheet" href="assets/community.css?v=20260730-feature-001">
-  <script src="assets/community.js?v=20260730-feature-001" defer></script>
+  <script src="assets/community.js?v=20260907-directory" defer></script>
 </head>
 <body>
   <div class="skip-links">
@@ -116,6 +116,15 @@
         <label><input type="checkbox" name="participation_preferences" value="Volunteer"> Volunteer</label>
         <label><input type="checkbox" name="participation_preferences" value="Explore partnerships"> Explore partnerships</label>
         <label><input type="checkbox" name="participation_preferences" value="Receive project updates"> Receive project updates</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Would you like to be listed in the Open Door Directory? <span class="required-text">required</span></legend>
+        <p id="directory-participation-hint">Directory participation is optional and does not affect your Community membership. If you choose yes, you will be able to choose what information is included before your Directory listing is published. You can change your choice later.</p>
+        <p id="directory-participation-error" class="field-error" hidden></p>
+        <label><input id="directory-participation-yes" name="directory_participation" type="radio" value="yes" required aria-describedby="directory-participation-hint directory-participation-error"> Yes, I would like to be included in the Open Door Directory.</label>
+        <label><input id="directory-participation-no" name="directory_participation" type="radio" value="no" required aria-describedby="directory-participation-hint directory-participation-error"> No, do not include me in the Open Door Directory.</label>
+        <input type="hidden" name="directory_participation_version" value="2026-09-07">
       </fieldset>
 
       <div class="field">

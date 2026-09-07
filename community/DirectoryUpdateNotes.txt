@@ -1,0 +1,9 @@
+Open Door Directory registration update
+
+This package contains complete replacement files for the registration flow.
+
+Yes records Directory intent only. It does not publish registration data.
+No does not affect Community membership.
+Directory participation is stored separately in directory_participation_records.
+
+After copying these files into the community repository, run npm test from community\server. Existing server-level tests that post registration bodies without the new required fields may fail. If so, add directory_participation and directory_participation_version to those test fixtures before deployment.
