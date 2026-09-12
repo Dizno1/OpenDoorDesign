@@ -9,7 +9,7 @@ test("empty registration produces one error for every required field", () => {
   const { valid, errors } = validateRegistration({});
   assert.equal(valid, false);
   const fields = errors.map((error) => error.field);
-  assert.deepEqual(fields, ["first-name", "last-name", "email", "privacy-agreement"]);
+  assert.deepEqual(fields, ["first-name", "last-name", "email", "directory-participation", "privacy-agreement"]);
 });
 
 test("empty email produces the empty-field message, not the format message", () => {
@@ -23,6 +23,10 @@ test("malformed but non-empty email produces the format message", () => {
     first_name: "A",
     last_name: "B",
     email: "not-an-email",
+    directory_participation: "yes",
+
+    directory_participation_version: "2026-09-07",
+
     privacy_consent: "agreed",
     privacy_notice_version: "2026-07-30"
   });
@@ -48,6 +52,10 @@ test("a fully valid submission produces no errors", () => {
     first_name: "Dean",
     last_name: "Testworthy",
     email: "dean@example.com",
+    directory_participation: "yes",
+
+    directory_participation_version: "2026-09-07",
+
     privacy_consent: "agreed",
     privacy_notice_version: "2026-07-30"
   });
@@ -60,6 +68,10 @@ test("only allow-listed checkbox values are kept", () => {
     first_name: "A",
     last_name: "B",
     email: "a@example.com",
+    directory_participation: "yes",
+
+    directory_participation_version: "2026-09-07",
+
     privacy_consent: "agreed",
     privacy_notice_version: "2026-07-30",
     interests: ["Accessibility education", "<script>alert(1)</script>"]

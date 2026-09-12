@@ -82,6 +82,10 @@ test("a fully valid submission stores the registration and redirects to welcome.
     first_name: "Dean",
     last_name: "Testworthy",
     email: "dean@example.com",
+    directory_participation: "yes",
+
+    directory_participation_version: "2026-09-07",
+
     privacy_consent: "agreed",
     privacy_notice_version: "2026-07-30",
     form_rendered_at: String(Date.now() - 5000)
@@ -112,6 +116,10 @@ test("submitting the honeypot field rejects without storing a registration", asy
     first_name: "Bot",
     last_name: "Submission",
     email: "bot@example.com",
+    directory_participation: "yes",
+
+    directory_participation_version: "2026-09-07",
+
     privacy_consent: "agreed",
     privacy_notice_version: "2026-07-30",
     middle_name: "filled in by a script"
@@ -139,6 +147,10 @@ test("a second submission with the same pending email does not create a duplicat
     first_name: "Dean",
     last_name: "Testworthy",
     email: "pending-dupe@example.com",
+    directory_participation: "yes",
+
+    directory_participation_version: "2026-09-07",
+
     privacy_consent: "agreed",
     privacy_notice_version: "2026-07-30",
     form_rendered_at: String(Date.now() - 5000)
@@ -178,6 +190,10 @@ test("a second submission with the same active email does not create a duplicate
     first_name: "Dean",
     last_name: "Testworthy",
     email: "dupe@example.com",
+    directory_participation: "yes",
+
+    directory_participation_version: "2026-09-07",
+
     privacy_consent: "agreed",
     privacy_notice_version: "2026-07-30",
     form_rendered_at: String(Date.now() - 5000)

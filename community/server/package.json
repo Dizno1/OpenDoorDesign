@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test test/config.test.js test/email.test.js test/rateLimiter.test.js test/renderRegisterPage.test.js test/server.test.js test/storage.test.js test/validate.test.js",
+    "test": "node --test test/directoryRegistration.test.js test/config.test.js test/email.test.js test/rateLimiter.test.js test/renderRegisterPage.test.js test/server.test.js test/storage.test.js test/validate.test.js",
     "test:offline": "node --test test/config.test.js test/email.test.js test/rateLimiter.test.js test/renderRegisterPage.test.js test/validate.test.js"
   },
   "dependencies": {

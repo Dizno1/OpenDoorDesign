@@ -23,7 +23,7 @@ function validateRegistration(body){
     if(!firstName)errors.push({field:"first-name",message:"Enter your first name."}); else if(firstName.length>100)errors.push({field:"first-name",message:"First name must be 100 characters or fewer."});
     if(!lastName)errors.push({field:"last-name",message:"Enter your last name."}); else if(lastName.length>100)errors.push({field:"last-name",message:"Last name must be 100 characters or fewer."});
     if(!email)errors.push({field:"email",message:"Enter your email address."}); else if(email.length>254||!EMAIL_PATTERN.test(email))errors.push({field:"email",message:"Enter an email address in a valid format."});
-    if(!ALLOWED_DIRECTORY_PARTICIPATION.includes(directoryParticipation)||!directoryParticipationVersion)errors.push({field:"directory-participation",message:"Choose Yes or No for Open Door Directory participation."});
+    if(!ALLOWED_DIRECTORY_PARTICIPATION.includes(directoryParticipation))errors.push({field:"directory-participation",message:"Choose Yes or No for Open Door Directory participation."});else if(directoryParticipationVersion!=="2026-09-07")errors.push({field:"directory-participation",message:"Directory participation information is out of date. Please reload the page and try again."});
     if(aboutYou.length>2000)errors.push({field:"about-you",message:"Tell us about yourself in 2,000 characters or fewer."});
     if(!privacyConsent||!privacyNoticeVersion)errors.push({field:"privacy-agreement",message:"Confirm that you have read the Community Privacy Notice."});
 
