@@ -4,14 +4,16 @@ const express = require("express");
 
 const { MemberAccessStore } = require("./memberStore");
 const { generateToken, hashToken } = require("./memberAuth");
+const { parseCookies, getSessionFromRequest } = require("./memberSession");
 const { renderSignInPage } = require("./renderSignInPage");
+const { renderMemberDashboard } = require("./renderMemberDashboard");
+const { renderEditProfile } = require("./renderEditProfile");
 const { sendMemberSignInEmail } = require("../email/emailService");
 
-const { renderMemberDashboard } = require("./renderMemberDashboard");
 const SIGN_IN_TOKEN_MINUTES = 15;
 const SESSION_DAYS = 7;
 const SESSION_COOKIE_NAME = "odd_community_session";
-const { parseCookies, getSessionFromRequest } = require("./memberSession");
+
 function createMemberRouter(config, registrationStore, emailProvider) {
   const router = express.Router();
   const memberStore = new MemberAccessStore(registrationStore.db);
@@ -178,6 +180,108 @@ function createMemberRouter(config, registrationStore, emailProvider) {
       .type("html")
       .send(renderMemberDashboard(profile));
   });
+  router.get("/member/profile/", (request, response) => {
+    const session = getSessionFromRequest(
+      request,
+      memberStore,
+      SESSION_COOKIE_NAME
+    );
+
+    if (!session) {
+      response.redirect(303, "/community/sign-in/");
+      return;
+    }
+
+    const profile = memberStore.getMemberProfile(
+      session.community_member_id
+    );
+
+    if (!profile) {
+      response.redirect(303, "/community/sign-in/");
+      return;
+    }
+
+    response
+      .status(200)
+      .type("html")
+      .send(renderEditProfile(profile));
+  });
+
+  router.post("/member/profile", (request, response) => {
+    const session = getSessionFromRequest(
+      request,
+      memberStore,
+      SESSION_COOKIE_NAME
+    );
+
+    if (!session) {
+      response.redirect(303, "/community/sign-in/");
+      return;
+    }
+
+    const firstName = String(request.body.first_name || "").trim();
+    const lastName = String(request.body.last_name || "").trim();
+    const aboutYou = String(request.body.about_you || "").trim();
+
+    const profile = memberStore.getMemberProfile(
+      session.community_member_id
+    );
+
+    if (!profile) {
+      response.redirect(303, "/community/sign-in/");
+      return;
+    }
+
+    if (
+      !firstName ||
+      !lastName ||
+      firstName.length > 100 ||
+      lastName.length > 100 ||
+      aboutYou.length > 2000
+    ) {
+      response
+        .status(400)
+        .type("html")
+        .send(
+          renderEditProfile(
+            {
+              ...profile,
+              firstName,
+              lastName,
+              aboutYou
+            },
+            {
+              message:
+                "Profile changes were not saved. Check the required fields and character limits."
+            }
+          )
+        );
+      return;
+    }
+
+    memberStore.updateMemberProfile(
+      session.community_member_id,
+      {
+        firstName,
+        lastName,
+        aboutYou
+      }
+    );
+
+    const updatedProfile = memberStore.getMemberProfile(
+      session.community_member_id
+    );
+
+    response
+      .status(200)
+      .type("html")
+      .send(
+        renderEditProfile(updatedProfile, {
+          message: "Profile saved."
+        })
+      );
+  });
+
   router.post("/member/sign-out", (request, response) => {
     const cookies = parseCookies(request.headers.cookie);
     const rawSessionToken = cookies[SESSION_COOKIE_NAME];

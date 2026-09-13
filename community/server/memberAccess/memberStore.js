@@ -196,6 +196,29 @@ class MemberAccessStore {
         : null
     };
   }
+  updateMemberProfile(communityMemberId, profile) {
+    const now = new Date().toISOString();
+
+    const result = this.db
+      .prepare(
+        `UPDATE community_members
+         SET first_name = ?,
+             last_name = ?,
+             about_you = ?,
+             updated_at = ?
+         WHERE id = ?`
+      )
+      .run(
+        profile.firstName,
+        profile.lastName,
+        profile.aboutYou || null,
+        now,
+        communityMemberId
+      );
+
+    return result.changes === 1;
+  }
+
   revokeSession(sessionTokenHash) {
     const now = new Date().toISOString();
 

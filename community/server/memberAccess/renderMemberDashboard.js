@@ -98,7 +98,7 @@ function renderMemberDashboard(profile) {
 
     <section class="section">
       <h2>Profile</h2>
-
+      <p><a href="/community/member/profile/">Edit profile</a></p>
       <dl class="kvl">
         <dt>Name</dt>
         <dd>${escapeHtml(name)}</dd>
