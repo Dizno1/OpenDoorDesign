@@ -11,6 +11,7 @@ const { renderRegisterPageWithErrors } = require("./lib/renderRegisterPage");
 const { createRateLimiter } = require("./lib/rateLimiter");
 const { getEmailProvider, sendConfirmationEmail } = require("./email/emailService");
 const { createAdminRouter } = require("./admin/adminRoutes");
+const { createMemberRouter } = require("./memberAccess/memberRoutes");
 
 /**
  * Builds the Express app. Kept separate from the app.listen() call below so
@@ -35,6 +36,7 @@ function buildApp(config, store = getRegistrationStore(config)) {
   app.use(express.static(siteRoot));
 
   const emailProvider = getEmailProvider(config);
+app.use("/community", createMemberRouter(config, store, emailProvider));
   const registrationRateLimiter = createRateLimiter(config.rateLimit);
 
   // The administration area is deliberately opt-in. It is not mounted at
