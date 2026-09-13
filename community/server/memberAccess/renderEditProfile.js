@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <header class="banner" aria-labelledby="banner-name">
     <span id="banner-name" class="visually-hidden">Banner</span>
     <div class="topbar" role="none">
-      <a class="home-link" href="/">
+      <a class="home-link" href="https://opendoordesign.org/">
         <img src="/dino_home_wave.png" alt="Dino waves you home.">
       </a>
     </div>
@@ -61,16 +61,16 @@ document.addEventListener("DOMContentLoaded", () => {
   <nav id="primary-navigation" class="primary-nav" aria-labelledby="primary-nav-name">
     <span id="primary-nav-name" class="visually-hidden">Primary navigation</span>
     <ul role="list" class="nav-list">
-      <li role="listitem"><a href="/">Home</a></li>
-      <li role="listitem"><a href="/OurStory-OpenDoorDesign.html">Our Story</a></li>
-      <li role="listitem"><a href="/AccessibilityAcademy-OpenDoorDesign.html">Accessibility Academy</a></li>
-      <li role="listitem"><a href="/InnovationLab-OpenDoorDesign.html">Innovation Lab</a></li>
-      <li role="listitem"><a href="/CurrentInitiatives-OpenDoorDesign.html">Current Initiatives</a></li>
-      <li role="listitem"><a href="/JoinTheJourney-OpenDoorDesign.html">Join the Journey</a>
-      <a href="/FollowTheJourney-OpenDoorDesign.html">Follow the Journey</a></li>
-      <li role="listitem"><a href="/community/" aria-current="page">Community</a></li>
-      <li role="listitem"><a href="/Accessibility-OpenDoorDesign.html">Accessibility Commitment</a></li>
-      <li role="listitem"><a href="/Contact-OpenDoorDesign.html">Contact</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/">Home</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/OurStory-OpenDoorDesign.html">Our Story</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/AccessibilityAcademy-OpenDoorDesign.html">Accessibility Academy</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/InnovationLab-OpenDoorDesign.html">Innovation Lab</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/CurrentInitiatives-OpenDoorDesign.html">Current Initiatives</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/JoinTheJourney-OpenDoorDesign.html">Join the Journey</a>
+      <a href="https://opendoordesign.org/FollowTheJourney-OpenDoorDesign.html">Follow the Journey</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/community/" aria-current="page">Community</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/Accessibility-OpenDoorDesign.html">Accessibility Commitment</a></li>
+      <li role="listitem"><a href="https://opendoordesign.org/Contact-OpenDoorDesign.html">Contact</a></li>
     </ul>
   </nav>
 
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <footer id="footer" role="contentinfo" aria-labelledby="footer-name">
     <span id="footer-name" class="visually-hidden">Footer</span>
-    <p><a href="/Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Commitment</a></p>
+    <p><a href="https://opendoordesign.org/Accessibility-OpenDoorDesign.html">Read the Open Door Design Accessibility Commitment</a></p>
     <p><a href="mailto:Accessibility@OpenDoorDesign.org">Accessibility@OpenDoorDesign.org</a> | <a href="mailto:Info@OpenDoorDesign.org">Info@OpenDoorDesign.org</a> | <a href="mailto:Inquiries@OpenDoorDesign.org">Inquiries@OpenDoorDesign.org</a></p>
     <p>Open Door Design is in its founding season. Every page represents ideas in motion, work in progress, and opportunities for collaboration.</p>
   </footer>
