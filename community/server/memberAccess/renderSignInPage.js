@@ -11,8 +11,16 @@ function escapeHtml(value) {
 function renderSignInPage(options = {}) {
   const email = escapeHtml(options.email || "");
   const message = options.message
-    ? `<p role="status">${escapeHtml(options.message)}</p>`
-    : "";
+  ? `<p id="sign-in-status" role="status" tabindex="-1">${escapeHtml(options.message)}</p>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const status = document.getElementById("sign-in-status");
+  if (status) {
+    status.focus();
+  }
+});
+</script>`
+  : "";
 
   return `<!doctype html>
 <html lang="en">
