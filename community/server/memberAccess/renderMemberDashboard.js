@@ -164,7 +164,7 @@ function renderMemberDashboard(profile) {
       <p>Usability studies, beta testing, accessibility reviews, and collaboration opportunities are planned.</p>
 
       <h3>Account Settings</h3>
-      <p>Profile editing, communication preferences, optional password creation, and account management are planned.</p>
+      <p>Basic profile editing is available now. Communication preferences, optional password creation, and additional account management are planned.</p>
     </section>
   </main>
 
