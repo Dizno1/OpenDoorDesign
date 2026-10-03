@@ -343,6 +343,97 @@ class MemberAccessStore {
       .all(limit);
   }
 
+  getBulletinPost(postId) {
+    return this.db.prepare(
+      `SELECT p.id, p.community_member_id, p.subject, p.body, p.created_at,
+              m.first_name, m.last_name
+       FROM community_bulletin_posts p
+       JOIN community_members m ON m.id = p.community_member_id
+       WHERE p.id = ? AND p.is_deleted = 0`
+    ).get(postId) || null;
+  }
+
+  listBulletinReplies(postId) {
+    return this.db.prepare(
+      `SELECT r.id, r.bulletin_post_id, r.community_member_id, r.body, r.created_at,
+              m.first_name, m.last_name
+       FROM community_bulletin_replies r
+       JOIN community_members m ON m.id = r.community_member_id
+       WHERE r.bulletin_post_id = ? AND r.is_deleted = 0
+       ORDER BY r.created_at ASC`
+    ).all(postId);
+  }
+
+  createBulletinReply(postId, communityMemberId, body) {
+    const id = crypto.randomUUID();
+    const now = new Date().toISOString();
+    this.db.prepare(
+      `INSERT INTO community_bulletin_replies
+       (id, bulletin_post_id, community_member_id, body, created_at, updated_at, is_deleted)
+       VALUES (?, ?, ?, ?, ?, ?, 0)`
+    ).run(id, postId, communityMemberId, body, now, now);
+    return id;
+  }
+
+  getNotificationPreferences(communityMemberId) {
+    const row = this.db.prepare(
+      `SELECT dashboard_enabled, email_replies_enabled, sms_replies_enabled, sms_phone
+       FROM community_notification_preferences WHERE community_member_id = ?`
+    ).get(communityMemberId);
+    return row || { dashboard_enabled: 1, email_replies_enabled: 1, sms_replies_enabled: 0, sms_phone: null };
+  }
+
+  saveNotificationPreferences(communityMemberId, preferences) {
+    const now = new Date().toISOString();
+    this.db.prepare(
+      `INSERT INTO community_notification_preferences
+       (community_member_id, dashboard_enabled, email_replies_enabled, sms_replies_enabled, sms_phone, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(community_member_id) DO UPDATE SET
+         dashboard_enabled = excluded.dashboard_enabled,
+         email_replies_enabled = excluded.email_replies_enabled,
+         sms_replies_enabled = excluded.sms_replies_enabled,
+         sms_phone = excluded.sms_phone,
+         updated_at = excluded.updated_at`
+    ).run(communityMemberId, preferences.dashboardEnabled ? 1 : 0,
+      preferences.emailRepliesEnabled ? 1 : 0, preferences.smsRepliesEnabled ? 1 : 0,
+      preferences.smsPhone || null, now, now);
+    return this.getNotificationPreferences(communityMemberId);
+  }
+
+  createNotification(communityMemberId, type, postId, replyId, message) {
+    const id = crypto.randomUUID();
+    this.db.prepare(
+      `INSERT INTO community_notifications
+       (id, community_member_id, notification_type, bulletin_post_id, bulletin_reply_id, message, created_at, read_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, NULL)`
+    ).run(id, communityMemberId, type, postId || null, replyId || null, message, new Date().toISOString());
+    return id;
+  }
+
+  listNotifications(communityMemberId, limit = 20) {
+    return this.db.prepare(
+      `SELECT id, notification_type, bulletin_post_id, message, created_at, read_at
+       FROM community_notifications
+       WHERE community_member_id = ?
+       ORDER BY created_at DESC LIMIT ?`
+    ).all(communityMemberId, limit);
+  }
+
+  countUnreadNotifications(communityMemberId) {
+    return this.db.prepare(
+      `SELECT COUNT(*) AS count FROM community_notifications
+       WHERE community_member_id = ? AND read_at IS NULL`
+    ).get(communityMemberId).count;
+  }
+
+  markNotificationsRead(communityMemberId) {
+    return this.db.prepare(
+      `UPDATE community_notifications SET read_at = ?
+       WHERE community_member_id = ? AND read_at IS NULL`
+    ).run(new Date().toISOString(), communityMemberId).changes;
+  }
+
   recordPageVisit(path, communityMemberId = null) {
     this.db
       .prepare(

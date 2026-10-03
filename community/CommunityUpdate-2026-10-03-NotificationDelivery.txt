@@ -1,0 +1,20 @@
+Open Door Design Community - Notification Delivery Update
+Date: 2026-10-03
+
+Completed
+- Moved Bulletin Board reply notification decisions out of the route and into a dedicated notification service.
+- Preserved self-reply suppression across dashboard, email, and SMS channels.
+- Preserved a stored Bulletin Board reply even if an external notification provider fails.
+- Added an SMS provider interface with a safe console development provider. It never claims that a text was delivered.
+- Added SMS configuration through SMS_PROVIDER. The current supported provider is console only; a production SMS transport still requires a provider implementation and credentials.
+- Changed reply email content so the reply body is not copied into email. The email identifies the responder and post and links back to the authenticated Community conversation.
+- SMS content follows the same privacy rule and does not copy the reply body.
+- Added automated tests for self-reply suppression, independent channel delivery, provider failure isolation, email privacy, and SMS privacy/link behavior.
+
+Expected Windows test total
+- Previous suite: 48 tests.
+- New notification-delivery tests: 5 tests.
+- Expected total after this update: 53 tests.
+
+Important
+- Actual SMS transmission is intentionally not enabled until a production SMS provider is selected and implemented.

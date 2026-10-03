@@ -4,6 +4,7 @@ const { ConsoleEmailProvider } = require("./consoleEmailProvider");
 const { ResendEmailProvider } = require("./resendEmailProvider");
 const { renderConfirmationEmail } = require("./templates/confirmationEmail");
 const { renderMemberSignInEmail } = require("./templates/memberSignInEmail");
+const { renderBulletinReplyEmail } = require("./templates/bulletinReplyEmail");
 
 function getEmailProvider(config) {
   switch (config.email.provider) {
@@ -26,8 +27,13 @@ async function sendMemberSignInEmail(provider, member, signInUrl, config) {
   return provider.send(message);
 }
 
+async function sendBulletinReplyEmail(provider, member, details, config) {
+  return provider.send(renderBulletinReplyEmail(member, details, config));
+}
+
 module.exports = {
   getEmailProvider,
   sendConfirmationEmail,
-  sendMemberSignInEmail
+  sendMemberSignInEmail,
+  sendBulletinReplyEmail
 };

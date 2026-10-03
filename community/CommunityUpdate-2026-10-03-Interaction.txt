@@ -1,0 +1,29 @@
+Open Door Design Community interaction update - 2026-10-03
+
+Built directly from the supplied community(6).zip checkpoint.
+
+Implemented:
+- Bulletin Board thread pages.
+- Replies to Bulletin Board posts.
+- Dashboard notifications when another member replies to a member's post.
+- Unread notification count on the Community Dashboard.
+- Notifications page with recent notifications and mark-all-read control.
+- Member notification preferences for dashboard, email, and SMS reply notifications.
+- Email notification delivery for Bulletin Board replies using the existing email provider architecture.
+- SMS preference and phone-number storage so members can opt in now.
+- SMS delivery is intentionally not claimed as active because this repository has no SMS transport/provider configured. The reply path records that condition rather than pretending a text was sent.
+
+Privacy/accessibility notes:
+- SMS is opt-in and off by default.
+- Email reply notification defaults on; members can turn it off.
+- Dashboard notification defaults on; members can turn it off.
+- Phone numbers are not displayed publicly.
+- Forms use explicit labels, required text, headings, and server-rendered status messages.
+- Bulletin Board content is escaped before rendering.
+
+Validation performed in the build environment:
+- node --check passed for every changed/new JavaScript file.
+- The supplied ZIP contained Windows native node_modules. Those binaries cannot run in the Linux build environment (invalid ELF header). A clean npm install could not complete within the sandbox timeout, so the full npm test suite could not be truthfully certified here. The user's supplied checkpoint had previously passed 48/48 tests on Windows.
+
+Next external dependency for full SMS delivery:
+- Choose/configure an SMS provider and credentials. No provider or credentials were invented or hard-coded in this update.

@@ -37,6 +37,12 @@ function readConfig(env = process.env) {
       // in this config object.
     },
 
+    sms: {
+      // Console is intentionally non-delivering. A production SMS transport can
+      // implement the same provider interface without changing member routes.
+      provider: env.SMS_PROVIDER || "console"
+    },
+
     admin: {
       enabled: env.ADMIN_ENABLED === "true",
       username: env.ADMIN_USERNAME || null,

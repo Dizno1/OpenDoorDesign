@@ -10,8 +10,11 @@ const { renderMemberDashboard } = require("./renderMemberDashboard");
 const { renderEditProfile } = require("./renderEditProfile");
 const { renderDirectoryProfile } = require("./renderDirectoryProfile");
 const { renderDirectory } = require("./renderDirectory");
-const { renderBulletinBoard } = require("./renderBulletinBoard");
+const { renderBulletinBoard, renderBulletinThread } = require("./renderBulletinBoard");
+const { renderNotifications } = require("./renderNotifications");
 const { sendMemberSignInEmail } = require("../email/emailService");
+const { getSmsProvider } = require("../sms/smsService");
+const { deliverBulletinReplyNotifications } = require("../notifications/notificationService");
 
 const SIGN_IN_TOKEN_MINUTES = 15;
 const SESSION_DAYS = 7;
@@ -20,6 +23,7 @@ const SESSION_COOKIE_NAME = "odd_community_session";
 function createMemberRouter(config, registrationStore, emailProvider) {
   const router = express.Router();
   const memberStore = new MemberAccessStore(registrationStore.db);
+  const smsProvider = getSmsProvider(config);
 
   router.get("/sign-in/", (request, response) => {
     response
@@ -181,7 +185,7 @@ function createMemberRouter(config, registrationStore, emailProvider) {
     response
       .status(200)
       .type("html")
-      .send(renderMemberDashboard(profile));
+      .send(renderMemberDashboard(profile, { unreadNotifications: memberStore.countUnreadNotifications(session.community_member_id) }));
   });
   router.get("/member/profile/", (request, response) => {
     const session = getSessionFromRequest(
@@ -375,6 +379,69 @@ function createMemberRouter(config, registrationStore, emailProvider) {
     }
     memberStore.createBulletinPost(session.community_member_id, subject, body);
     response.redirect(303, "/community/member/bulletin-board/");
+  });
+
+  router.get("/member/bulletin-board/post/:postId/", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const post = memberStore.getBulletinPost(request.params.postId);
+    if (!post) { response.status(404).type("text").send("Bulletin Board post not found."); return; }
+    response.status(200).type("html").send(renderBulletinThread(post, memberStore.listBulletinReplies(post.id)));
+  });
+
+  router.post("/member/bulletin-board/post/:postId/reply", async (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const post = memberStore.getBulletinPost(request.params.postId);
+    if (!post) { response.status(404).type("text").send("Bulletin Board post not found."); return; }
+    const body = String(request.body.body || "").trim();
+    if (!body || body.length > 5000) {
+      response.status(400).type("html").send(renderBulletinThread(post, memberStore.listBulletinReplies(post.id), { message: "Reply was not added. Enter a reply within the 5,000 character limit." }));
+      return;
+    }
+    const replyId = memberStore.createBulletinReply(post.id, session.community_member_id, body);
+    await deliverBulletinReplyNotifications({
+      memberStore,
+      emailProvider,
+      smsProvider,
+      config,
+      post,
+      replyId,
+      replierMemberId: session.community_member_id,
+      replyBody: body
+    });
+    response.redirect(303, `/community/member/bulletin-board/post/${encodeURIComponent(post.id)}/`);
+  });
+
+  router.get("/member/notifications/", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    response.status(200).type("html").send(renderNotifications(memberStore.listNotifications(session.community_member_id), memberStore.getNotificationPreferences(session.community_member_id)));
+  });
+
+  router.post("/member/notifications/read", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    memberStore.markNotificationsRead(session.community_member_id);
+    response.redirect(303, "/community/member/notifications/");
+  });
+
+  router.post("/member/notifications/preferences", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const smsPhone = String(request.body.sms_phone || "").trim();
+    const smsEnabled = request.body.sms_replies_enabled === "yes";
+    if (smsPhone.length > 30 || (smsEnabled && !smsPhone)) {
+      response.status(400).type("html").send(renderNotifications(memberStore.listNotifications(session.community_member_id), memberStore.getNotificationPreferences(session.community_member_id), { message: "Preferences were not saved. Enter a mobile number if text notifications are selected." }));
+      return;
+    }
+    const saved = memberStore.saveNotificationPreferences(session.community_member_id, {
+      dashboardEnabled: request.body.dashboard_enabled === "yes",
+      emailRepliesEnabled: request.body.email_replies_enabled === "yes",
+      smsRepliesEnabled: smsEnabled,
+      smsPhone
+    });
+    response.status(200).type("html").send(renderNotifications(memberStore.listNotifications(session.community_member_id), saved, { message: "Notification preferences saved." }));
   });
 
   router.post("/member/sign-out", (request, response) => {

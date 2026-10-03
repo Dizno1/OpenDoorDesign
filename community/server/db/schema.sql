@@ -87,3 +87,39 @@ CREATE TABLE IF NOT EXISTS community_page_visits (
 );
 CREATE INDEX IF NOT EXISTS idx_community_page_visits_path_date
   ON community_page_visits (path, visited_at);
+
+-- Bulletin Board replies and member notifications.
+CREATE TABLE IF NOT EXISTS community_bulletin_replies (
+  id TEXT PRIMARY KEY,
+  bulletin_post_id TEXT NOT NULL REFERENCES community_bulletin_posts (id),
+  community_member_id TEXT NOT NULL REFERENCES community_members (id),
+  body TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  is_deleted INTEGER NOT NULL DEFAULT 0 CHECK (is_deleted IN (0,1))
+);
+CREATE INDEX IF NOT EXISTS idx_community_bulletin_replies_post
+  ON community_bulletin_replies (bulletin_post_id, created_at);
+
+CREATE TABLE IF NOT EXISTS community_notification_preferences (
+  community_member_id TEXT PRIMARY KEY REFERENCES community_members (id),
+  dashboard_enabled INTEGER NOT NULL DEFAULT 1 CHECK (dashboard_enabled IN (0,1)),
+  email_replies_enabled INTEGER NOT NULL DEFAULT 1 CHECK (email_replies_enabled IN (0,1)),
+  sms_replies_enabled INTEGER NOT NULL DEFAULT 0 CHECK (sms_replies_enabled IN (0,1)),
+  sms_phone TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS community_notifications (
+  id TEXT PRIMARY KEY,
+  community_member_id TEXT NOT NULL REFERENCES community_members (id),
+  notification_type TEXT NOT NULL,
+  bulletin_post_id TEXT REFERENCES community_bulletin_posts (id),
+  bulletin_reply_id TEXT REFERENCES community_bulletin_replies (id),
+  message TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  read_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_community_notifications_member
+  ON community_notifications (community_member_id, read_at, created_at DESC);

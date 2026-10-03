@@ -30,7 +30,7 @@ function directoryStatus(choice) {
   return "You have not yet made a Directory participation choice.";
 }
 
-function renderMemberDashboard(profile) {
+function renderMemberDashboard(profile, options = {}) {
   const name = `${profile.firstName || ""} ${profile.lastName || ""}`.trim();
 
   return `<!doctype html>
@@ -146,10 +146,11 @@ function renderMemberDashboard(profile) {
     </section>
 
     <section class="section">
-      <h2>Coming to Your Dashboard</h2>
+      <h2>Community Activity</h2>
+      <p><a href="/community/member/notifications/">Notifications${options.unreadNotifications ? ` (${options.unreadNotifications} unread)` : ""}</a></p>
+      <p><a href="/community/member/bulletin-board/">Open the Community Bulletin Board</a> to post and reply to announcements, questions, ideas, and invitations.</p>
 
-      <h3>Community Activity</h3>
-      <p><a href="/community/member/bulletin-board/">Open the Community Bulletin Board</a> to post announcements, questions, ideas, and invitations.</p>
+      <h2>Coming to Your Dashboard</h2>
 
       <h3>Accessibility Academy</h3>
       <p>Your courses, enrollment, and learning progress are planned.</p>
@@ -164,7 +165,7 @@ function renderMemberDashboard(profile) {
       <p>Usability studies, beta testing, accessibility reviews, and collaboration opportunities are planned.</p>
 
       <h3>Account Settings</h3>
-      <p>Basic profile editing is available now. Communication preferences, optional password creation, and additional account management are planned.</p>
+      <p>Basic profile editing is available now. Notification preferences are available now. Optional password creation and additional account management are planned.</p>
     </section>
   </main>
 

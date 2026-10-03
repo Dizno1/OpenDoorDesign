@@ -1,0 +1,27 @@
+Open Door Design Community - Interaction Test Expansion
+Date: 2026-10-03
+
+Starting point
+The Windows test run for the interaction update completed with 48 tests passed and 0 failed.
+
+Added automated coverage
+Six tests were added to test/memberAccessStore.test.js for the new Community interaction functionality:
+- Bulletin Board posts can be created and retrieved as conversations.
+- Bulletin Board replies remain associated with the correct post and author.
+- Default notification preferences enable dashboard and email notifications while SMS remains off.
+- Dashboard, email, SMS, and mobile-number notification preferences persist correctly.
+- Notifications track unread/read state and can be marked read.
+- Notifications remain private to the member they belong to.
+
+Expected Windows test count
+If all tests pass on the Windows development machine, npm test should now report 54 tests passed and 0 failed.
+
+Local verification performed in the ChatGPT work environment
+Node syntax checks passed for:
+- test/memberAccessStore.test.js
+- memberAccess/memberStore.js
+- memberAccess/memberRoutes.js
+- memberAccess/renderBulletinBoard.js
+- memberAccess/renderNotifications.js
+
+The full SQLite-backed suite cannot be authoritatively executed in the ChatGPT Linux work environment because the project uses the native better-sqlite3 dependency. The Windows development machine remains the authoritative runtime for the complete suite.
