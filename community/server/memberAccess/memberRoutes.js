@@ -8,6 +8,9 @@ const { parseCookies, getSessionFromRequest } = require("./memberSession");
 const { renderSignInPage } = require("./renderSignInPage");
 const { renderMemberDashboard } = require("./renderMemberDashboard");
 const { renderEditProfile } = require("./renderEditProfile");
+const { renderDirectoryProfile } = require("./renderDirectoryProfile");
+const { renderDirectory } = require("./renderDirectory");
+const { renderBulletinBoard } = require("./renderBulletinBoard");
 const { sendMemberSignInEmail } = require("../email/emailService");
 
 const SIGN_IN_TOKEN_MINUTES = 15;
@@ -280,6 +283,98 @@ function createMemberRouter(config, registrationStore, emailProvider) {
           message: "Profile saved."
         })
       );
+  });
+
+
+  function requireMember(request, response) {
+    const session = getSessionFromRequest(request, memberStore, SESSION_COOKIE_NAME);
+    if (!session) {
+      response.redirect(303, "/community/sign-in/");
+      return null;
+    }
+    return session;
+  }
+
+  router.post("/member/directory/participation", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const choice = request.body.choice === "yes" ? "yes" : request.body.choice === "no" ? "no" : null;
+    if (!choice) { response.status(400).type("text").send("Invalid Directory participation choice."); return; }
+    memberStore.setDirectoryParticipation(session.community_member_id, choice);
+    if (choice === "no") {
+      const existing = memberStore.getDirectoryProfile(session.community_member_id);
+      if (existing) memberStore.saveDirectoryProfile(session.community_member_id, {
+        headline: existing.headline, location: existing.location, websiteUrl: existing.website_url,
+        showEmail: Boolean(existing.show_email), showBiography: Boolean(existing.show_biography), isPublished: false
+      });
+    }
+    response.redirect(303, choice === "yes" ? "/community/member/directory/profile/" : "/community/member/dashboard/");
+  });
+
+
+  router.get("/member/directory/", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    memberStore.recordPageVisit("/community/member/directory/", session.community_member_id);
+    response.status(200).type("html").send(renderDirectory(memberStore.listPublishedDirectoryProfiles()));
+  });
+
+  router.get("/member/directory/profile/", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const member = memberStore.getMemberProfile(session.community_member_id);
+    if (!member) { response.redirect(303, "/community/sign-in/"); return; }
+    const directory = memberStore.getDirectoryProfile(session.community_member_id) || {};
+    response.status(200).type("html").send(renderDirectoryProfile(member, directory));
+  });
+
+  router.post("/member/directory/profile", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const member = memberStore.getMemberProfile(session.community_member_id);
+    if (!member) { response.redirect(303, "/community/sign-in/"); return; }
+    const profile = {
+      headline: String(request.body.headline || "").trim(),
+      location: String(request.body.location || "").trim(),
+      websiteUrl: String(request.body.website_url || "").trim(),
+      showEmail: request.body.show_email === "yes",
+      showBiography: request.body.show_biography === "yes",
+      isPublished: request.body.is_published === "yes" && member.directoryParticipation === "yes"
+    };
+    let websiteValid = true;
+    if (profile.websiteUrl) {
+      try { const u = new URL(profile.websiteUrl); websiteValid = u.protocol === "http:" || u.protocol === "https:"; } catch { websiteValid = false; }
+    }
+    if (profile.headline.length > 160 || profile.location.length > 160 || profile.websiteUrl.length > 500 || !websiteValid) {
+      response.status(400).type("html").send(renderDirectoryProfile(member, {
+        headline: profile.headline, location: profile.location, website_url: profile.websiteUrl,
+        show_email: profile.showEmail ? 1 : 0, show_biography: profile.showBiography ? 1 : 0,
+        is_published: profile.isPublished ? 1 : 0
+      }, { message: "Directory profile was not saved. Check the character limits and enter a complete http or https website address." }));
+      return;
+    }
+    const saved = memberStore.saveDirectoryProfile(session.community_member_id, profile);
+    response.status(200).type("html").send(renderDirectoryProfile(member, saved, { message: profile.isPublished ? "Directory profile saved and published." : "Directory profile saved. It is not currently published." }));
+  });
+
+  router.get("/member/bulletin-board/", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    memberStore.recordPageVisit("/community/member/bulletin-board/", session.community_member_id);
+    response.status(200).type("html").send(renderBulletinBoard(memberStore.listBulletinPosts()));
+  });
+
+  router.post("/member/bulletin-board", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const subject = String(request.body.subject || "").trim();
+    const body = String(request.body.body || "").trim();
+    if (!subject || !body || subject.length > 160 || body.length > 5000) {
+      response.status(400).type("html").send(renderBulletinBoard(memberStore.listBulletinPosts(), { message: "Post was not added. A subject and message are required and must be within the character limits." }));
+      return;
+    }
+    memberStore.createBulletinPost(session.community_member_id, subject, body);
+    response.redirect(303, "/community/member/bulletin-board/");
   });
 
   router.post("/member/sign-out", (request, response) => {

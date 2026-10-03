@@ -1,0 +1,18 @@
+Open Door Design Community update - 2026-10-03
+
+Work completed from the supplied current Community ZIP:
+
+1. Inspected the actual Community server, schema, Member Access routes, Directory, Directory profile, Bulletin Board, visit counting, tests, and package configuration.
+2. Confirmed the current build already contains the new Directory profile, published Directory browsing, Bulletin Board posting, and privacy-conscious page visit recording work.
+3. Repaired stale storage test data. The registration storage layer now requires Directory participation and its notice version, so the storage test fixture now supplies both values.
+4. Repaired stale server redirect assertions. Production registration intentionally redirects to https://opendoordesign.org/community/welcome.html, and the tests now expect that actual behavior.
+5. Hardened server test shutdown. Test HTTP servers now bind explicitly to 127.0.0.1, close idle connections when supported, and await server shutdown instead of firing server.close() without waiting. This targets the long-running/hanging npm test behavior seen on Windows.
+6. Added test/memberAccessStore.test.js to the normal npm test command. Member sign-in tokens and sessions were previously tested in the repository but omitted from npm test.
+7. Verified JavaScript syntax for the changed tests and all current Directory/Bulletin Board Member Access files.
+8. Ran npm run test:offline successfully: 27 tests passed, 0 failed.
+
+Environment note:
+The supplied ZIP contained Windows-built node_modules. This Linux work environment cannot execute that Windows better-sqlite3 binary, so database-backed tests cannot be honestly claimed as executed here. The repaired database-backed tests are included for execution on Dino's Windows installation, where better-sqlite3 12.9.0 is already working.
+
+Important next product work:
+The Bulletin Board currently supports top-level posts, but not threaded replies. Notification delivery also needs to become a first-class Community feature. The agreed direction is user-controlled dashboard, email, and SMS notification preferences, because members should not need to visit the Community every day to discover responses. This should be implemented before calling the Bulletin Board interaction model complete.

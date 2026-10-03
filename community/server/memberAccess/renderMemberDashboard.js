@@ -20,7 +20,7 @@ function renderList(values, emptyText) {
 
 function directoryStatus(choice) {
   if (choice === "yes") {
-    return "You chose to participate in the Open Door Directory. Your public Directory listing has not been created yet.";
+    return "You chose to participate in the Open Door Directory. You can now create, publish, or update your Directory profile.";
   }
 
   if (choice === "no") {
@@ -140,8 +140,8 @@ function renderMemberDashboard(profile) {
 
       ${
         profile.directoryParticipation === "yes"
-          ? `<p>Directory profile editing and publishing controls are coming next.</p>`
-          : `<p>A Join the Directory option will be available here when Directory profile management is connected.</p>`
+          ? `<p><a href="/community/member/directory/profile/">Manage my Directory profile</a></p><p><a href="/community/member/directory/">Browse the Open Door Directory</a></p><form method="post" action="/community/member/directory/participation"><input type="hidden" name="choice" value="no"><button type="submit">Leave the Directory</button></form>`
+          : `<form method="post" action="/community/member/directory/participation"><input type="hidden" name="choice" value="yes"><button type="submit">Join the Open Door Directory</button></form><p><a href="/community/member/directory/">Browse the Open Door Directory</a></p>`
       }
     </section>
 
@@ -149,7 +149,7 @@ function renderMemberDashboard(profile) {
       <h2>Coming to Your Dashboard</h2>
 
       <h3>Community Activity</h3>
-      <p>Community updates, discussions, and activity relevant to you are planned.</p>
+      <p><a href="/community/member/bulletin-board/">Open the Community Bulletin Board</a> to post announcements, questions, ideas, and invitations.</p>
 
       <h3>Accessibility Academy</h3>
       <p>Your courses, enrollment, and learning progress are planned.</p>

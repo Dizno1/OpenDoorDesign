@@ -1,0 +1,21 @@
+Open Door Design Community update - October 2, 2026
+
+Implemented in this build:
+- Functional authenticated Open Door Directory browsing.
+- Member-controlled Directory profile management for headline, location, website, biography visibility, email visibility, and publication status.
+- Join and leave Directory controls. Leaving automatically unpublishes the member's Directory profile.
+- Functional authenticated Community Bulletin Board. Members can post a subject and message and read recent posts.
+- Privacy-conscious Community page visit storage for Directory and Bulletin Board activity. It stores path, optional signed-in member ID, and timestamp. It does not store IP address or user agent.
+- Dashboard links now connect members to the Directory and Bulletin Board instead of describing those features as future work.
+- Database schema expanded for Directory profiles, bulletin posts, and visit records.
+
+Validation performed here:
+- All changed JavaScript files pass node --check.
+- SQLite schema parses cleanly in an in-memory SQLite database.
+- Offline/non-native test suites pass.
+- The full npm test suite could not be completed in this Linux work environment because the uploaded node_modules contains a better-sqlite3 native binary for a different platform. This is an environment/binary mismatch, not a reported application test failure. Run npm test on the Windows development machine after npm install/rebuild before deployment.
+
+Not implemented yet:
+- Replies/comments, reactions, moderation, post editing/deletion, private messaging, notifications, or topic categories for the Bulletin Board.
+- A human-facing analytics dashboard for visit counts. Visit events are now stored so that reporting can be added next.
+- Public unauthenticated Directory access. The Directory is currently a signed-in Community feature.

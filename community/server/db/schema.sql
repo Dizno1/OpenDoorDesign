@@ -10,6 +10,22 @@ CREATE TABLE IF NOT EXISTS community_member_participation_preferences (community
 CREATE TABLE IF NOT EXISTS consent_records (id TEXT PRIMARY KEY,community_member_id TEXT NOT NULL REFERENCES community_members (id),consent_type TEXT NOT NULL DEFAULT 'community_privacy_notice',notice_version TEXT NOT NULL,consent_status TEXT NOT NULL CHECK (consent_status IN ('granted','withdrawn')),recorded_at TEXT NOT NULL,source TEXT NOT NULL DEFAULT 'website_community_registration',request_identifier TEXT);
 CREATE TABLE IF NOT EXISTS directory_participation_records (id TEXT PRIMARY KEY,community_member_id TEXT NOT NULL REFERENCES community_members (id),participation_choice TEXT NOT NULL CHECK (participation_choice IN ('yes','no')),notice_version TEXT NOT NULL,recorded_at TEXT NOT NULL,source TEXT NOT NULL DEFAULT 'website_community_registration');
 CREATE INDEX IF NOT EXISTS idx_directory_participation_member ON directory_participation_records (community_member_id,recorded_at);
+-- Public Open Door Directory profile settings.
+-- Member identity and biography remain in community_members.
+CREATE TABLE IF NOT EXISTS community_directory_profiles (
+  community_member_id TEXT PRIMARY KEY REFERENCES community_members (id),
+  headline TEXT,
+  location TEXT,
+  website_url TEXT,
+  show_email INTEGER NOT NULL DEFAULT 0 CHECK (show_email IN (0,1)),
+  show_biography INTEGER NOT NULL DEFAULT 1 CHECK (show_biography IN (0,1)),
+  is_published INTEGER NOT NULL DEFAULT 0 CHECK (is_published IN (0,1)),
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_community_directory_profiles_published
+ON community_directory_profiles (is_published);
 CREATE TABLE IF NOT EXISTS email_verifications (id TEXT PRIMARY KEY,community_member_id TEXT NOT NULL REFERENCES community_members (id),token_hash TEXT NOT NULL,expires_at TEXT NOT NULL,verified_at TEXT,created_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS registration_events (id TEXT PRIMARY KEY,community_member_id TEXT,event_type TEXT NOT NULL,result TEXT NOT NULL,created_at TEXT NOT NULL,correlation_id TEXT NOT NULL);
 INSERT OR IGNORE INTO interests (id,code,label,is_active,display_order) VALUES ('int-01','accessibility_education','Accessibility education',1,1),('int-02','accessibility_engineering','Accessibility engineering',1,2),('int-03','screen_reader_testing','Screen reader testing',1,3),('int-04','document_accessibility','Document accessibility',1,4),('int-05','web_and_mobile_accessibility','Web and mobile accessibility',1,5),('int-06','media_accessibility','Media accessibility',1,6),('int-07','artificial_intelligence','Artificial intelligence',1,7),('int-08','research_and_collaboration','Research and collaboration',1,8);
@@ -49,3 +65,25 @@ CREATE INDEX IF NOT EXISTS idx_member_sessions_member
 
 CREATE INDEX IF NOT EXISTS idx_member_sessions_expires
   ON member_sessions (expires_at);
+-- Community bulletin board. Posts are visible to signed-in members.
+CREATE TABLE IF NOT EXISTS community_bulletin_posts (
+  id TEXT PRIMARY KEY,
+  community_member_id TEXT NOT NULL REFERENCES community_members (id),
+  subject TEXT NOT NULL,
+  body TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  is_deleted INTEGER NOT NULL DEFAULT 0 CHECK (is_deleted IN (0,1))
+);
+CREATE INDEX IF NOT EXISTS idx_community_bulletin_posts_created
+  ON community_bulletin_posts (created_at DESC);
+
+-- Privacy-conscious aggregate visit counting. No IP address or user agent is stored.
+CREATE TABLE IF NOT EXISTS community_page_visits (
+  id TEXT PRIMARY KEY,
+  path TEXT NOT NULL,
+  community_member_id TEXT REFERENCES community_members (id),
+  visited_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_community_page_visits_path_date
+  ON community_page_visits (path, visited_at);

@@ -33,6 +33,8 @@ const validRegistration = {
   interests: ["Accessibility education"],
   accessibilityPerspectives: [],
   participationPreferences: [],
+  directoryParticipation: "yes",
+  directoryParticipationVersion: "2026-09-07",
   privacyConsent: true,
   privacyNoticeVersion: "2026-07-30"
 };

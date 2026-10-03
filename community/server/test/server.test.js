@@ -34,7 +34,16 @@ function makeTestServer(overrides = {}) {
 
 async function startListening(app) {
   return new Promise((resolve) => {
-    const server = app.listen(0, () => resolve(server));
+    const server = app.listen(0, "127.0.0.1", () => resolve(server));
+  });
+}
+
+async function stopListening(server) {
+  if (typeof server.closeIdleConnections === "function") {
+    server.closeIdleConnections();
+  }
+  await new Promise((resolve, reject) => {
+    server.close((error) => error ? reject(error) : resolve());
   });
 }
 
@@ -50,7 +59,7 @@ test("GET /community/api/health returns 200 when the database is reachable", asy
   assert.equal(body.status, "ok");
   assert.equal(body.checks.database, "ok");
 
-  server.close();
+  await stopListening(server);
 });
 
 test("POST with an empty body returns 400 with field-level errors and no error summary", async () => {
@@ -70,7 +79,7 @@ test("POST with an empty body returns 400 with field-level errors and no error s
   assert.match(html, /Enter your first name\./);
   assert.match(html, /autofocus/);
 
-  server.close();
+  await stopListening(server);
 });
 
 test("a fully valid submission stores the registration and redirects to welcome.html", async () => {
@@ -99,12 +108,12 @@ test("a fully valid submission stores the registration and redirects to welcome.
   });
 
   assert.equal(response.status, 303);
-  assert.equal(response.headers.get("location"), "/community/welcome.html");
+  assert.equal(response.headers.get("location"), "https://opendoordesign.org/community/welcome.html");
 
   const member = store.findByNormalizedEmail("dean@example.com");
   assert.ok(member, "the registration should be stored");
 
-  server.close();
+  await stopListening(server);
 });
 
 test("submitting the honeypot field rejects without storing a registration", async () => {
@@ -134,7 +143,7 @@ test("submitting the honeypot field rejects without storing a registration", asy
   assert.equal(response.status, 400);
   assert.equal(store.findByNormalizedEmail("bot@example.com"), null);
 
-  server.close();
+  await stopListening(server);
 });
 
 
@@ -171,14 +180,14 @@ test("a second submission with the same pending email does not create a duplicat
     redirect: "manual"
   });
   assert.equal(secondResponse.status, 303);
-  assert.equal(secondResponse.headers.get("location"), "/community/welcome.html");
+  assert.equal(secondResponse.headers.get("location"), "https://opendoordesign.org/community/welcome.html");
 
   const count = store.db
     .prepare("SELECT COUNT(*) AS count FROM community_members WHERE email_normalized = ?")
     .get("pending-dupe@example.com");
   assert.equal(count.count, 1, "a second submission for a pending member must not create a duplicate row");
 
-  server.close();
+  await stopListening(server);
 });
 
 test("a second submission with the same active email does not create a duplicate", async () => {
@@ -223,7 +232,7 @@ test("a second submission with the same active email does not create a duplicate
     .get("dupe@example.com");
   assert.equal(count.count, 1, "a second submission for an active member must not create a duplicate row");
 
-  server.close();
+  await stopListening(server);
 });
 
 test("requests over the configured rate limit receive 429", async () => {
@@ -242,5 +251,5 @@ test("requests over the configured rate limit receive 429", async () => {
 
   assert.equal(secondResponse.status, 429);
 
-  server.close();
+  await stopListening(server);
 });

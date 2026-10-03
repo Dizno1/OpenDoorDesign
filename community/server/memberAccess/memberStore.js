@@ -219,6 +219,151 @@ class MemberAccessStore {
     return result.changes === 1;
   }
 
+  setDirectoryParticipation(communityMemberId, choice) {
+    const id = crypto.randomUUID();
+    const now = new Date().toISOString();
+    this.db.prepare(
+      `INSERT INTO directory_participation_records
+       (id, community_member_id, participation_choice, notice_version, recorded_at, source)
+       VALUES (?, ?, ?, ?, ?, ?)`
+    ).run(id, communityMemberId, choice, "2026-10-02", now, "community_member_dashboard");
+    return true;
+  }
+
+
+  getDirectoryProfile(communityMemberId) {
+    return (
+      this.db
+        .prepare(
+          `SELECT community_member_id,
+                  headline,
+                  location,
+                  website_url,
+                  show_email,
+                  show_biography,
+                  is_published,
+                  created_at,
+                  updated_at
+           FROM community_directory_profiles
+           WHERE community_member_id = ?`
+        )
+        .get(communityMemberId) || null
+    );
+  }
+
+  saveDirectoryProfile(communityMemberId, profile) {
+    const now = new Date().toISOString();
+
+    this.db
+      .prepare(
+        `INSERT INTO community_directory_profiles (
+           community_member_id,
+           headline,
+           location,
+           website_url,
+           show_email,
+           show_biography,
+           is_published,
+           created_at,
+           updated_at
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON CONFLICT(community_member_id) DO UPDATE SET
+           headline = excluded.headline,
+           location = excluded.location,
+           website_url = excluded.website_url,
+           show_email = excluded.show_email,
+           show_biography = excluded.show_biography,
+           is_published = excluded.is_published,
+           updated_at = excluded.updated_at`
+      )
+      .run(
+        communityMemberId,
+        profile.headline || null,
+        profile.location || null,
+        profile.websiteUrl || null,
+        profile.showEmail ? 1 : 0,
+        profile.showBiography ? 1 : 0,
+        profile.isPublished ? 1 : 0,
+        now,
+        now
+      );
+
+    return this.getDirectoryProfile(communityMemberId);
+  }
+
+
+  listPublishedDirectoryProfiles() {
+    return this.db
+      .prepare(
+        `SELECT m.id AS community_member_id,
+                m.first_name,
+                m.last_name,
+                m.email,
+                m.about_you,
+                d.headline,
+                d.location,
+                d.website_url,
+                d.show_email,
+                d.show_biography,
+                d.updated_at
+         FROM community_directory_profiles d
+         JOIN community_members m ON m.id = d.community_member_id
+         WHERE d.is_published = 1
+           AND m.deleted_at IS NULL
+           AND m.status NOT IN ('deleted', 'blocked')
+         ORDER BY m.first_name COLLATE NOCASE, m.last_name COLLATE NOCASE`
+      )
+      .all();
+  }
+
+  createBulletinPost(communityMemberId, subject, body) {
+    const id = crypto.randomUUID();
+    const now = new Date().toISOString();
+    this.db
+      .prepare(
+        `INSERT INTO community_bulletin_posts
+         (id, community_member_id, subject, body, created_at, updated_at, is_deleted)
+         VALUES (?, ?, ?, ?, ?, ?, 0)`
+      )
+      .run(id, communityMemberId, subject, body, now, now);
+    return id;
+  }
+
+  listBulletinPosts(limit = 50) {
+    return this.db
+      .prepare(
+        `SELECT p.id, p.subject, p.body, p.created_at,
+                m.first_name, m.last_name
+         FROM community_bulletin_posts p
+         JOIN community_members m ON m.id = p.community_member_id
+         WHERE p.is_deleted = 0
+         ORDER BY p.created_at DESC
+         LIMIT ?`
+      )
+      .all(limit);
+  }
+
+  recordPageVisit(path, communityMemberId = null) {
+    this.db
+      .prepare(
+        `INSERT INTO community_page_visits (id, path, community_member_id, visited_at)
+         VALUES (?, ?, ?, ?)`
+      )
+      .run(crypto.randomUUID(), path, communityMemberId, new Date().toISOString());
+  }
+
+  getVisitCounts() {
+    return this.db
+      .prepare(
+        `SELECT path, COUNT(*) AS visits
+         FROM community_page_visits
+         GROUP BY path
+         ORDER BY visits DESC, path`
+      )
+      .all();
+  }
+
+
   revokeSession(sessionTokenHash) {
     const now = new Date().toISOString();
 
