@@ -102,3 +102,33 @@ test("SMS contains a short alert and conversation link but no reply body", () =>
   assert.match(message.text, /community\.example\.test/);
   assert.ok(!message.text.includes("Sensitive reply content"));
 });
+
+test("followers receive reply notifications while the member who replied does not", async () => {
+  const notifications = [];
+  const sent = [];
+  const store = {
+    getMemberProfile(id) {
+      const members = {
+        owner: { firstName: "Dean", lastName: "Owner", email: "owner@example.test" },
+        reply: { firstName: "Alex", lastName: "Responder", email: "reply@example.test" },
+        follower: { firstName: "Taylor", lastName: "Follower", email: "follower@example.test" }
+      };
+      return members[id] || null;
+    },
+    listBulletinFollowerIds() { return ["follower", "reply"]; },
+    getNotificationPreferences() {
+      return { dashboard_enabled: 1, email_replies_enabled: 1, sms_replies_enabled: 0, sms_phone: null };
+    },
+    createNotification(memberId) { notifications.push(memberId); }
+  };
+  const result = await deliverBulletinReplyNotifications({
+    memberStore: store,
+    emailProvider: { async send(message){ sent.push(message.to); return { sent: true }; } },
+    smsProvider: { async send(){ return { sent: true }; } },
+    config, post: post(), replyId: "r2", replierMemberId: "reply", replyBody: "New reply"
+  });
+
+  assert.deepEqual(notifications.sort(), ["follower", "owner"]);
+  assert.equal(result.recipients.length, 2);
+  assert.equal(sent.length, 2);
+});

@@ -289,3 +289,49 @@ test("Bulletin Board list includes reply count and sorts by latest activity", ()
   assert.equal(secondPost.reply_count, 0);
   assert.ok(firstPost.last_activity_at);
 });
+
+test("members can follow and unfollow a Bulletin Board conversation", () => {
+  const { registrationStore, memberAccessStore } = makeTempStores();
+  const owner = createMember(registrationStore);
+  const follower = registrationStore.createRegistration({
+    firstName: "Taylor", lastName: "Follower", email: "taylor@example.com", emailNormalized: "taylor@example.com",
+    aboutYou: "", interests: [], accessibilityPerspectives: [], participationPreferences: [],
+    directoryParticipation: "no", directoryParticipationVersion: "2026-09-07",
+    privacyConsent: true, privacyNoticeVersion: "2026-07-30"
+  });
+  const postId = memberAccessStore.createBulletinPost(owner.id, "Follow me", "Conversation body");
+
+  assert.equal(memberAccessStore.isFollowingBulletinPost(postId, follower.id), false);
+  assert.equal(memberAccessStore.followBulletinPost(postId, follower.id), true);
+  assert.equal(memberAccessStore.isFollowingBulletinPost(postId, follower.id), true);
+  assert.deepEqual(memberAccessStore.listBulletinFollowerIds(postId), [follower.id]);
+  assert.equal(memberAccessStore.unfollowBulletinPost(postId, follower.id), true);
+  assert.equal(memberAccessStore.isFollowingBulletinPost(postId, follower.id), false);
+});
+
+test("opening one notification can mark only that member notification read", () => {
+  const { registrationStore, memberAccessStore } = makeTempStores();
+  const member = createMember(registrationStore);
+  const first = memberAccessStore.createNotification(member.id, "bulletin_reply", null, null, "First");
+  memberAccessStore.createNotification(member.id, "bulletin_reply", null, null, "Second");
+
+  assert.equal(memberAccessStore.countUnreadNotifications(member.id), 2);
+  assert.equal(memberAccessStore.markNotificationRead(first, member.id), true);
+  assert.equal(memberAccessStore.getNotification(first, member.id).read_at !== null, true);
+  assert.equal(memberAccessStore.countUnreadNotifications(member.id), 1);
+});
+
+test("a member cannot read another member's notification by id", () => {
+  const { registrationStore, memberAccessStore } = makeTempStores();
+  const first = createMember(registrationStore);
+  const second = registrationStore.createRegistration({
+    firstName: "Morgan", lastName: "Member", email: "morgan2@example.com", emailNormalized: "morgan2@example.com",
+    aboutYou: "", interests: [], accessibilityPerspectives: [], participationPreferences: [],
+    directoryParticipation: "no", directoryParticipationVersion: "2026-09-07",
+    privacyConsent: true, privacyNoticeVersion: "2026-07-30"
+  });
+  const notificationId = memberAccessStore.createNotification(first.id, "bulletin_reply", null, null, "Private");
+  assert.equal(memberAccessStore.getNotification(notificationId, second.id), null);
+  assert.equal(memberAccessStore.markNotificationRead(notificationId, second.id), false);
+  assert.equal(memberAccessStore.countUnreadNotifications(first.id), 1);
+});

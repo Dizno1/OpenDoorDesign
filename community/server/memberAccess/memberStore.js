@@ -398,6 +398,32 @@ class MemberAccessStore {
     return id;
   }
 
+  followBulletinPost(postId, communityMemberId) {
+    const result = this.db.prepare(
+      `INSERT OR IGNORE INTO community_bulletin_follows
+       (bulletin_post_id, community_member_id, created_at) VALUES (?, ?, ?)`
+    ).run(postId, communityMemberId, new Date().toISOString());
+    return result.changes === 1;
+  }
+
+  unfollowBulletinPost(postId, communityMemberId) {
+    return this.db.prepare(
+      `DELETE FROM community_bulletin_follows WHERE bulletin_post_id = ? AND community_member_id = ?`
+    ).run(postId, communityMemberId).changes === 1;
+  }
+
+  isFollowingBulletinPost(postId, communityMemberId) {
+    return Boolean(this.db.prepare(
+      `SELECT 1 FROM community_bulletin_follows WHERE bulletin_post_id = ? AND community_member_id = ?`
+    ).get(postId, communityMemberId));
+  }
+
+  listBulletinFollowerIds(postId) {
+    return this.db.prepare(
+      `SELECT community_member_id FROM community_bulletin_follows WHERE bulletin_post_id = ?`
+    ).all(postId).map((row) => row.community_member_id);
+  }
+
   getNotificationPreferences(communityMemberId) {
     const row = this.db.prepare(
       `SELECT dashboard_enabled, email_replies_enabled, sms_replies_enabled, sms_phone
@@ -441,6 +467,20 @@ class MemberAccessStore {
        WHERE community_member_id = ?
        ORDER BY created_at DESC LIMIT ?`
     ).all(communityMemberId, limit);
+  }
+
+  getNotification(notificationId, communityMemberId) {
+    return this.db.prepare(
+      `SELECT id, notification_type, bulletin_post_id, bulletin_reply_id, message, created_at, read_at
+       FROM community_notifications WHERE id = ? AND community_member_id = ?`
+    ).get(notificationId, communityMemberId) || null;
+  }
+
+  markNotificationRead(notificationId, communityMemberId) {
+    return this.db.prepare(
+      `UPDATE community_notifications SET read_at = COALESCE(read_at, ?)
+       WHERE id = ? AND community_member_id = ?`
+    ).run(new Date().toISOString(), notificationId, communityMemberId).changes === 1;
   }
 
   countUnreadNotifications(communityMemberId) {

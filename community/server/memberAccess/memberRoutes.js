@@ -395,7 +395,29 @@ function createMemberRouter(config, registrationStore, emailProvider) {
     if (!session) return;
     const post = memberStore.getBulletinPost(request.params.postId);
     if (!post) { response.status(404).type("text").send("Bulletin Board post not found."); return; }
-    response.status(200).type("html").send(renderBulletinThread(post, memberStore.listBulletinReplies(post.id)));
+    response.status(200).type("html").send(renderBulletinThread(
+      post,
+      memberStore.listBulletinReplies(post.id),
+      {
+        isOwner: post.community_member_id === session.community_member_id,
+        isFollowing: memberStore.isFollowingBulletinPost(post.id, session.community_member_id)
+      }
+    ));
+  });
+
+  router.post("/member/bulletin-board/post/:postId/follow", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const post = memberStore.getBulletinPost(request.params.postId);
+    if (!post) { response.status(404).type("text").send("Bulletin Board post not found."); return; }
+    if (post.community_member_id !== session.community_member_id) {
+      if (request.body.action === "unfollow") {
+        memberStore.unfollowBulletinPost(post.id, session.community_member_id);
+      } else {
+        memberStore.followBulletinPost(post.id, session.community_member_id);
+      }
+    }
+    response.redirect(303, `/community/member/bulletin-board/post/${encodeURIComponent(post.id)}/`);
   });
 
   router.post("/member/bulletin-board/post/:postId/reply", async (request, response) => {
@@ -405,7 +427,11 @@ function createMemberRouter(config, registrationStore, emailProvider) {
     if (!post) { response.status(404).type("text").send("Bulletin Board post not found."); return; }
     const body = String(request.body.body || "").trim();
     if (!body || body.length > 5000) {
-      response.status(400).type("html").send(renderBulletinThread(post, memberStore.listBulletinReplies(post.id), { message: "Reply was not added. Enter a reply within the 5,000 character limit." }));
+      response.status(400).type("html").send(renderBulletinThread(post, memberStore.listBulletinReplies(post.id), {
+        message: "Reply was not added. Enter a reply within the 5,000 character limit.",
+        isOwner: post.community_member_id === session.community_member_id,
+        isFollowing: memberStore.isFollowingBulletinPost(post.id, session.community_member_id)
+      }));
       return;
     }
     const replyId = memberStore.createBulletinReply(post.id, session.community_member_id, body);
@@ -426,6 +452,19 @@ function createMemberRouter(config, registrationStore, emailProvider) {
     const session = requireMember(request, response);
     if (!session) return;
     response.status(200).type("html").send(renderNotifications(memberStore.listNotifications(session.community_member_id), memberStore.getNotificationPreferences(session.community_member_id)));
+  });
+
+  router.get("/member/notifications/:notificationId/open", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const notification = memberStore.getNotification(request.params.notificationId, session.community_member_id);
+    if (!notification) { response.status(404).type("text").send("Notification not found."); return; }
+    memberStore.markNotificationRead(notification.id, session.community_member_id);
+    if (notification.bulletin_post_id) {
+      response.redirect(303, `/community/member/bulletin-board/post/${encodeURIComponent(notification.bulletin_post_id)}/`);
+      return;
+    }
+    response.redirect(303, "/community/member/notifications/");
   });
 
   router.post("/member/notifications/read", (request, response) => {

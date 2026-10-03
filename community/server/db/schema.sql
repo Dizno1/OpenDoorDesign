@@ -101,6 +101,15 @@ CREATE TABLE IF NOT EXISTS community_bulletin_replies (
 CREATE INDEX IF NOT EXISTS idx_community_bulletin_replies_post
   ON community_bulletin_replies (bulletin_post_id, created_at);
 
+CREATE TABLE IF NOT EXISTS community_bulletin_follows (
+  bulletin_post_id TEXT NOT NULL REFERENCES community_bulletin_posts (id),
+  community_member_id TEXT NOT NULL REFERENCES community_members (id),
+  created_at TEXT NOT NULL,
+  PRIMARY KEY (bulletin_post_id, community_member_id)
+);
+CREATE INDEX IF NOT EXISTS idx_community_bulletin_follows_member
+  ON community_bulletin_follows (community_member_id, created_at DESC);
+
 CREATE TABLE IF NOT EXISTS community_notification_preferences (
   community_member_id TEXT PRIMARY KEY REFERENCES community_members (id),
   dashboard_enabled INTEGER NOT NULL DEFAULT 1 CHECK (dashboard_enabled IN (0,1)),

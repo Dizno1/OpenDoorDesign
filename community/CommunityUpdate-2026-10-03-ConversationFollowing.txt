@@ -1,0 +1,29 @@
+Open Door Design Community Update - 2026-10-03 - Conversation Following
+
+Built from the ab93600 member-experience checkpoint.
+
+Member-facing changes
+- Members can follow or stop following Bulletin Board conversations they did not start.
+- Conversation owners continue receiving reply notifications without needing to follow their own post.
+- Followers receive reply notifications according to their existing dashboard, email, and SMS preferences.
+- The member who posts a reply is excluded from notifications for that reply.
+- Notification links now pass through a member-specific open route that marks only that notification as read before opening the conversation.
+- Conversation pages now use the standard Banner, Primary navigation, Main, and Footer landmark structure and include the full Community navigation.
+- Notification preference wording now covers conversations a member owns or follows.
+
+Data and service changes
+- Added community_bulletin_follows with a compound primary key to prevent duplicate follows.
+- Added follow, unfollow, follow-state, and follower-list methods to MemberAccessStore.
+- Added member-scoped getNotification and markNotificationRead methods.
+- Reply notification delivery now targets the conversation owner plus followers, de-duplicates recipients, and excludes the replier.
+
+Automated coverage
+- Added tests for follow/unfollow persistence.
+- Added tests for marking one notification read.
+- Added a privacy test preventing one member from opening another member's notification by ID.
+- Added a notification-service test confirming followers receive notifications and the replier does not.
+
+Validation performed in the build environment
+- JavaScript syntax checks passed for every changed JavaScript file.
+- notificationService.test.js passed independently: 6 tests, 6 passed, 0 failed.
+- The complete suite enumerated 66 tests, but SQLite-dependent tests cannot run in this Linux build environment because the ZIP contains a Windows better-sqlite3 native binary (invalid ELF header). This is an environment binary mismatch, not an assertion failure. Run npm test on the Windows development machine for the authoritative 66-test result.
