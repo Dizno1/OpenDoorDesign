@@ -242,3 +242,50 @@ test("notifications are private to the member they belong to", () => {
   assert.equal(memberAccessStore.listNotifications(second.id).length, 0);
   assert.equal(memberAccessStore.countUnreadNotifications(second.id), 0);
 });
+
+test("Directory search finds published profiles without exposing hidden biography text", () => {
+  const { registrationStore, memberAccessStore } = makeTempStores();
+  const member = createMember(registrationStore);
+  memberAccessStore.saveDirectoryProfile(member.id, {
+    headline: "Screen reader tester",
+    location: "Boston",
+    websiteUrl: "",
+    showEmail: false,
+    showBiography: false,
+    isPublished: true
+  });
+
+  assert.equal(memberAccessStore.listPublishedDirectoryProfiles("Boston").length, 1);
+  assert.equal(memberAccessStore.listPublishedDirectoryProfiles("Screen reader").length, 1);
+  assert.equal(memberAccessStore.listPublishedDirectoryProfiles("Testworthy").length, 1);
+  assert.equal(memberAccessStore.listPublishedDirectoryProfiles("private biography phrase").length, 0);
+});
+
+test("published Directory profile lookup respects publishing state", () => {
+  const { registrationStore, memberAccessStore } = makeTempStores();
+  const member = createMember(registrationStore);
+  memberAccessStore.saveDirectoryProfile(member.id, {
+    headline: "Accessibility professional", location: "", websiteUrl: "",
+    showEmail: false, showBiography: true, isPublished: true
+  });
+  assert.equal(memberAccessStore.getPublishedDirectoryProfile(member.id).community_member_id, member.id);
+  memberAccessStore.saveDirectoryProfile(member.id, {
+    headline: "Accessibility professional", location: "", websiteUrl: "",
+    showEmail: false, showBiography: true, isPublished: false
+  });
+  assert.equal(memberAccessStore.getPublishedDirectoryProfile(member.id), null);
+});
+
+test("Bulletin Board list includes reply count and sorts by latest activity", () => {
+  const { registrationStore, memberAccessStore } = makeTempStores();
+  const member = createMember(registrationStore);
+  const first = memberAccessStore.createBulletinPost(member.id, "First", "First body");
+  const second = memberAccessStore.createBulletinPost(member.id, "Second", "Second body");
+  memberAccessStore.createBulletinReply(first, member.id, "New activity");
+  const posts = memberAccessStore.listBulletinPosts();
+  const firstPost = posts.find((p) => p.id === first);
+  const secondPost = posts.find((p) => p.id === second);
+  assert.equal(firstPost.reply_count, 1);
+  assert.equal(secondPost.reply_count, 0);
+  assert.ok(firstPost.last_activity_at);
+});

@@ -9,7 +9,7 @@ const { renderSignInPage } = require("./renderSignInPage");
 const { renderMemberDashboard } = require("./renderMemberDashboard");
 const { renderEditProfile } = require("./renderEditProfile");
 const { renderDirectoryProfile } = require("./renderDirectoryProfile");
-const { renderDirectory } = require("./renderDirectory");
+const { renderDirectory, renderDirectoryMember } = require("./renderDirectory");
 const { renderBulletinBoard, renderBulletinThread } = require("./renderBulletinBoard");
 const { renderNotifications } = require("./renderNotifications");
 const { sendMemberSignInEmail } = require("../email/emailService");
@@ -320,7 +320,16 @@ function createMemberRouter(config, registrationStore, emailProvider) {
     const session = requireMember(request, response);
     if (!session) return;
     memberStore.recordPageVisit("/community/member/directory/", session.community_member_id);
-    response.status(200).type("html").send(renderDirectory(memberStore.listPublishedDirectoryProfiles()));
+    const searchTerm = String(request.query.q || "").trim().slice(0, 100);
+    response.status(200).type("html").send(renderDirectory(memberStore.listPublishedDirectoryProfiles(searchTerm), { searchTerm }));
+  });
+
+  router.get("/member/directory/member/:memberId/", (request, response) => {
+    const session = requireMember(request, response);
+    if (!session) return;
+    const profile = memberStore.getPublishedDirectoryProfile(request.params.memberId);
+    if (!profile) { response.status(404).type("text").send("Published Directory profile not found."); return; }
+    response.status(200).type("html").send(renderDirectoryMember(profile));
   });
 
   router.get("/member/directory/profile/", (request, response) => {

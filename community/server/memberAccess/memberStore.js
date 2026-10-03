@@ -292,7 +292,9 @@ class MemberAccessStore {
   }
 
 
-  listPublishedDirectoryProfiles() {
+  listPublishedDirectoryProfiles(searchTerm = "") {
+    const term = String(searchTerm || "").trim();
+    const pattern = `%${term}%`;
     return this.db
       .prepare(
         `SELECT m.id AS community_member_id,
@@ -311,9 +313,25 @@ class MemberAccessStore {
          WHERE d.is_published = 1
            AND m.deleted_at IS NULL
            AND m.status NOT IN ('deleted', 'blocked')
+           AND (? = '' OR m.first_name LIKE ? COLLATE NOCASE
+                OR m.last_name LIKE ? COLLATE NOCASE
+                OR COALESCE(d.headline, '') LIKE ? COLLATE NOCASE
+                OR COALESCE(d.location, '') LIKE ? COLLATE NOCASE
+                OR (d.show_biography = 1 AND COALESCE(m.about_you, '') LIKE ? COLLATE NOCASE))
          ORDER BY m.first_name COLLATE NOCASE, m.last_name COLLATE NOCASE`
       )
-      .all();
+      .all(term, pattern, pattern, pattern, pattern, pattern);
+  }
+
+  getPublishedDirectoryProfile(communityMemberId) {
+    return this.db.prepare(
+      `SELECT m.id AS community_member_id, m.first_name, m.last_name, m.email, m.about_you,
+              d.headline, d.location, d.website_url, d.show_email, d.show_biography, d.updated_at
+       FROM community_directory_profiles d
+       JOIN community_members m ON m.id = d.community_member_id
+       WHERE d.community_member_id = ? AND d.is_published = 1
+         AND m.deleted_at IS NULL AND m.status NOT IN ('deleted', 'blocked')`
+    ).get(communityMemberId) || null;
   }
 
   createBulletinPost(communityMemberId, subject, body) {
@@ -333,11 +351,16 @@ class MemberAccessStore {
     return this.db
       .prepare(
         `SELECT p.id, p.subject, p.body, p.created_at,
-                m.first_name, m.last_name
+                m.first_name, m.last_name,
+                COUNT(r.id) AS reply_count,
+                COALESCE(MAX(r.created_at), p.created_at) AS last_activity_at
          FROM community_bulletin_posts p
          JOIN community_members m ON m.id = p.community_member_id
+         LEFT JOIN community_bulletin_replies r
+           ON r.bulletin_post_id = p.id AND r.is_deleted = 0
          WHERE p.is_deleted = 0
-         ORDER BY p.created_at DESC
+         GROUP BY p.id, p.subject, p.body, p.created_at, m.first_name, m.last_name
+         ORDER BY last_activity_at DESC
          LIMIT ?`
       )
       .all(limit);

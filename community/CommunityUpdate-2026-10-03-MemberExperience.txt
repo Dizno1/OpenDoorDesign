@@ -1,0 +1,20 @@
+Open Door Design Community update - 2026-10-03
+
+Member-facing Community experience pass
+
+Directory
+- Added signed-in Directory search by member name, headline, location, and biographies members explicitly chose to publish.
+- Hidden biographies are not included in biography search matching.
+- Added dedicated published member profile pages.
+- Directory results now link to those profile pages instead of exposing every optional detail in the results list.
+- Member profile pages continue to honor show-email and show-biography privacy choices.
+- Added a clear-search path and an accessible result count status.
+
+Bulletin Board
+- Added reply counts to the Bulletin Board conversation list.
+- Added last-activity timestamps.
+- Conversations are ordered by latest activity so an older post with a new reply returns to the top.
+
+Tests
+- Added storage tests for Directory search, published-profile lookup, and Bulletin Board reply metadata.
+- JavaScript syntax checks passed for all files changed in this update.
