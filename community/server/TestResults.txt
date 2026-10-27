@@ -1,0 +1,94 @@
+
+> open-door-design-community-server@0.2.0 test
+> node --test test/directoryRegistration.test.js test/config.test.js test/email.test.js test/rateLimiter.test.js test/renderRegisterPage.test.js test/memberAccessStore.test.js test/notificationService.test.js test/server.test.js test/storage.test.js test/validate.test.js
+
+✔ development defaults require no environment variables (0.8999ms)
+✔ production startup throws a clear error when required variables are missing (0.5052ms)
+✔ production startup throws when a non-console email provider has no API key (0.1828ms)
+✔ production startup succeeds once every required variable is present (0.1786ms)
+✔ rate limit values are configurable and fall back to documented defaults (0.1401ms)
+✔ Directory participation is required (1.1356ms)
+✔ Directory Yes is accepted (0.2333ms)
+✔ Directory No is accepted (0.1343ms)
+✔ unexpected Directory values are rejected (0.1385ms)
+[email:console] Development provider only — no message was actually sent.
+  To: dean@example.com
+  From: Accessibility@OpenDoorDesign.org
+  Subject: Welcome to the Open Door Design Community
+✔ confirmation email template produces plain-text and HTML versions (1.0938ms)
+✔ confirmation email template escapes HTML in the name (0.2838ms)
+✔ getEmailProvider returns the console provider by default (0.1567ms)
+✔ email service success path: console provider never claims delivery (0.6364ms)
+✔ email service failure path: a rejecting provider propagates its rejection (0.649ms)
+✔ findMemberByNormalizedEmail returns an existing member (20.0268ms)
+✔ sign-in token can be consumed only once (13.0775ms)
+✔ expired sign-in token cannot be consumed (11.5335ms)
+✔ active session resolves the member (12.0395ms)
+✔ revoked session is no longer active (10.5584ms)
+✔ Bulletin Board posts can be created and retrieved as conversations (12.2739ms)
+✔ Bulletin Board replies remain attached to the correct post and author (12.9994ms)
+✔ notification preferences default to dashboard and email on with SMS off (13.5916ms)
+✔ notification preferences persist dashboard email and SMS choices (11.3394ms)
+✔ member notifications track unread state and can be marked read (11.5277ms)
+✔ notifications are private to the member they belong to (13.2204ms)
+✔ Directory search finds published profiles without exposing hidden biography text (9.8329ms)
+✔ published Directory profile lookup respects publishing state (9.4595ms)
+✔ Bulletin Board list includes reply count and sorts by latest activity (9.4556ms)
+✔ members can follow and unfollow a Bulletin Board conversation (10.0024ms)
+✔ opening one notification can mark only that member notification read (9.644ms)
+✔ a member cannot read another member's notification by id (10.9457ms)
+✔ self replies are suppressed across every notification channel (1.0653ms)
+✔ enabled channels are attempted independently (1.0528ms)
+✔ delivery failures do not throw after a reply has already been stored (0.2899ms)
+✔ reply email announces the response without copying the reply body (0.2907ms)
+✔ SMS contains a short alert and conversation link but no reply body (0.1583ms)
+✔ followers receive reply notifications while the member who replied does not (0.9489ms)
+✔ allows requests under the limit (0.6448ms)
+✔ rejects requests over the limit with 429 and Retry-After (0.191ms)
+✔ tracks each IP address independently (0.1515ms)
+✔ reset() clears tracked hits (0.1676ms)
+✔ all-empty submission autofocuses first-name and shows no error summary (2.7096ms)
+✔ malformed email produces the distinct format message and preserves other values (0.4581ms)
+✔ submitted checkbox values are re-checked and HTML-escaped (0.673ms)
+✔ GET /community/api/health returns 200 when the database is reachable (66.531ms)
+✔ POST with an empty body returns 400 with field-level errors and no error summary (27.9975ms)
+[email:console] Development provider only — no message was actually sent.
+  To: dean@example.com
+  From: Open Door Design Community <Collaborate@community.opendoordesign.org>
+  Subject: Welcome to the Open Door Design Community
+✔ a fully valid submission stores the registration and redirects to welcome.html (20.4358ms)
+✔ submitting the honeypot field rejects without storing a registration (16.6245ms)
+[email:console] Development provider only — no message was actually sent.
+  To: pending-dupe@example.com
+  From: Open Door Design Community <Collaborate@community.opendoordesign.org>
+  Subject: Welcome to the Open Door Design Community
+✔ a second submission with the same pending email does not create a duplicate (18.4282ms)
+[email:console] Development provider only — no message was actually sent.
+  To: dupe@example.com
+  From: Open Door Design Community <Collaborate@community.opendoordesign.org>
+  Subject: Welcome to the Open Door Design Community
+✔ a second submission with the same active email does not create a duplicate (18.195ms)
+✔ requests over the configured rate limit receive 429 (17.3708ms)
+✔ database initialization applies the schema and seeds reference data (17.3627ms)
+✔ successful storage creates a member and a consent record (12.882ms)
+✔ duplicate email is detected via findByNormalizedEmail before a second insert (10.449ms)
+✔ recordEvent never stores personal form content, only identifiers and outcomes (11.3779ms)
+✔ ping() succeeds against a healthy database (12.3056ms)
+✔ empty registration produces one error for every required field (1.2289ms)
+✔ empty email produces the empty-field message, not the format message (0.2175ms)
+✔ malformed but non-empty email produces the format message (0.2355ms)
+✔ missing privacy confirmation produces exactly one error for that field (0.262ms)
+✔ a fully valid submission produces no errors (0.1856ms)
+✔ only allow-listed checkbox values are kept (0.3474ms)
+✔ honeypot field filled in is flagged as suspicious (0.2577ms)
+✔ empty honeypot field with no timing field is not suspicious (fails open) (0.1387ms)
+✔ submitting faster than a human can is flagged as suspicious (0.2155ms)
+✔ submitting after a reasonable delay is not suspicious (0.256ms)
+ℹ tests 66
+ℹ suites 0
+ℹ pass 66
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 450.0767

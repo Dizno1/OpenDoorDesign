@@ -11,6 +11,8 @@ const {
   getMembersForAdmin
 } = require("./adminQueries");
 
+const { initializeReview, getMember, listPage, detailPage, validToken } = require("./memberReview");
+const { sendDailyDigest } = require("./dailyDigest");
 const { renderAdminDashboard } = require("./adminView");
 const { createAdminAuthMiddleware } = require("./adminAuth");
 
@@ -74,11 +76,39 @@ function buildMembersCsv(rows) {
  * @param {object} config
  * @param {object} store
  */
-function createAdminRouter(config, store) {
+function createAdminRouter(config, store, emailProvider) {
   const router = express.Router();
   const requireAdmin = createAdminAuthMiddleware(config);
 
   router.use(requireAdmin);
+  initializeReview(store.db);
+  router.get("/members", (req,res) => {
+    const offset = /^\d+$/.test(String(req.query.offset||"0")) ? Math.min(1000000,Number(req.query.offset||0)) : 0;
+    res.set("Cache-Control","no-store").type("html").send(listPage(store.db,offset));
+  });
+  router.get("/members/:id", (req,res) => {
+    const member=getMember(store.db,req.params.id);
+    if(!member)return res.status(404).type("text").send("Member not found.");
+    res.set("Cache-Control","no-store").type("html").send(detailPage(member,config.admin.password));
+  });
+  router.post("/members/:id/review", (req,res) => {
+    const member=getMember(store.db,req.params.id);
+    if(!member)return res.status(404).type("text").send("Member not found.");
+    if(!validToken(config.admin.password,req.params.id,req.body.token))return res.status(403).type("text").send("Invalid review request.");
+    store.db.prepare("INSERT OR IGNORE INTO community_admin_reviews (community_member_id,reviewed_at) VALUES (?,?)").run(member.id,new Date().toISOString());
+    res.redirect(303,"/community/admin/members/"+encodeURIComponent(member.id));
+  });
+  // Invoke once daily from an authenticated external scheduler at 08:00 Eastern.
+  // Never run automatically on every application instance or registration.
+  router.post("/digest/run", async (req,res) => {
+    try {
+      const result=await sendDailyDigest({db:store.db,provider:emailProvider,config});
+      res.set("Cache-Control","no-store").json(result);
+    } catch(error) {
+      console.error("[community-digest]",error);
+      res.status(503).json({status:"failed"});
+    }
+  });
 
   router.get("/", (request, response) => {
     const data = {

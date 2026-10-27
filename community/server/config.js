@@ -46,7 +46,8 @@ function readConfig(env = process.env) {
     admin: {
       enabled: env.ADMIN_ENABLED === "true",
       username: env.ADMIN_USERNAME || null,
-      password: env.ADMIN_PASSWORD || null
+      password: env.ADMIN_PASSWORD || null,
+      digestRecipient: env.ADMIN_DIGEST_RECIPIENT || null
     },
 
     rateLimit: {

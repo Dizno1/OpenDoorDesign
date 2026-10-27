@@ -276,6 +276,7 @@ function renderAdminDashboard(data) {
   <link rel="stylesheet" href="https://opendoordesign.org/community/assets/community.css?v=20260730-feature-001">
 </head>
 <body>
+  <p><a href="/community/admin/members">Review Community members</a></p>
   <div class="skip-links">
     <a href="#main">Skip to main content</a>
     <a href="#primary-navigation">Skip to primary navigation</a>

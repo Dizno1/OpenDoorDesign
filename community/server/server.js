@@ -43,7 +43,7 @@ app.use("/community", createMemberRouter(config, store, emailProvider));
   // all unless ADMIN_ENABLED=true. createAdminRouter also requires valid
   // admin credentials before it can be created.
   if (config.admin && config.admin.enabled) {
-    app.use("/community/admin", createAdminRouter(config, store));
+    app.use("/community/admin", createAdminRouter(config, store, emailProvider));
   }
 
   app.get("/community/api/health", (request, response) => {
