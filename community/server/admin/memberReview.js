@@ -10,6 +10,10 @@ function initializeReview(db) {
     digest_date TEXT PRIMARY KEY,
     sent_at TEXT NOT NULL,
     registration_count INTEGER NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS community_admin_digest_deliveries (
+    community_member_id TEXT PRIMARY KEY REFERENCES community_members(id),
+    sent_at TEXT NOT NULL
   );`);
 }
 function getMembers(db, limit=100, offset=0) {
