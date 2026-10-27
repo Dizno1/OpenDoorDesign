@@ -1,0 +1,41 @@
+name: Community registration digest
+
+on:
+  schedule:
+    # 8 AM New York is 12:00 UTC during daylight saving time,
+    # and 13:00 UTC during standard time.
+    - cron: '0 12,13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check Eastern time and invoke digest
+        env:
+          ADMIN_USERNAME: ${{ secrets.COMMUNITY_ADMIN_USERNAME }}
+          ADMIN_PASSWORD: ${{ secrets.COMMUNITY_ADMIN_PASSWORD }}
+          DIGEST_URL: https://community-api.opendoordesign.org/community/admin/digest/run
+          EVENT_NAME: ${{ github.event_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$ADMIN_USERNAME" || -z "$ADMIN_PASSWORD" ]]; then
+            echo 'Missing COMMUNITY_ADMIN_USERNAME or COMMUNITY_ADMIN_PASSWORD secret.' >&2
+            exit 1
+          fi
+          if [[ "$EVENT_NAME" == 'schedule' && "$(TZ=America/New_York date +%H)" != '08' ]]; then
+            echo 'Skipping: not 8 AM in America/New_York.'
+            exit 0
+          fi
+          curl --fail-with-body --silent --show-error \
+            --retry 2 --retry-delay 10 \
+            --max-time 60 \
+            --request POST \
+            --basic --user "$ADMIN_USERNAME:$ADMIN_PASSWORD" \
+            --header 'Accept: application/json' \
+            "$DIGEST_URL"
